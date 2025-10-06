@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "SlopSpotter",
+  "version": "0.0.1",
+  "description": "Get info about a package suggested by an AI language model",
+  "homepage_url": "https://www.example.com",
+  "icons": {
+    "48": "icons/slopspotter-48.png",
+    "96": "icons/slopspotter-96.png"
+  },
+  "action": {
+    "default_icon": {
+      "32": "icons/slopspotter-32.png"
+    },
+    "default_title": "SlopSpotter",
+    "default_popup": "popup/slopspotter_settings.html"
+  }
+}
