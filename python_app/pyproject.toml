@@ -1,13 +1,13 @@
 [project]
-name="slopspotter"
-version="0.0.1"
+name = "slopspotter"
+version = "0.0.1"
 dependencies = []
-requires-python=">3.10",
+requires-python = ">3.10"
 authors = [
-	{name = "Victor Mercola", email = "vmercola@bu.edu" },
-	{name = "Kevin Zhang", email = "wzhang@bu.edu" },
-	{name = "Hieu Nguyen", email = "hnguyen0@bu.edu" },
-	{name = "Oscar Zhang", email = "hz0820@bu.edu" },
+  { name = "Victor Mercola", email = "vmercola@bu.edu" },
+  { name = "Kevin Zhang", email = "wzhang@bu.edu" },
+  { name = "Hieu Nguyen", email = "hnguyen0@bu.edu" },
+  { name = "Oscar Zhang", email = "hz0820@bu.edu" },
 ]
 description = "Get info about a package suggested by an AI language model"
 readme = "README.md"
