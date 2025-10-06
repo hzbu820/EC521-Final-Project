@@ -16,5 +16,8 @@ readme = "README.md"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[project.scripts]
+slopspotter = "slopspotter.__main__:main"
+
 [project.urls]
 Repository = "https://github.com/hzbu820/EC521-Final-Project"
