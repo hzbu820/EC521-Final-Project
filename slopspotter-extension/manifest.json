@@ -15,14 +15,14 @@
     }
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["src/background.js"]
   },
   "action": {
     "default_icon": {
       "32": "icons/slopspotter-32.png"
     },
     "default_title": "slopspotter",
-    "default_popup": "popup/slopspotter_settings.html"
+    "default_popup": "src/popup/slopspotter_settings.html"
   },
   "permissions": ["nativeMessaging"]
 }
