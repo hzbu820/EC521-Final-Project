@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@types/firefox-webext-browser": "^120.0.5",
+    "@types/webextension-polyfill": "^0.12.4"
+  }
+}
