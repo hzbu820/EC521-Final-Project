@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 import os
+import shutil
 import struct
 import sys
 
@@ -21,7 +22,7 @@ logging.basicConfig(
 MANIFEST = {
     "name": "slopspotter",
     "description": "Get info about a package suggested by an AI language model",
-    "path": __file__,
+    "path": shutil.which("slopspotter"),
     "type": "stdio",
     "allowed_extensions": ["ping_pong@example.org"],
 }
