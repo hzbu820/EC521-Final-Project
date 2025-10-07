@@ -43,41 +43,41 @@ def install_manifests():
 
 
 # Read a message from stdin and decode it.
-def getMessage():
-    rawLength = sys.stdin.buffer.read(4)
-    if len(rawLength) == 0:
+def get_message():
+    raw_length = sys.stdin.buffer.read(4)
+    if len(raw_length) == 0:
         return ""
-    messageLength = struct.unpack("@I", rawLength)[0]
-    message = sys.stdin.buffer.read(messageLength).decode("utf-8")
+    message_length = struct.unpack("@I", raw_length)[0]
+    message = sys.stdin.buffer.read(message_length).decode("utf-8")
     return json.loads(message)
 
 
 # Encode a message for transmission,
 # given its content.
-def encodeMessage(messageContent):
+def encode_message(message_content):
     # https://docs.python.org/3/library/json.html#basic-usage
     # To get the most compact JSON representation, you should specify
     # (',', ':') to eliminate whitespace.
     # We want the most compact representation because the browser rejects # messages that exceed 1 MB.
     logging.debug("encoding message")
-    encodedContent = json.dumps(messageContent, separators=(",", ":")).encode("utf-8")
-    encodedLength = struct.pack("@I", len(encodedContent))
-    return {"length": encodedLength, "content": encodedContent}
+    encoded_content = json.dumps(message_content, separators=(",", ":")).encode("utf-8")
+    encoded_length = struct.pack("@I", len(encoded_content))
+    return {"length": encoded_length, "content": encoded_content}
 
 
 # Send an encoded message to stdout
-def sendMessage(encodedMessage):
-    sys.stdout.buffer.write(encodedMessage["length"])
-    sys.stdout.buffer.write(encodedMessage["content"])
+def send_message(encoded_message):
+    sys.stdout.buffer.write(encoded_message["length"])
+    sys.stdout.buffer.write(encoded_message["content"])
     sys.stdout.buffer.flush()
 
 
 def loop() -> int:
     while True:
-        receivedMessage = getMessage()
-        if receivedMessage == "ping":
+        received_message = get_message()
+        if received_message == "ping":
             logging.debug("received ping, sending pong")
-            sendMessage(encodeMessage("pong"))
+            send_message(encode_message("pong"))
     return 0
 
 
