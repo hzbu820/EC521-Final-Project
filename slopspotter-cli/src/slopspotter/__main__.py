@@ -74,6 +74,7 @@ def send_message(encoded_message):
 
 
 def loop() -> int:
+    send_message(encode_message("test"))
     while True:
         received_message = get_message()
         if received_message == "ping":
