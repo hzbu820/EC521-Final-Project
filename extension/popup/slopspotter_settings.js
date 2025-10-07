@@ -4,6 +4,7 @@ function logCheckboxStatus(event) {
   } else {
     console.debug("Checkbox is not checked");
   }
+  port.disconnect();
 }
 
 document

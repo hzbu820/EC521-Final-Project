@@ -1,0 +1,6 @@
+{
+  "name": "slopspotter",
+  "description": "Get info about a package suggested by an AI language model",
+  "type": "stdio",
+  "allowed_extensions": ["ping_pong@example.org"]
+}
