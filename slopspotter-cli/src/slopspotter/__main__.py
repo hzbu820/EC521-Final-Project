@@ -1,44 +1,48 @@
-#!/usr/bin/env -S python3 -u
-
-# Note that running python with the `-u` flag is required on Windows,
-# in order to ensure that stdin and stdout are opened in binary, rather
-# than text, mode.
-
+import argparse
 import json
-import struct
-import sys
+import os
+import stat
 
 
-# Read a message from stdin and decode it.
-def getMessage():
-    rawLength = sys.stdin.buffer.read(4)
-    if len(rawLength) == 0:
-        sys.exit(0)
-    messageLength = struct.unpack("@I", rawLength)[0]
-    message = sys.stdin.buffer.read(messageLength).decode("utf-8")
-    return json.loads(message)
+MANIFEST = {
+    "name": "slopspotter",
+    "description": "Get info about a package suggested by an AI language model",
+    "path": os.path.join(os.path.dirname(__file__), "main_host.py"),
+    "type": "stdio",
+    "allowed_extensions": ["ping_pong@example.org"],
+}
+
+manifest_fnames = [
+    f"/home/{os.environ['USER']}/.mozilla/native-messaging-hosts/slopspotter.json",
+    f"/home/{os.environ['USER']}/.mozilla/pkcs11-modules/slopspotter.json",
+    f"/home/{os.environ['USER']}/.mozilla/managed-storage/slopspotter.json",
+]
 
 
-# Encode a message for transmission,
-# given its content.
-def encodeMessage(messageContent):
-    # https://docs.python.org/3/library/json.html#basic-usage
-    # To get the most compact JSON representation, you should specify
-    # (',', ':') to eliminate whitespace.
-    # We want the most compact representation because the browser rejects # messages that exceed 1 MB.
-    encodedContent = json.dumps(messageContent, separators=(",", ":")).encode("utf-8")
-    encodedLength = struct.pack("@I", len(encodedContent))
-    return {"length": encodedLength, "content": encodedContent}
+def install_manifests():
+    print("Manifest:", MANIFEST)
+    for manifest_fname in manifest_fnames:
+        print(manifest_fname)
+        os.makedirs(os.path.dirname(manifest_fname), exist_ok=True)
+        with open(manifest_fname, "w") as file:
+            json.dump(MANIFEST, file, indent=4)
+    st = os.stat(MANIFEST["path"])
+    os.chmod(MANIFEST["path"], st.st_mode | stat.S_IEXEC)
 
 
-# Send an encoded message to stdout
-def sendMessage(encodedMessage):
-    sys.stdout.buffer.write(encodedMessage["length"])
-    sys.stdout.buffer.write(encodedMessage["content"])
-    sys.stdout.buffer.flush()
+def main():
+    parser = argparse.ArgumentParser(
+        prog="slopspotter",
+        description="CLI setup for slopspotter",
+    )
+    parser.add_argument("command")
+    args = parser.parse_args()
+
+    if args.command == "install_manifests":
+        install_manifests()
+    else:
+        raise TypeError("invalid command")
 
 
-while True:
-    receivedMessage = getMessage()
-    if receivedMessage == "ping":
-        sendMessage(encodeMessage("pong"))
+if __name__ == "__main__":
+    main()
