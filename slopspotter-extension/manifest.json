@@ -3,7 +3,7 @@
   "name": "slopspotter",
   "version": "0.0.1",
   "description": "Get info about a package suggested by an AI language model",
-  "homepage_url": "https://www.example.com",
+  "homepage_url": "https://github.com/hzbu820/EC521-Final-Project",
   "icons": {
     "48": "icons/slopspotter-48.png",
     "96": "icons/slopspotter-96.png"
@@ -24,5 +24,8 @@
     "default_title": "slopspotter",
     "default_popup": "src/popup/slopspotter_settings.html"
   },
-  "permissions": ["nativeMessaging"]
+  "permissions": [
+    "nativeMessaging"
+  ],
+  "author": "Victor Mercola, Kevin Zhang, Hieu Nguyen, Oscar Zhang"
 }

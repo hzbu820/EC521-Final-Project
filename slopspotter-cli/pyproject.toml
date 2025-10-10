@@ -2,7 +2,7 @@
 name = "slopspotter"
 version = "0.0.1"
 dependencies = []
-requires-python = ">3.10"
+requires-python = ">3.11"
 authors = [
   { name = "Victor Mercola", email = "vmercola@bu.edu" },
   { name = "Kevin Zhang", email = "wzhang@bu.edu" },
