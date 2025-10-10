@@ -15,7 +15,9 @@
     }
   },
   "background": {
-    "scripts": ["src/background.js"]
+    "scripts": [
+      "src/background.js"
+    ]
   },
   "action": {
     "default_icon": {
