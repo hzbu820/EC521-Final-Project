@@ -1,6 +1,6 @@
 # EC 521 Final Project: Slopspotter, a Slopsquatting-Prevention Tool
 
-- authors: Victor Mercola, 
+- authors: Victor Mercola, Kevin Zhang, Hieu Nguyen, Oscar Zhang
 
 ## Directory Structure
 
