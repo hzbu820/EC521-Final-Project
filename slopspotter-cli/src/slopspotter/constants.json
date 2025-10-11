@@ -1,0 +1,8 @@
+{
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "slopspotter@bu.edu",
+      "strict_min_version": "50.0"
+    }
+  }
+}
