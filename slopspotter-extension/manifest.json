@@ -18,6 +18,12 @@
     "scripts": ["src/background.js"],
     "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content_scripts/annotate_packages.js"]
+    }
+  ],
   "action": {
     "default_icon": {
       "32": "icons/slopspotter-32.png"

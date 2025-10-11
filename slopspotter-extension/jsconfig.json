@@ -6,5 +6,7 @@
     "lib": ["dom", "es2020"],
     "types": ["webextension-polyfill", "firefox-webext-browser"]
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "tabWidth": 2,
+  "useTabs": false
 }
