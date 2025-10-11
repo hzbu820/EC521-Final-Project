@@ -94,6 +94,12 @@ def main() -> int:
         return 0
 
     if args.manifest_path == "" or args.browser_specific_settings == "":
+        print(
+            "Invalid manifest path or settings:\n\t- '{}'\n\t- '{}'".format(
+                args.manifest_path, args.browser_specific_settings
+            ),
+            "\nSee `slopspotter --help` for more information"
+        )
         return 1
 
     logging.debug("starting loop")
