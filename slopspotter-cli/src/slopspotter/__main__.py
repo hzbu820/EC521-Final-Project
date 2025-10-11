@@ -7,6 +7,8 @@ import os
 import shutil
 import struct
 import sys
+from importlib.metadata import metadata
+from slopspotter import constants
 
 logger = logging.getLogger(__name__)
 
@@ -21,10 +23,10 @@ logging.basicConfig(
 
 MANIFEST = {
     "name": "slopspotter",
-    "description": "Get info about a package suggested by an AI language model",
+    "description": metadata('slopspotter')['Summary'],
     "path": shutil.which("slopspotter"),
     "type": "stdio",
-    "allowed_extensions": ["ping_pong@example.org"],
+    "allowed_extensions": [constants.ADDON_ID],
 }
 
 manifest_fnames = [
