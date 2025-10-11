@@ -4,5 +4,6 @@
       "id": "slopspotter@bu.edu",
       "strict_min_version": "50.0"
     }
-  }
+  },
+  "nativeToBackgroundPort": "slopspotter"
 }

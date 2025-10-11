@@ -7,3 +7,4 @@ with open(os.path.join(os.path.dirname(__file__), "constants.json")) as f:
     constants = json.load(f)
 
 ADDON_ID = constants["browser_specific_settings"]["gecko"]["id"]
+NATIVE_TO_BACKGROUND_PORT = constants["nativeToBackgroundPort"]

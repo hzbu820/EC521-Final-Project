@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 
 MANIFEST = {
-    "name": "slopspotter",
+    "name": constants.NATIVE_TO_BACKGROUND_PORT,
     "description": metadata('slopspotter')['Summary'],
     "path": shutil.which("slopspotter"),
     "type": "stdio",
