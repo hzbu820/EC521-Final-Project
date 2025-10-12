@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "slopspotter",
+  "version": "0.0.1",
+  "description": "Get info about a package suggested by an AI language model",
+  "homepage_url": "https://github.com/hzbu820/EC521-Final-Project",
+  "icons": {
+    "48": "icons/slopspotter-48.png",
+    "96": "icons/slopspotter-96.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "slopspotter@bu.edu",
+      "strict_min_version": "50.0"
+    }
+  },
+  "background": {
+    "scripts": ["src/background.js"],
+    "type": "module"
+  },
+  "action": {
+    "default_icon": {
+      "32": "icons/slopspotter-32.png"
+    },
+    "default_title": "slopspotter",
+    "default_popup": "src/popup/slopspotter_settings.html"
+  },
+  "permissions": ["nativeMessaging"],
+  "author": "Victor Mercola, Kevin Zhang, Hieu Nguyen, Oscar Zhang"
+}

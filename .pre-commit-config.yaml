@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sync_data
+        name: sync_data
+        description: Sync data between sub-projects
+        language: system
+        entry: python scripts/sync_data.py
+        types: [json, toml]
