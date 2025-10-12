@@ -11,12 +11,21 @@ function getDocumentCodeBlocks() {
     node.className.includes("hljs"),
   );
   // Return elements
-  if (Array.length > 0) {
+  if (hljsElements.length > 0) {
     console.log(hljsElements);
-    return hljsElements;
-  } else {
-    return Array(0);
   }
+  return hljsElements;
+}
+
+/**
+ * Find all of the `<pre>` blocks in the document.
+ *
+ * @returns {Array<HTMLElement>} Array of pre-formatted blocks.
+ */
+function getDocumentPreBlocks() {
+  // Find all HTML tags with <code>
+  const preElements = document.querySelectorAll("pre");
+  return Array.from(preElements);
 }
 
 /**
@@ -47,33 +56,34 @@ function getPythonPackages(pythonCodeBlock) {
   const importMatches = pythonCode.matchAll(regex_import);
   const fromMatches = pythonCode.matchAll(regex_from);
 
-  var packages = Array(0);
+  var packages = [];
   for (const match of importMatches) {
     packages.push(match[1]);
   }
   for (const match of fromMatches) {
     packages.push(match[1]);
   }
+  console.log("Found:", packages);
   return packages;
 }
 
 /**
- * Get all of the Python packages imported in the document.
- *
- * @returns {Array<Array<String>>} List of python packages imported by each code block.
+ * Add a `title` to every code block's parent element in the document listing its packages.
  */
-function getDocumentPythonPackages() {
+function annotateCodeBlocks() {
   const codeBlocks = getDocumentCodeBlocks();
-  var packages = Array(0);
-  for (const codeBlock of codeBlocks) {
-    packages.push(getPythonPackages(codeBlock));
+
+  for (var codeBlock of codeBlocks) {
+    const pythonPackages = getPythonPackages(codeBlock);
+    if (pythonPackages.length > 0) {
+      codeBlock.parentElement.title = pythonPackages.toString();
+      console.log("Changed");
+    }
   }
-  console.log("Packages:", packages);
-  return packages;
 }
 
 // Observe the entire document for changes
 const targetNode = document.body;
 const config = { childList: true, subtree: true };
-const observer = new MutationObserver(getDocumentPythonPackages);
+const observer = new MutationObserver(annotateCodeBlocks);
 observer.observe(targetNode, config);
