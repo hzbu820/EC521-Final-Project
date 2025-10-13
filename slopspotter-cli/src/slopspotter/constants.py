@@ -3,7 +3,11 @@
 import json
 import os
 
-with open(os.path.join(os.path.dirname(__file__), "constants.json")) as f:
+import slopspotter
+
+CONSTANTS_JSON = os.path.join(os.path.dirname(slopspotter.__file__), "constants.json")
+
+with open(CONSTANTS_JSON, "r") as f:
     constants = json.load(f)
 
 ADDON_ID = constants["browser_specific_settings"]["gecko"]["id"]
