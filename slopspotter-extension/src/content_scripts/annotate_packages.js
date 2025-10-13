@@ -1,4 +1,29 @@
 /**
+ * Get the JSON metadata of a package from its name on the Python Package Index (PyPI).
+ *
+ * @param {string} packageName
+ * @returns {Promise<any>}
+ */
+async function queryPyPI(packageName) {
+  const url = `https://pypi.org/pypi/${packageName}/json`;
+  try {
+    const response = await fetch(url);
+
+    // Check if the response was successful (status code 200-299)
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(`Package "${packageName}" not found on PyPI.`);
+      }
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/**
  * Find all of the code blocks in the document.
  *
  * @returns {Array<HTMLElement>} Array of code blocks.
@@ -68,16 +93,32 @@ function getPythonPackages(pythonCodeBlock) {
 }
 
 /**
+ * @param {Object.<string, Object>} packageInfo
+ * @returns {string}
+ */
+function FormatPyPIInfo(packageInfo) {
+  const a = `${packageInfo.info.name}\n`;
+  const b = `Latest Version: ${packageInfo.info.version}\n`;
+  const c = `Summary: ${packageInfo.info.summary}\n`;
+  const d = `Project URL: ${packageInfo.info.project_url}`;
+  return a + b + c + d;
+}
+
+/**
  * Add a `title` to every code block's parent element in the document listing its packages.
  */
 function annotateCodeBlocks() {
   const codeBlocks = getDocumentCodeBlocks();
 
   for (var codeBlock of codeBlocks) {
-    const pythonPackages = getPythonPackages(codeBlock);
-    if (pythonPackages.length > 0) {
-      codeBlock.parentElement.title = pythonPackages.toString();
-      console.log("Changed");
+    const packages = getPythonPackages(codeBlock);
+    if (packages.length > 0) {
+      var responses = packages.map(queryPyPI);
+      Promise.all(responses).then((values) => {
+        var summaries = values.map(FormatPyPIInfo);
+        console.log("Changed");
+        codeBlock.parentElement.title = summaries.join("\n\n");
+      });
     }
   }
 }
