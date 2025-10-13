@@ -21,3 +21,6 @@ slopspotter = "slopspotter.__main__:main"
 
 [project.urls]
 Repository = "https://github.com/hzbu820/EC521-Final-Project"
+
+[tool.setuptools.package-data]
+slopspotter = ["*.json"]

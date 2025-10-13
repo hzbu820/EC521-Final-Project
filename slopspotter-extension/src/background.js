@@ -24,9 +24,9 @@ browser.action.onClicked.addListener(() => {
 /**
  * Communication with content script process
  */
-browser.runtime.onConnect.addListener(function (port) {
+browser.runtime.onConnect.addListener(function(port) {
   if (port.name === "slopspotter_background") {
-    port.onMessage.addListener(function (message) {
+    port.onMessage.addListener(function(message) {
       console.log("Message received from content script:", message);
       port.postMessage("test");
     });
