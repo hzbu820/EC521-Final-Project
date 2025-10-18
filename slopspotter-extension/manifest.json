@@ -15,13 +15,13 @@
     }
   },
   "background": {
-    "scripts": ["src/background.js"],
+    "service_worker": "background.js",
     "type": "module"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content_scripts/annotate_packages.js"]
+      "js": ["contentScript.js"]
     }
   ],
   "action": {
@@ -31,6 +31,7 @@
     "default_title": "slopspotter",
     "default_popup": "src/popup/slopspotter_settings.html"
   },
-  "permissions": ["nativeMessaging"],
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
   "author": "Victor Mercola, Kevin Zhang, Hieu Nguyen, Oscar Zhang"
 }
