@@ -12,14 +12,36 @@
     </header>
     <main>
       <form id="settings-form">
-        <label for="backend-url">Backend API base URL</label>
-        <input
-          type="url"
-          id="backend-url"
-          name="backend-url"
-          placeholder="https://api.example.com"
-          required
-        />
+        <label for="backend-mode">Connection method</label>
+        <select id="backend-mode" name="backend-mode">
+          <option value="http">HTTP API</option>
+          <option value="native">Native messaging host</option>
+        </select>
+
+        <div id="http-settings" class="settings-group">
+          <label for="backend-url">Backend API base URL</label>
+          <input
+            type="url"
+            id="backend-url"
+            name="backend-url"
+            placeholder="https://api.example.com"
+          />
+        </div>
+
+        <div id="native-settings" class="settings-group">
+          <label for="native-host">Native messaging host ID</label>
+          <input
+            type="text"
+            id="native-host"
+            name="native-host"
+            placeholder="com.example.slopspotter"
+            autocomplete="off"
+          />
+          <p class="supporting-text">
+            Must match the name declared in the native messaging host manifest installed on your
+            machine.
+          </p>
+        </div>
 
         <label class="checkbox">
           <input type="checkbox" id="auto-annotate" name="auto-annotate" />

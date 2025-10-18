@@ -19,20 +19,22 @@ To load the extension in Chrome/Edge:
 
 1. Run `npm run build`.
 2. Open `chrome://extensions`, enable Developer Mode, and choose **Load unpacked**.
-3. Select the  `dist/` directory. \EC521-Final-Project\slopspotter-extension\dist
+3. Select the `dist/` directory.
+4. If you plan to use native messaging, ensure the host manifest is installed locally and that its name matches the value you enter in the popup.
 
 For Firefox:
 
 1. Run `npm run build`.
 2. Visit `about:debugging#/runtime/this-firefox` and click **Load Temporary Add-on**.
 3. Choose `dist/manifest.json`.
+4. Confirm the native host manifest is registered if you select native messaging mode.
 
 ## Runtime behavior
 
 - **Content script** (`src/content/contentScript.js`) watches chat-style UIs for `<pre><code>` blocks, parses them with language-specific regexes, and sends package lists to the background service.
-- **Background service worker** (`src/background/index.js`) queries the backend REST API (`/check-packages`) and falls back to heuristics if the server is unreachable.
+- **Background service worker** (`src/background/index.js`) talks either to the HTTP API (`/check-packages`) or to the native messaging host, then falls back to heuristics if neither is reachable.
 - **Inline indicators** map risk (`high`, `medium`, `low`, `unknown`) to red/yellow/green chips; hovering reveals metadata, confidence scores, and registry links.
-- **Popup UI** (`dist/popup.html`) allows configuring the backend base URL and whether analysis runs automatically when new code appears.
+- **Popup UI** (`dist/popup.html`) lets you pick the connection method (HTTP vs native host), configure the endpoint/host name, and toggle automatic analysis of new code appearing in the chat UI.
 
 If the backend is offline, the extension still renders heuristic estimates and displays a warning banner.
 
@@ -53,4 +55,4 @@ The background worker posts JSON payloads shaped like:
 }
 ```
 
-It expects a response containing per-package `riskLevel`, optional `score`, `summary`, and `metadataUrl`. See `src/background/index.js` for the full contract and heuristic fallback.
+It expects a response containing per-package `riskLevel`, optional `score`, `summary`, and `metadataUrl`. The exact same payload is sent when native messaging is enabled; the native host should write the JSON response to stdout according to the WebExtensions native messaging protocol. See `src/background/index.js` for the full contract and heuristic fallback.

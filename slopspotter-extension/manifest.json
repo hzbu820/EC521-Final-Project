@@ -31,7 +31,7 @@
     "default_title": "slopspotter",
     "default_popup": "src/popup/slopspotter_settings.html"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "nativeMessaging"],
   "host_permissions": ["<all_urls>"],
   "author": "Victor Mercola, Kevin Zhang, Hieu Nguyen, Oscar Zhang"
 }

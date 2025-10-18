@@ -1,8 +1,10 @@
 import browser from 'webextension-polyfill';
 
 const DEFAULT_SETTINGS = {
+  autoAnnotate: true,
+  backendMode: 'http',
   backendBaseUrl: 'http://localhost:8000',
-  autoAnnotate: true
+  nativeHostName: 'slopspotter'
 };
 
 browser.runtime.onInstalled.addListener(async () => {
@@ -32,7 +34,10 @@ const handlePackageCheck = async (payload) => {
   const settings = await getSettings();
 
   try {
-    const response = await queryBackend(settings.backendBaseUrl, payload);
+    const response =
+      settings.backendMode === 'native'
+        ? await queryNativeHost(settings.nativeHostName, payload)
+        : await queryHttpBackend(settings.backendBaseUrl, payload);
     if (response) {
       return response;
     }
@@ -46,11 +51,14 @@ const handlePackageCheck = async (payload) => {
       ...pkg,
       result: buildHeuristicRisk(pkg)
     })),
-    warning: 'Backend unreachable. Displaying heuristic risk estimates.'
+    warning:
+      settings.backendMode === 'native'
+        ? 'Native host unreachable. Displaying heuristic risk estimates.'
+        : 'Backend unreachable. Displaying heuristic risk estimates.'
   };
 };
 
-const queryBackend = async (baseUrl, payload) => {
+const queryHttpBackend = async (baseUrl, payload) => {
   if (!baseUrl) {
     return null;
   }
@@ -67,6 +75,14 @@ const queryBackend = async (baseUrl, payload) => {
   }
 
   return response.json();
+};
+
+const queryNativeHost = async (hostName, payload) => {
+  if (!hostName) {
+    return null;
+  }
+
+  return browser.runtime.sendNativeMessage(hostName, payload);
 };
 
 const buildHeuristicRisk = (pkg) => {
@@ -118,7 +134,9 @@ const registryUrlFor = (pkg) => {
 const getSettings = async () => {
   const stored = await browser.storage.sync.get(DEFAULT_SETTINGS);
   return {
+    backendMode: stored.backendMode ?? DEFAULT_SETTINGS.backendMode,
     backendBaseUrl: stored.backendBaseUrl ?? DEFAULT_SETTINGS.backendBaseUrl,
+    nativeHostName: stored.nativeHostName ?? DEFAULT_SETTINGS.nativeHostName,
     autoAnnotate: stored.autoAnnotate ?? DEFAULT_SETTINGS.autoAnnotate
   };
 };
