@@ -1,6 +1,6 @@
 [project]
 name = "slopspotter"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = []
 requires-python = ">3.11"
 authors = [
