@@ -15,6 +15,7 @@
     }
   },
   "background": {
+    "scripts": ["background.js"],
     "service_worker": "background.js",
     "type": "module"
   },
@@ -29,7 +30,7 @@
       "32": "icons/slopspotter-32.png"
     },
     "default_title": "slopspotter",
-    "default_popup": "src/popup/slopspotter_settings.html"
+    "default_popup": "popup.html"
   },
   "permissions": ["storage", "nativeMessaging"],
   "host_permissions": ["<all_urls>"],
