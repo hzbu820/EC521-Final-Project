@@ -1,9 +1,14 @@
 repos:
   - repo: local
     hooks:
-      - id: sync_data
-        name: sync_data
+      - id: sync-data
+        name: sync-data
         description: Sync data between sub-projects
         language: system
         entry: python scripts/sync_data.py
-        types: [json, toml]
+        types_or: [json, toml]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.1
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
