@@ -1,0 +1,179 @@
+name: Sandbox Setup and Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+    inputs:
+      package_name:
+        description: 'Package to analyze (optional)'
+        required: false
+        default: ''
+
+jobs:
+  setup-and-build:
+    name: Setup Sandbox Environment
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Install gVisor (runsc)
+        run: |
+          echo "Installing gVisor runtime..."
+          ARCH=$(uname -m)
+
+          # Code from https://gvisor.dev/docs/user_guide/install/
+          URL=https://storage.googleapis.com/gvisor/releases/release/latest/${ARCH}
+          wget ${URL}/runsc ${URL}/runsc.sha512 \
+            ${URL}/containerd-shim-runsc-v1 ${URL}/containerd-shim-runsc-v1.sha512
+          sha512sum -c runsc.sha512 \
+            -c containerd-shim-runsc-v1.sha512
+          rm -f *.sha512
+          chmod a+rx runsc containerd-shim-runsc-v1
+          sudo mv runsc containerd-shim-runsc-v1 /usr/local/bin
+
+          
+          # Verify installation
+          runsc --version
+      
+      - name: Configure Docker for gVisor
+        run: |
+          echo "Configuring Docker daemon..."
+          
+          # Create daemon.json for gVisor
+          sudo tee /etc/docker/daemon.json > /dev/null <<EOF
+          {
+              "runtimes": {
+                  "runsc": {
+                      "path": "/usr/local/bin/runsc"
+                  }
+              }
+          }
+          EOF
+          
+          # Restart Docker
+          sudo systemctl restart docker
+          sleep 5
+          
+          # Verify configuration
+          docker info | grep -i runtime || true
+      
+      #Include all directories here!
+      - name: Create directory structure
+        run: |
+          mkdir -p logs reports tests/benign_package tests/malicious_package
+          touch logs/.gitkeep reports/.gitkeep
+      
+      # Make sure all the files you want to be exetuable are included below
+      - name: Set permissions
+        run: |
+          chmod +x run_sandbox.sh
+          chmod +x runner/sandbox.py
+          chmod +x runner/monitor.py
+          [ -f tests/test_detection.py ] && chmod +x tests/test_detection.py || true
+      
+      # Change the image name depending on what you set it to below
+      - name: Build Docker image
+        run: |
+          echo "Building sandbox Docker image..."
+          docker build -t malicious-package-detector:latest .
+      
+      - name: Verify Docker image
+        run: |
+          docker images malicious-package-detector
+          docker run --rm malicious-package-detector:latest python3 --version
+
+
+  run-tests:
+    name: Run Security Tests
+    needs: setup-and-build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Install gVisor
+        run: |
+          ARCH=$(uname -m)
+          URL=https://storage.googleapis.com/gvisor/releases/release/latest/${ARCH}
+          wget -q ${URL}/runsc
+          chmod a+rx runsc
+          sudo mv runsc /usr/local/bin/
+          
+          sudo tee /etc/docker/daemon.json > /dev/null <<EOF
+          {
+              "runtimes": {
+                  "runsc": {
+                      "path": "/usr/local/bin/runsc"
+                  }
+              }
+          }
+          EOF
+          
+          sudo systemctl restart docker
+          sleep 5
+      
+      - name: Build Docker image
+        run: docker build -t malicious-package-detector:latest .
+      
+      - name: Create directories
+        run: mkdir -p logs reports
+      
+      - name: Test benign package (requests)
+        run: |
+          chmod +x run_sandbox.sh
+          ./run_sandbox.sh analyze requests || echo "Test completed"
+        continue-on-error: true
+      
+      - name: Test benign package (pyyaml)
+        run: |
+          ./run_sandbox.sh analyze pyyaml || echo "Test completed"
+        continue-on-error: true
+      
+      - name: Generate test report
+        run: |
+          echo "# Test Results" > test_summary.md
+          echo "" >> test_summary.md
+          echo "## Analysis Reports Generated" >> test_summary.md
+          echo "" >> test_summary.md
+          
+          if [ -d "reports" ]; then
+            for report in reports/*.json; do
+              if [ -f "$report" ]; then
+                echo "- $(basename $report)" >> test_summary.md
+              fi
+            done
+          fi
+          
+          cat test_summary.md
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandbox-test-results
+          path: |
+            logs/
+            reports/
+            test_summary.md
+          retention-days: 30
+      
+      - name: Upload reports as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-reports
+          path: reports/*.json
+          if-no-files-found: warn
+
+
