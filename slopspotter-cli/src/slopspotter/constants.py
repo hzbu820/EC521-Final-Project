@@ -8,6 +8,8 @@ from typing import Any, Literal
 ADDON_ID = "slopspotter@bu.edu"
 NATIVE_TO_BACKGROUND_PORT = "slopspotter"
 
+SLOPSPOTTER_VERSION = metadata("slopspotter")["Version"]
+
 SUPPORTED_BROWSERS = [
     "firefox",
 ]

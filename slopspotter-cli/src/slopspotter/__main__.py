@@ -9,7 +9,7 @@ import sys
 from importlib.metadata import metadata
 
 from slopspotter import manifests
-from slopspotter.constants import SUPPORTED_BROWSERS
+from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
 
 logger = logging.getLogger(__name__)
 
@@ -89,8 +89,17 @@ def main() -> int:
         choices=SUPPORTED_BROWSERS,
         help="Set up the native host to work with the given browser.",
     )
-
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="store_true",
+        help="Print the current version and exit.",
+    )
     args = parser.parse_args(sys.argv[1:])
+
+    if args.version:
+        print(SLOPSPOTTER_VERSION)
+        return 0
 
     if args.install_manifests:
         manifests.install_unixlike_manifests(args.install_manifests)
