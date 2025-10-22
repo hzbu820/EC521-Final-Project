@@ -1,44 +1,41 @@
-"""Import the shared constants stored in the `constants.json` file."""
+"""Constants for the slopspotter package."""
 
 import os
 import shutil
 from importlib.metadata import metadata
-from typing import Any, Dict, Literal
+from typing import Any, Literal
 
 ADDON_ID = "slopspotter@bu.edu"
 NATIVE_TO_BACKGROUND_PORT = "slopspotter"
 
 SUPPORTED_BROWSERS = [
     "firefox",
-    "chromium",
-    "chrome",
 ]
 
 SUPPORTED_PLATFORMS = [
     "darwin",
     "linux",
+    "win32",
 ]
 
 SupportedBrowser = Literal[*SUPPORTED_BROWSERS]
 SupportedPlatform = Literal[*SUPPORTED_PLATFORMS]
 
-FIREFOX_MANIFEST = {
-    "name": NATIVE_TO_BACKGROUND_PORT,
-    "description": metadata("slopspotter")["Summary"],
-    "path": shutil.which("slopspotter"),
-    "type": "stdio",
-    "allowed_extensions": [ADDON_ID],
+EXECUTABLE_PATH = shutil.which("slopspotter")
+
+MANIFEST_JSONS: dict[SupportedBrowser, dict[str, Any]] = {
+    "firefox": {
+        "name": NATIVE_TO_BACKGROUND_PORT,
+        "description": metadata("slopspotter")["Summary"],
+        "path": EXECUTABLE_PATH,
+        "type": "stdio",
+        "allowed_extensions": [ADDON_ID],
+    }
 }
 
-CHROMIUM_MANIFEST = {
-    "name": NATIVE_TO_BACKGROUND_PORT,
-    "description": metadata("slopspotter")["Summary"],
-    "path": shutil.which("slopspotter"),
-    "type": "stdio",
-    "allowed_origins": [ADDON_ID],
-}
-
-MANIFEST_SETTINGS: Dict[SupportedBrowser, Dict[SupportedPlatform, Dict[str, Any]]] = {
+UNIXLIKE_MANIFEST_SETTINGS: dict[
+    SupportedBrowser, dict[SupportedPlatform, dict[str, Any]]
+] = {
     "firefox": {
         "darwin": {
             "global_config": os.path.join(
@@ -63,42 +60,12 @@ MANIFEST_SETTINGS: Dict[SupportedBrowser, Dict[SupportedPlatform, Dict[str, Any]
             ],
         },
     },
-    "chrome": {
-        "darwin": {
-            "global_config": os.path.join("/", "Library", "Google", "Chrome"),
-            "local_config": os.path.join(
-                "$HOME", "Library", "Application Support", "Google", "Chrome"
-            ),
-            "json_paths": [
-                os.path.join("NativeMessagingHosts", "com.bu.slopspotter.json"),
-            ],
-        },
-        "linux": {
-            "global_config": os.path.join("/", "etc", "opt", "chrome"),
-            "local_config": os.path.join("$HOME", ".config", "google-chrome"),
-            "json_paths": [
-                os.path.join("NativeMessagingHosts", "com.bu.slopspotter.json"),
-            ],
-        },
-    },
-    "chromium": {
-        "darwin": {
-            "global_config": os.path.join(
-                "/", "Library", "Application Support", "Chromium"
-            ),
-            "local_config": os.path.join(
-                "$HOME", "Library", "Application Support", "Chromium"
-            ),
-            "json_paths": [
-                os.path.join("NativeMessagingHosts", "com.bu.slopspotter.json"),
-            ],
-        },
-        "linux": {
-            "global_config": os.path.join("/", "etc", "chromium"),
-            "local_config": os.path.join("$HOME", ".config", "chromium"),
-            "json_paths": [
-                os.path.join("NativeMessagingHosts", "com.bu.slopspotter.json"),
-            ],
-        },
-    },
+}
+
+WINDOWS_REGISTRY_SUBKEYS: dict[SupportedBrowser, list[str]] = {
+    "firefox": [
+        r"SOFTWARE\Mozilla\NativeMessagingHosts\slopspotter",
+        r"SOFTWARE\Mozilla\ManagedStorage\slopspotter",
+        r"SOFTWARE\Mozilla\PKCS11Modules\slopspotter",
+    ]
 }
