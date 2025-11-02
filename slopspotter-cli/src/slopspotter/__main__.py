@@ -19,7 +19,7 @@ logging.basicConfig(
     ),
     level=logging.DEBUG,
     encoding="utf-8",
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - PID %(process)d [%(levelname)s]: %(message)s",
 )
 
 
