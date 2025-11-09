@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Slopspotter Settings</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Slopspotter</h1>
+      <p class="subtitle">Package risk insights for AI code snippets</p>
+    </header>
+    <main>
+      <form id="settings-form">
+        <label for="backend-mode">Connection method</label>
+        <select id="backend-mode" name="backend-mode">
+          <option value="http">HTTP API</option>
+          <option value="native">Native messaging host</option>
+        </select>
+
+        <div id="http-settings" class="settings-group">
+          <label for="backend-url">Backend API base URL</label>
+          <input
+            type="url"
+            id="backend-url"
+            name="backend-url"
+            placeholder="https://api.example.com"
+          />
+        </div>
+
+        <div id="native-settings" class="settings-group">
+          <label for="native-host">Native messaging host ID</label>
+          <input
+            type="text"
+            id="native-host"
+            name="native-host"
+            placeholder="com.example.slopspotter"
+            autocomplete="off"
+          />
+          <p class="supporting-text">
+            Must match the name declared in the native messaging host manifest installed on your
+            machine.
+          </p>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" id="auto-annotate" name="auto-annotate" />
+          <span>Automatically analyze new code blocks</span>
+        </label>
+
+        <button type="submit">Save settings</button>
+        <p id="status" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+    <footer>
+      <a href="https://github.com/hzbu820/EC521-Final-Project" target="_blank" rel="noopener"
+        >Project repository</a
+      >
+    </footer>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

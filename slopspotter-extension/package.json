@@ -1,9 +1,18 @@
 {
-  "devDependencies": {
-    "@types/firefox-webext-browser": "^120.0.5",
-    "@types/webextension-polyfill": "^0.12.4"
+  "name": "slopspotter-extension",
+  "version": "0.1.0",
+  "description": "Browser extension UI for detecting risky LLM-recommended packages.",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "typescript-language-server": "^5.0.1"
+    "webextension-polyfill": "^0.10.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   }
 }
