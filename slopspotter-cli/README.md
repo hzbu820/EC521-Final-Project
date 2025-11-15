@@ -1,14 +1,33 @@
 # Slopspotter CLI & Native Host
 
-## Installation
+## Local Installation Instructions
 
-```bash
-# Set up Python environment
-python -m venv .venv
-# Activate Python environment
-source .venv/bin/activate
-# Install `slopspotter` Python package in environment
-pip install --editable .
-# Install manifests for enabling native messaging
-python -m slopspotter --install-manifests
-```
+1. Set up isolated Python virtual environment using `venv`
+
+   ```bash
+   python -m venv .venv --prompt='slopspotter-cli'
+   ```
+
+2. Activate Python environment
+
+   ```bash
+   # For MacOS / Linux:
+   source .venv/bin/activate
+   ```
+
+   ```powershell
+   # For Windows:
+   .venv\Scripts\Activate
+   ```
+
+3. Install the `slopspotter` Python package
+
+   ```bash
+   pip install --editable .
+   ```
+
+4. Install manifests for enabling native messaging
+
+   ```bash
+   slopspotter --install-manifests=firefox
+   ```
