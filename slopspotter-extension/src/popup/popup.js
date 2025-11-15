@@ -1,8 +1,6 @@
 import browser from "webextension-polyfill";
 
 const form = document.getElementById("settings-form");
-const backendModeSelect = document.getElementById("backend-mode");
-const backendInput = document.getElementById("backend-url");
 const nativeHostInput = document.getElementById("native-host");
 const autoAnnotateInput = document.getElementById("auto-annotate");
 const statusNode = document.getElementById("status");
@@ -22,6 +20,7 @@ async function loadSettings() {
     }
 
     autoAnnotateInput.checked = Boolean(settings.autoAnnotate);
+    nativeHostInput.value = settings.nativeHostName ?? "";
   } catch (error) {
     console.warn("Slopspotter popup: failed to load settings", error);
     updateStatus(
@@ -35,8 +34,15 @@ async function handleSubmit(event) {
   event.preventDefault();
   updateStatus("");
 
+  const host = nativeHostInput.value.trim();
+  if (!host) {
+    updateStatus("Enter the native host ID.", true);
+    return;
+  }
+
   const payload = {
     autoAnnotate: autoAnnotateInput.checked,
+    nativeHostName: host,
   };
 
   try {
@@ -53,6 +59,7 @@ async function handleSubmit(event) {
 
 function toggleForm(enabled) {
   autoAnnotateInput.disabled = !enabled;
+  nativeHostInput.disabled = !enabled;
   form.querySelector('button[type="submit"]').disabled = !enabled;
 }
 

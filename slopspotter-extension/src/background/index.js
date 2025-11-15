@@ -1,20 +1,9 @@
 import browser from "webextension-polyfill";
 
-let native_port = browser.runtime.connectNative("slopspotter");
-
 const DEFAULT_SETTINGS = {
   autoAnnotate: true,
+  nativeHostName: "slopspotter",
 };
-
-native_port.onDisconnect.addListener((response) => {
-  if (response.error) {
-    console.log(`Disconnected due to error: ${response.error.message}`);
-  }
-});
-
-native_port.onMessage.addListener((response) => {
-  console.log(`Received: ${response}`);
-});
 
 browser.runtime.onInstalled.addListener(async () => {
   const stored = await getSettings();
@@ -43,10 +32,7 @@ const handlePackageCheck = async (payload) => {
   const settings = await getSettings();
 
   try {
-    const response =
-      settings.backendMode === "native"
-        ? await queryNativeHost(settings.nativeHostName, payload)
-        : await queryHttpBackend(settings.backendBaseUrl, payload);
+    const response = await queryNativeHost(settings.nativeHostName, payload);
     if (response) {
       return response;
     }
@@ -63,30 +49,8 @@ const handlePackageCheck = async (payload) => {
       ...pkg,
       result: buildHeuristicRisk(pkg),
     })),
-    warning:
-      settings.backendMode === "native"
-        ? "Native host unreachable. Displaying heuristic risk estimates."
-        : "Backend unreachable. Displaying heuristic risk estimates.",
+    warning: "Native host unreachable. Displaying heuristic risk estimates.",
   };
-};
-
-const queryHttpBackend = async (baseUrl, payload) => {
-  if (!baseUrl) {
-    return null;
-  }
-
-  const endpoint = buildEndpoint(baseUrl, "/check-packages");
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Backend returned status ${response.status}`);
-  }
-
-  return response.json();
 };
 
 const queryNativeHost = async (hostName, payload) => {

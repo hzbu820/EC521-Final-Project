@@ -110,7 +110,11 @@ async function analyzeSnippet(snippetElement) {
   snippetElement.setAttribute(SNIPPET_ATTR, snippetId);
 
   const codeText = snippetElement.textContent ?? '';
-  const packages = extractPackages(codeText);
+  const detectedLanguage = detectLanguage(snippetElement);
+  if (detectedLanguage) {
+    snippetElement.setAttribute('data-slopspotter-language', detectedLanguage);
+  }
+  const packages = extractPackages(codeText, { language: detectedLanguage });
 
   if (!packages.length) {
     processedSnippets.add(snippetElement);
@@ -175,4 +179,105 @@ async function runCheck(snippetElement, snippetId, packages) {
       warning: 'Extension could not reach the background service.'
     });
   }
+}
+
+function detectLanguage(snippetElement) {
+  if (!snippetElement) {
+    return undefined;
+  }
+
+  const candidates = [];
+  const codeElement = snippetElement.matches('code')
+    ? snippetElement
+    : snippetElement.querySelector('code');
+  if (codeElement) {
+    candidates.push(codeElement);
+  }
+  candidates.push(snippetElement);
+
+  let ancestor = snippetElement.parentElement;
+  while (ancestor && candidates.length < 6) {
+    candidates.push(ancestor);
+    ancestor = ancestor.parentElement;
+  }
+
+  for (const element of candidates) {
+    const language = extractLanguageFromElement(element);
+    if (language) {
+      return language;
+    }
+  }
+
+  return undefined;
+}
+
+function extractLanguageFromElement(element) {
+  if (!element) {
+    return undefined;
+  }
+
+  const datasetLanguage = element.dataset?.language || element.dataset?.lang;
+  if (datasetLanguage && datasetLanguage.trim()) {
+    return datasetLanguage.trim().toLowerCase();
+  }
+
+  const attrLanguage =
+    element.getAttribute('data-language') ||
+    element.getAttribute('data-lang') ||
+    element.getAttribute('lang');
+  if (attrLanguage && attrLanguage.trim()) {
+    return attrLanguage.trim().toLowerCase();
+  }
+
+  const classList = element.classList ? Array.from(element.classList) : [];
+  for (const token of classList) {
+    const normalized = normalizeLanguageToken(token);
+    if (normalized) {
+      return normalized;
+    }
+  }
+
+  return undefined;
+}
+
+const LANGUAGE_CLASS_PATTERNS = [
+  /^language-([a-z0-9+#]+)/i,
+  /^lang-([a-z0-9+#]+)/i,
+  /^language_([a-z0-9+#]+)/i,
+  /^lang_([a-z0-9+#]+)/i,
+  /^highlight-source-([a-z0-9+#]+)/i,
+  /^sourcecode-([a-z0-9+#]+)/i
+];
+
+const DIRECT_LANGUAGE_TOKENS = {
+  python: 'python',
+  py: 'python',
+  javascript: 'javascript',
+  js: 'javascript',
+  typescript: 'typescript',
+  ts: 'typescript',
+  rust: 'rust',
+  go: 'go',
+  golang: 'go',
+  shell: 'shell',
+  bash: 'shell',
+  sh: 'shell'
+};
+
+function normalizeLanguageToken(token) {
+  if (!token) {
+    return undefined;
+  }
+  const lower = token.toLowerCase();
+  for (const pattern of LANGUAGE_CLASS_PATTERNS) {
+    const match = lower.match(pattern);
+    if (match) {
+      return match[1];
+    }
+  }
+  const direct = DIRECT_LANGUAGE_TOKENS[lower];
+  if (direct) {
+    return direct;
+  }
+  return undefined;
 }

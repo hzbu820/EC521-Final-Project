@@ -1,33 +1,71 @@
 const RELATIVE_PREFIXES = ['.', '/', '~'];
+const COMMON_IDENTIFIER_BLACKLIST = {
+  python: new Set(['array', 'string', 'path', 'datetime', 'sys', 'os']),
+  javascript: new Set(['string', 'number'])
+};
+
+const LANGUAGE_ALIASES = {
+  javascript: 'javascript',
+  js: 'javascript',
+  node: 'javascript',
+  nodejs: 'javascript',
+  typescript: 'typescript',
+  ts: 'typescript',
+  py: 'python',
+  python: 'python',
+  golang: 'go',
+  go: 'go',
+  rust: 'rust',
+  sh: 'shell',
+  bash: 'shell',
+  shell: 'shell'
+};
+
+export const normalizeLanguage = (value = '') => {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  const cleaned = value.toString().trim().toLowerCase();
+  if (!cleaned) {
+    return undefined;
+  }
+  return LANGUAGE_ALIASES[cleaned] ?? cleaned;
+};
 
 const PATTERNS = [
   {
-    language: 'javascript',
+    languages: ['javascript', 'typescript'],
     regex: /import\s+(?:.+?\s+from\s+)?['"]([^'"]+)['"]/gi
   },
   {
-    language: 'javascript',
+    languages: ['javascript', 'typescript'],
     regex: /require\(\s*['"]([^'"]+)['"]\s*\)/gi
   },
   {
-    language: 'javascript',
+    languages: ['javascript', 'typescript'],
     regex: /npm\s+(?:install|i|add)\s+([@\w./-]+)/gi
   },
   {
-    language: 'python',
-    regex: /(?:from|import)\s+([a-zA-Z0-9_.]+)/gi,
+    languages: ['python'],
+    regex: /from\s+([a-zA-Z0-9_.]+)/gi,
     sanitizer: (name) => name.split('.')[0]
   },
   {
-    language: 'python',
+    languages: ['python'],
+    regex: /\bimport\s+([a-zA-Z0-9_.]+)/gi,
+    sanitizer: (name) => name.split('.')[0],
+    validator: ({ code, index }) => !isPartOfFromStatement(code, index)
+  },
+  {
+    languages: ['python'],
     regex: /pip(?:3)?\s+install\s+([a-zA-Z0-9_.-]+)/gi
   },
   {
-    language: 'rust',
+    languages: ['rust'],
     regex: /cargo\s+(?:add|install)\s+([a-zA-Z0-9_-]+)/gi
   },
   {
-    language: 'go',
+    languages: ['go'],
     regex: /go\s+get\s+([a-zA-Z0-9_.-/]+)/gi
   }
 ];
@@ -60,33 +98,68 @@ const buildContextSnippet = (code, index) => {
   return code.slice(start, end).replace(/\s+/g, ' ').trim();
 };
 
+const isPartOfFromStatement = (code, index) => {
+  const windowStart = Math.max(0, index - 30);
+  const snippet = code
+    .slice(windowStart, index)
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+  return /\bfrom\s+[a-z0-9_.]+\s*$/.test(snippet);
+};
+
+const isBlacklisted = (language, name) => {
+  const normalized = name.toLowerCase();
+  const blacklist = COMMON_IDENTIFIER_BLACKLIST[language];
+  return blacklist ? blacklist.has(normalized) : false;
+};
+
 /**
  * Extract candidate package references from code text.
  * @param {string} code
+ * @param {{language?: string}} options
  * @returns {Array<{name: string, language: string, contextSnippet: string}>}
  */
-export const extractPackages = (code) => {
+export const extractPackages = (code, options = {}) => {
   const seen = new Map();
+  const normalizedLanguage = normalizeLanguage(options.language);
+  const candidatePatterns = PATTERNS.filter(({ languages }) =>
+    normalizedLanguage ? languages.includes(normalizedLanguage) : true
+  );
+  const patternsToRun = candidatePatterns.length > 0 ? candidatePatterns : PATTERNS;
 
-  for (const { language, regex, sanitizer } of PATTERNS) {
+  for (const pattern of patternsToRun) {
+    const { regex, sanitizer, validator } = pattern;
     regex.lastIndex = 0;
     let match;
 
     while ((match = regex.exec(code)) !== null) {
       const rawName = match[1]?.trim() ?? '';
-      const candidate = sanitizer ? sanitizer(rawName) : rawName;
+      if (!rawName) {
+        continue;
+      }
+
+      if (validator && !validator({ code, index: match.index, match })) {
+        continue;
+      }
+
+      const candidate = sanitizer ? sanitizer(rawName, { code, match }) : rawName;
       if (!isLikelyPackageName(candidate)) {
         continue;
       }
 
-      const normalized = candidate.replace(/['"]/g, '');
-      if (seen.has(normalized)) {
+      const normalizedName = candidate.replace(/['"]/g, '');
+      const languageForMatch = normalizedLanguage ?? pattern.languages[0];
+      if (isBlacklisted(languageForMatch, normalizedName)) {
         continue;
       }
 
-      seen.set(normalized, {
-        name: normalized,
-        language,
+      if (seen.has(normalizedName)) {
+        continue;
+      }
+
+      seen.set(normalizedName, {
+        name: normalizedName,
+        language: languageForMatch,
         contextSnippet: buildContextSnippet(code, match.index)
       });
     }

@@ -12,6 +12,19 @@
     </header>
     <main>
       <form id="settings-form">
+        <label for="native-host">Native messaging host ID</label>
+        <input
+          type="text"
+          id="native-host"
+          name="native-host"
+          placeholder="slopspotter"
+          autocomplete="off"
+          required
+        />
+        <p class="supporting-text">
+          Must match the host name defined by the Slopspotter CLI when you install its manifests.
+        </p>
+
         <label class="checkbox">
           <input type="checkbox" id="auto-annotate" name="auto-annotate" />
           <span>Automatically analyze new code blocks</span>
