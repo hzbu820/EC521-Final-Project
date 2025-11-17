@@ -44,32 +44,12 @@ label {
   font-weight: 600;
 }
 
-select {
+input[type='text'] {
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid rgba(148, 163, 184, 0.5);
   font-size: 12px;
-  background: #ffffff;
-  color: #0f172a;
-}
-
-input[type='url'] {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  font-size: 12px;
-}
-
-.settings-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.settings-group[hidden] {
-  display: none;
 }
 
 .supporting-text {
