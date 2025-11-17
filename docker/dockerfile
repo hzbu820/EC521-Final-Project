@@ -1,33 +1,35 @@
-# https://www.reddit.com/r/docker/comments/1794ux0/an_endtoend_guide_to_building_a_docker_image/
 FROM python:3.11-slim
 
-# Install packages
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     strace \
     tcpdump \
     iptables \
     iproute2 \
     procps \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create working directory to build from
+# Create application directory
 WORKDIR /app
 
-# Create executable dir and test to use
+# Create directories
+RUN mkdir -p /app/runner/
+RUN mkdir -p /app/tests/
+
+# Install Python dependencies (use pip, not apk)
+RUN pip install --no-cache-dir \
+    pyyaml \
+    psutil \
+    watchdog
+
+# Copy runner scripts
 COPY runner/ /app/runner/
 COPY tests/ /app/tests/
 
-# Install Python dependencies
-# Add ALL dependencies here for it to work
-RUN pip install --no-cache-dir \
-    psutil \         # To check process details and memory manupulations
-    #pip-audit \     # Used to just check for malicious packages
-    $watchdog        # Monitor system events
-
-# Create directories for logs
-RUN mkdir -p /app/logs
+# Create directories for logs and reports
+RUN mkdir -p /app/logs /app/reports
 
 # Set up limited user for running untrusted code
-# Passing ownership of packeges to user
 RUN useradd -m -s /bin/bash sandbox_user && \
     chown -R sandbox_user:sandbox_user /app
 
