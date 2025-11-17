@@ -1,7 +1,0 @@
-Alright some things you would have to set up first.
-  1. Go to docker and download the appropriate installer based on the system that you are using.
-  2. Download the docker file from the github repo
-  3. Add all the libraries that you are using to the appropriate area in the file
-
-
-To be cont...

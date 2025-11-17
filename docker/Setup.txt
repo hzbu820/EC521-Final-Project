@@ -1,0 +1,18 @@
+Note: I am currently am doing this on a windows computer, so some step might be different, please let me know if there are any issues
+First please place all of the code doing the analyzing inside the "runner" directory
+Everytime that you edit ANY of the files, you would HAVE, I repeat, you HAVE to rebuild the container
+
+Step to use Docker
+1. Download the appropriate version of docker on your machine
+2. Download the code from github and save it to your local directory
+3. Open up the desktop docker application
+4. Check if Docker is running with the command <docker ps>
+5. Navigate to directory with <cd "path/to/directory">
+6. Build your docker image <docker build -f Dockerfile.dev -t sandbox-dev:latest .>
+4. Run <docker run -it --rm --privileged -v "%cd%":/workspace -v /var/run/docker.sock:/var/run/docker.sock -w /workspace sandbox-dev:latest /bin/bash>
+5. That line of code should put you into the docker container
+6. In order to test package run, ./run_sandbox.sh analyze <name of package>
+
+
+
+I will try to automate this even further so all you have to do is run a line of code which will return a true or false on whether the package is safe or not
