@@ -9,14 +9,15 @@ disable_progress_bar()
 def topk_token_probabilities(
     model,
     tokenizer,
-    k: int,
     input_text: str,
+    k: int = 10,
 ) -> tuple[torch.tensor, torch.tensor]:
     """Get the K most probable tokens & probabilities the model would select.
 
     See also `torch.topk`.
 
     Usage:
+        >>> from transformers import AutoModelForCausalLM, AutoTokenizer
         >>> model = AutoModelForCausalLM.from_pretrained(
         ...    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
         ... )
@@ -24,7 +25,7 @@ def topk_token_probabilities(
         ...    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
         ... )
         >>> input_text = "Here is a list of Python packages.\n\n- "
-        >>> next_token_probabilities(model, tokenizer, input_text)
+        >>> topk_token_probabilities(model, tokenizer, input_text)
 
     Args:
         model: transformers model for causal LM
