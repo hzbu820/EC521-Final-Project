@@ -1,9 +1,7 @@
 [project]
 name = "slopspotter"
 version = "0.1.0"
-dependencies = [
-	"transformers"
-]
+dependencies = ["accelerate", "torch", "transformers"]
 requires-python = ">3.11"
 authors = [
 	{ name = "Victor Mercola", email = "vmercola@bu.edu" },

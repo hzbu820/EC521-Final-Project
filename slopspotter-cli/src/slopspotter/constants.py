@@ -71,3 +71,10 @@ WINDOWS_REGISTRY_SUBKEYS: dict[SupportedBrowser, list[str]] = {
         r"SOFTWARE\Mozilla\PKCS11Modules\slopspotter",
     ]
 }
+
+HF_INSTRUCT_MODELS = [
+    "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+    "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+    "Qwen/Qwen2.5-Coder-3B-Instruct",
+]
+"""HuggingFace Instruct LLM model repositories for decision tree analysis."""
