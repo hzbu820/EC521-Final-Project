@@ -64,4 +64,15 @@ This subproject is managed with [UV](https://docs.astral.sh/uv/). While it's not
    slopspotter --install-manifests=firefox
    ```
 
+## Running Tests
+
+The `test` folder contains test suites for this project written with `unittest`, Python's built-in unit testing library.
+
+```bash
+# With pytest:
+python -m pytest .
+# With unittest:
+python -m unittest discover test/
+```
+
 [^1]: https://pytorch.org/get-started/previous-versions/
