@@ -1,5 +1,7 @@
 """Tools for testing LLM decision trees."""
 
+from typing import Literal
+
 import networkx as nx
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -122,13 +124,20 @@ def token_decision_tree(
     return decision_tree
 
 
-def draw_decision_tree(decision_tree: nx.DiGraph):
+def draw_decision_tree(
+    decision_tree: nx.DiGraph, label_type: Literal["token", "token_id"] = "token_id"
+):
     """Draw the LLM top-k token decision tree."""
 
+    if label_type not in ["token", "token_id"]:
+        msg = f"Invalid label type: {label_type}"
+        raise ValueError(msg)
+
     labels = {
-        node_id: decision_tree.nodes[node_id]["token_id"]
+        node_id: decision_tree.nodes[node_id][label_type]
         for node_id in decision_tree.nodes
     }
+
     edge_labels = {
         edge_id: format(decision_tree.edges[edge_id]["probability"], ".2e")
         for edge_id in decision_tree.edges
