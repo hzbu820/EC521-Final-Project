@@ -1,7 +1,12 @@
 [project]
 name = "slopspotter"
 version = "0.1.0"
-dependencies = ["accelerate", "torch>=2.7.1", "transformers"]
+dependencies = [
+    "accelerate",
+    "networkx>=3.5",
+    "torch>=2.7.1",
+    "transformers",
+]
 requires-python = ">3.11"
 authors = [
 	{ name = "Victor Mercola", email = "vmercola@bu.edu" },
