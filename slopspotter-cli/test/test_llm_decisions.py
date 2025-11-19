@@ -37,8 +37,10 @@ class TestLLMDecisions(unittest.TestCase):
         decision_tree = token_decision_tree(
             self.model, self.tokenizer, input_text, k=3, max_depth=2
         )
-        draw_decision_tree(decision_tree)
-        plt.savefig("decision_tree.png")
+        for label_type in ["token", "token_id"]:
+            plt.figure()
+            draw_decision_tree(decision_tree, label_type=label_type)
+            plt.savefig(f"test/decision_tree_{label_type}.png")
 
 
 if __name__ == "__main__":
