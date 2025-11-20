@@ -118,23 +118,26 @@ def token_decision_tree(
     if not max_depth > 0:
         raise ValueError("max depth must be an integer greater than 0")
 
-    decision_tree = nx.balanced_tree(r=k, h=max_depth, create_using=nx.DiGraph)
+    decision_tree = nx.DiGraph()
 
     input_ids = tokenizer.encode(input_text, return_tensors="np")[-1]
     last_input_id = input_ids[-1]
 
-    decision_tree.nodes[0]["token_id"] = int(last_input_id)
-    decision_tree.nodes[0]["token"] = tokenizer.decode(last_input_id)
-    decision_tree.nodes[0]["depth"] = 0
-    decision_tree.nodes[0]["input_text"] = input_text
+    decision_tree.add_node(
+        0,
+        token_id=int(last_input_id),
+        token=prettify_token(tokenizer.decode(last_input_id)),
+        depth=0,
+        input_text=input_text,
+    )
 
-    for node_id in decision_tree.nodes():
-        current_depth = decision_tree.nodes[node_id]["depth"]
-        print(f"Node {node_id}\tCurrent Depth: {current_depth}")
-
-        if current_depth >= max_depth:
-            print("skipping")
+    # We don't need to run top-k token calculations for nodes in the last layer
+    for node_id in range(balanced_tree_order(k, max_depth - 1)):
+        if not decision_tree.has_node(node_id):
+            # Skip over nodes that don't exist from pruning
             continue
+
+        current_depth = decision_tree.nodes[node_id]["depth"]
 
         node_input_text = input_text
         if current_depth != 0:
@@ -146,21 +149,21 @@ def token_decision_tree(
         topk_token_probs, topk_token_ids = topk_token_probabilities(
             model, tokenizer, node_input_text, k=k
         )
-
-        successors = list(decision_tree.successors(node_id))
         topk_tokens = tokenizer.convert_ids_to_tokens(topk_token_ids)
 
-        for successor, token_id, token, prob in zip(
-            successors,
-            topk_token_ids,
-            topk_tokens,
-            topk_token_probs,
-            strict=True,
-        ):
-            decision_tree.nodes[successor]["depth"] = current_depth + 1
-            decision_tree.nodes[successor]["token_id"] = token_id.item()
-            decision_tree.nodes[successor]["token"] = prettify_token(token)
-            decision_tree.edges[(node_id, successor)]["probability"] = prob
+        current_order = decision_tree.order()
+        new_node_ids = range(current_order, current_order + k)
+
+        for k_i, new_node_id in zip(range(k), new_node_ids, strict=True):
+            decision_tree.add_node(
+                new_node_id,
+                depth=current_depth + 1,
+                token_id=topk_token_ids[k_i].item(),
+                token=prettify_token(topk_tokens[k_i]),
+            )
+            decision_tree.add_edge(
+                node_id, new_node_id, probability=topk_token_probs[k_i].item()
+            )
 
     return decision_tree
 
@@ -256,3 +259,28 @@ ASCII_CONTROL_CODES = [
     "␣",  # SP
 ]
 """List of alternative strings for printing ASCII control codes 0 to 32."""
+
+if __name__ == "__main__":
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    model = AutoModelForCausalLM.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
+    max_depth = 3
+    k = 5
+    decision_tree = predict_hallucinated_packages(
+        model, tokenizer, "python", "networkx", k, max_depth
+    )
+    input_text = decision_tree.nodes[0]["input_text"]
+
+    for node_id in decision_tree.nodes:
+        node_input_text = input_text
+        if decision_tree.nodes[node_id]["depth"] == max_depth:
+            traversal = nx.shortest_path(decision_tree, 0, node_id)
+            node_input_text += tokenizer.decode(
+                [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
+            )
+            print(node_input_text)
