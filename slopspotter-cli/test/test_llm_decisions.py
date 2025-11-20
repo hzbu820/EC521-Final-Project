@@ -13,8 +13,12 @@ from slopspotter.llm_decisions import (
 class TestLLMDecisions(unittest.TestCase):
     """Test suite for calculating LLM token probabilities."""
 
-    model = AutoModelForCausalLM.from_pretrained("gpt2", device_map="auto")
-    tokenizer = AutoTokenizer.from_pretrained("gpt2", device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
 
     def test_topk_token_probabilities(self):
         """Test calculations for top-k next tokens."""
