@@ -82,6 +82,9 @@ def token_decision_tree(
 ) -> nx.DiGraph:
     """Calculate the LLM's top-k token decision tree.
 
+    This function runs the given LLM, fully exploring the `k ** max_depth` most
+    probable outcomes that the LLM could output based on the given input text.
+
     Args:
         model: transformers model for causal LM
         tokenizer: transformers tokenizer
@@ -90,13 +93,13 @@ def token_decision_tree(
         max_depth: decision tree depth
 
     Raises:
-        ValueError: if `max_depth` is not an integer greater than 1
+        ValueError: if `max_depth` is not an integer greater than 0
 
     Returns:
         decision_tree: NetworkX digraph decision tree
     """
-    if not max_depth >= 1:
-        raise ValueError("max depth must be an integer greater than 1")
+    if not max_depth > 0:
+        raise ValueError("max depth must be an integer greater than 0")
 
     decision_tree = nx.balanced_tree(r=k, h=max_depth, create_using=nx.DiGraph)
 
@@ -106,12 +109,14 @@ def token_decision_tree(
     decision_tree.nodes[0]["token_id"] = int(last_input_id)
     decision_tree.nodes[0]["token"] = tokenizer.decode(last_input_id)
     decision_tree.nodes[0]["depth"] = 0
+    decision_tree.nodes[0]["input_text"] = input_text
 
     for node_id in decision_tree.nodes():
         current_depth = decision_tree.nodes[node_id]["depth"]
+        print(f"Node {node_id}\tCurrent Depth: {current_depth}")
 
-        if current_depth == max_depth:
-            traversal = nx.shortest_path(decision_tree, 0, node_id)
+        if current_depth >= max_depth:
+            print("skipping")
             continue
 
         node_input_text = input_text
@@ -164,6 +169,38 @@ def draw_decision_tree(
     layout = nx.multipartite_layout(decision_tree, subset_key="depth")
     nx.draw(decision_tree, pos=layout, with_labels=True, labels=labels)
     nx.draw_networkx_edge_labels(decision_tree, pos=layout, edge_labels=edge_labels)
+
+
+def predict_hallucinated_packages(
+    model,
+    tokenizer,
+    language: str | None,
+    package: str | None,
+    k: int = 3,
+    max_depth: int = 5,
+) -> nx.DiGraph:
+    if not max_depth >= 1:
+        raise ValueError("max depth must be an integer greater than 1")
+    if language is None:
+        language = ""
+
+    first_token_id = tokenizer.encode(package)[0]
+    first_token = tokenizer.decode(first_token_id)
+    input_text = f"Here is the name of a {language.title()} package: `{first_token}"
+
+    return token_decision_tree(model, tokenizer, input_text, k, max_depth)
+
+
+def package_in_vocabulary(tokenizer: AutoTokenizer, package: str) -> bool:
+    """Determine whether the package's name is already in the tokenizer.
+
+    We can assume that short and/or common package names like `numpy` are more
+    trustworthy if they already exist in the tokenizer's vocabulary.
+
+    Note that this should only be a worthwhile metric if the package actually
+    is written in that language (e.g., `numpy` doesn't exist in JavaScript).
+    """
+    return package in tokenizer.get_vocab()
 
 
 ASCII_CONTROL_CODES = [
