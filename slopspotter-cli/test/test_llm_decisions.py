@@ -8,6 +8,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from slopspotter.llm_decisions import (
     balanced_tree_order,
     draw_decision_tree,
+    predict_hallucinated_packages,
     token_decision_tree,
     topk_token_probabilities,
 )
@@ -16,12 +17,19 @@ from slopspotter.llm_decisions import (
 class TestLLMDecisions(unittest.TestCase):
     """Test suite for calculating LLM token probabilities."""
 
-    model = AutoModelForCausalLM.from_pretrained(
-        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
-    )
-    tokenizer = AutoTokenizer.from_pretrained(
-        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
-    )
+    model: AutoModelForCausalLM
+    tokenizer: AutoTokenizer
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up common objects used in the test suite."""
+
+        cls.model = AutoModelForCausalLM.from_pretrained(
+            "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+        )
+        cls.tokenizer = AutoTokenizer.from_pretrained(
+            "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+        )
 
     def test_topk_token_probabilities(self):
         """Test calculations for top-k next tokens."""
@@ -61,6 +69,27 @@ class TestLLMDecisions(unittest.TestCase):
             with self.subTest(r=r, h=h):
                 tree = nx.balanced_tree(r=r, h=h)
                 self.assertEqual(balanced_tree_order(r, h), len(tree.nodes))
+
+    def test_predict_hallucinated_packages(self):
+        """Test predicting hallucinated packages."""
+        decision_tree = predict_hallucinated_packages(
+            self.model,
+            self.tokenizer,
+            "python",
+            "ramanspy",
+            k=3,
+            max_depth=4,
+        )
+        input_text = decision_tree.nodes[0]["input_text"]
+
+        for node_id in decision_tree.nodes:
+            node_input_text = input_text
+            if len(list(decision_tree.successors(node_id))) == 0:
+                traversal = nx.shortest_path(decision_tree, 0, node_id)
+                node_input_text += self.tokenizer.decode(
+                    [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
+                )
+                print(node_input_text)
 
 
 if __name__ == "__main__":
