@@ -1,9 +1,12 @@
 import unittest
+from itertools import product
 
 import matplotlib.pyplot as plt
+import networkx as nx
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from slopspotter.llm_decisions import (
+    balanced_tree_order,
     draw_decision_tree,
     token_decision_tree,
     topk_token_probabilities,
@@ -45,6 +48,14 @@ class TestLLMDecisions(unittest.TestCase):
             plt.figure()
             draw_decision_tree(decision_tree, label_type=label_type)
             plt.savefig(f"test/decision_tree_{label_type}.png")
+
+    def test_balanced_tree_order(self):
+        """Test calculating the order of a balanced tree."""
+
+        for r, h in product(range(2, 9), range(1, 4)):
+            with self.subTest(r=r, h=h):
+                tree = nx.balanced_tree(r=r, h=h)
+                self.assertEqual(balanced_tree_order(r, h), len(tree.nodes))
 
 
 if __name__ == "__main__":

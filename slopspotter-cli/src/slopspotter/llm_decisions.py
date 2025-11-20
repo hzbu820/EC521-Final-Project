@@ -73,6 +73,23 @@ def topk_token_probabilities(
     return topk_values, topk_indices
 
 
+def balanced_tree_order(r: int, h: int) -> int:
+    """Calculate the order (total number of nodes) in a balanced tree.
+
+    See also `networkx.balanced_tree`.
+
+    Args:
+        r: Branching factor of the tree; each node will have `r` children.
+        h: Height of the tree.
+
+    Returns:
+        order: number of nodes in the balanced tree.
+
+    See also https://stackoverflow.com/a/7842866
+    """
+    return (r ** (h + 1) - 1) // (r - 1)
+
+
 def token_decision_tree(
     model: AutoModelForCausalLM,
     tokenizer: AutoTokenizer,
