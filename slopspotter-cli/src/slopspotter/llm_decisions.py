@@ -10,16 +10,23 @@ from transformers.utils.logging import disable_progress_bar
 disable_progress_bar()
 
 
-def modify_token(token: str) -> str:
+def prettify_token(token: str) -> str:
     """Modify a token for readability.
 
-    Some LLMs (including GPT-2) use `Ġ` as a substitute for the space character
-    in some tokens.
+    Some LLMs (including GPT-2) use characters from 0x100 to 0x120 as
+    alternatives for ASCII characters 0x00 to 0x20.
 
     See also https://en.wikipedia.org/wiki/%C4%A0
     """
 
-    return token.replace("Ġ", "␣")
+    modified_token = ""
+    for character in token:
+        if 0x100 <= ord(character) <= 0x120:
+            modified_token += ASCII_CONTROL_CODES[ord(character) - 0x100]
+        else:
+            modified_token += character
+
+    return modified_token
 
 
 def topk_token_probabilities(
@@ -130,7 +137,7 @@ def token_decision_tree(
         ):
             decision_tree.nodes[successor]["depth"] = current_depth + 1
             decision_tree.nodes[successor]["token_id"] = token_id.item()
-            decision_tree.nodes[successor]["token"] = modify_token(token)
+            decision_tree.nodes[successor]["token"] = prettify_token(token)
             decision_tree.edges[(node_id, successor)]["probability"] = prob
 
     return decision_tree
@@ -157,3 +164,41 @@ def draw_decision_tree(
     layout = nx.multipartite_layout(decision_tree, subset_key="depth")
     nx.draw(decision_tree, pos=layout, with_labels=True, labels=labels)
     nx.draw_networkx_edge_labels(decision_tree, pos=layout, edge_labels=edge_labels)
+
+
+ASCII_CONTROL_CODES = [
+    "[NUL]",
+    "[SOH]",
+    "[STX]",
+    "[ETX]",
+    "[EOT]",
+    "[ENQ]",
+    "[ACK]",
+    "[BEL]",
+    "[BS]",
+    "\\t",  # HT
+    "\\n",  # LF
+    "\\v",  # VT
+    "\\f",  # FF
+    "\\r",  # CR
+    "[SO]",
+    "[SI]",
+    "[DLE]",
+    "[DC1]",
+    "[DC2]",
+    "[DC3]",
+    "[DC4]",
+    "[NAK]",
+    "[SYN]",
+    "[ETB]",
+    "[CAN]",
+    "[EM]",
+    "[SUB]",
+    "[ESC]",
+    "[FS]",
+    "[GS]",
+    "[RS]",
+    "[US]",
+    "␣",  # SP
+]
+"""List of alternative strings for printing ASCII control codes 0 to 32."""
