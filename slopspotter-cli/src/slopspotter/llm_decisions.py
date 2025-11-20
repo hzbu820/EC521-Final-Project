@@ -10,19 +10,33 @@ from transformers.utils.logging import disable_progress_bar
 disable_progress_bar()
 
 
-def prettify_token(token: str) -> str:
-    """Modify a token for readability.
+def reset_control_codes(token: str) -> str:
+    """Remove the ASCII control codes inside of a token.
 
     Some LLMs (including GPT-2) use characters from 0x100 to 0x120 as
     alternatives for ASCII characters 0x00 to 0x20.
 
     See also https://en.wikipedia.org/wiki/%C4%A0
     """
+    modified_token = ""
+    for character in token:
+        if 0x100 <= ord(character) <= 0x120:
+            modified_token += chr(ord(character) - 0x100)
+        else:
+            modified_token += character
+
+    return modified_token
+
+
+def prettify_token(token: str) -> str:
+    """Modify a token for printing."""
 
     modified_token = ""
     for character in token:
         if 0x100 <= ord(character) <= 0x120:
             modified_token += ASCII_CONTROL_CODES[ord(character) - 0x100]
+        elif 0x00 <= ord(character) <= 0x20:
+            modified_token += ASCII_CONTROL_CODES[ord(character)]
         else:
             modified_token += character
 
@@ -96,6 +110,7 @@ def token_decision_tree(
     input_text: str,
     k: int = 3,
     max_depth: int = 2,
+    stop_strings: tuple[str, ...] | None = None,
 ) -> nx.DiGraph:
     """Calculate the LLM's top-k token decision tree.
 
@@ -117,6 +132,8 @@ def token_decision_tree(
     """
     if not max_depth > 0:
         raise ValueError("max depth must be an integer greater than 0")
+    if stop_strings is None:
+        stop_strings = []
 
     decision_tree = nx.DiGraph()
 
@@ -126,7 +143,7 @@ def token_decision_tree(
     decision_tree.add_node(
         0,
         token_id=int(last_input_id),
-        token=prettify_token(tokenizer.decode(last_input_id)),
+        token=reset_control_codes(tokenizer.decode(last_input_id)),
         depth=0,
         input_text=input_text,
     )
@@ -135,6 +152,11 @@ def token_decision_tree(
     for node_id in range(balanced_tree_order(k, max_depth - 1)):
         if not decision_tree.has_node(node_id):
             # Skip over nodes that don't exist from pruning
+            continue
+
+        if any(
+            [sstr in decision_tree.nodes[node_id]["token"] for sstr in stop_strings]
+        ):
             continue
 
         current_depth = decision_tree.nodes[node_id]["depth"]
@@ -159,7 +181,7 @@ def token_decision_tree(
                 new_node_id,
                 depth=current_depth + 1,
                 token_id=topk_token_ids[k_i].item(),
-                token=prettify_token(topk_tokens[k_i]),
+                token=reset_control_codes(topk_tokens[k_i]),
             )
             decision_tree.add_edge(
                 node_id, new_node_id, probability=topk_token_probs[k_i].item()
@@ -173,14 +195,19 @@ def draw_decision_tree(
 ):
     """Draw the LLM top-k token decision tree."""
 
-    if label_type not in ["token", "token_id"]:
+    if label_type == "token_id":
+        labels = {
+            node_id: decision_tree.nodes[node_id][label_type]
+            for node_id in decision_tree.nodes
+        }
+    elif label_type == "token":
+        labels = {
+            node_id: prettify_token(decision_tree.nodes[node_id][label_type])
+            for node_id in decision_tree.nodes
+        }
+    else:
         msg = f"Invalid label type: {label_type}"
         raise ValueError(msg)
-
-    labels = {
-        node_id: decision_tree.nodes[node_id][label_type]
-        for node_id in decision_tree.nodes
-    }
 
     edge_labels = {
         edge_id: format(decision_tree.edges[edge_id]["probability"], ".2e")

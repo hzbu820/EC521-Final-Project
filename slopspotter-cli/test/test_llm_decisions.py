@@ -42,7 +42,12 @@ class TestLLMDecisions(unittest.TestCase):
 
         input_text = "The quick brown fox jumps over the lazy"
         decision_tree = token_decision_tree(
-            self.model, self.tokenizer, input_text, k=3, max_depth=2
+            self.model,
+            self.tokenizer,
+            input_text,
+            k=3,
+            max_depth=3,
+            stop_strings=("\n"),
         )
         for label_type in ["token", "token_id"]:
             plt.figure()
