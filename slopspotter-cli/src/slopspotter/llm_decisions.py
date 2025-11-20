@@ -10,6 +10,18 @@ from transformers.utils.logging import disable_progress_bar
 disable_progress_bar()
 
 
+def modify_token(token: str) -> str:
+    """Modify a token for readability.
+
+    Some LLMs (including GPT-2) use `Ġ` as a substitute for the space character
+    in some tokens.
+
+    See also https://en.wikipedia.org/wiki/%C4%A0
+    """
+
+    return token.replace("Ġ", "␣")
+
+
 def topk_token_probabilities(
     model: AutoModelForCausalLM,
     tokenizer: AutoTokenizer,
@@ -118,7 +130,7 @@ def token_decision_tree(
         ):
             decision_tree.nodes[successor]["depth"] = current_depth + 1
             decision_tree.nodes[successor]["token_id"] = token_id.item()
-            decision_tree.nodes[successor]["token"] = token
+            decision_tree.nodes[successor]["token"] = modify_token(token)
             decision_tree.edges[(node_id, successor)]["probability"] = prob
 
     return decision_tree
