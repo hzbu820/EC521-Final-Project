@@ -51,4 +51,8 @@ url = "https://download.pytorch.org/whl/cu118"
 explicit = true
 
 [tool.ruff.lint]
-select = ["E", "F", "UP", "B", "SIM", "I"]
+select = ["E", "F", "UP", "B", "SIM", "I", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+

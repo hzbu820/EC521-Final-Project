@@ -30,7 +30,6 @@ def reset_control_codes(token: str) -> str:
 
 def prettify_token(token: str) -> str:
     """Modify a token for printing."""
-
     modified_token = ""
     for character in token:
         if 0x100 <= ord(character) <= 0x120:
@@ -49,7 +48,7 @@ def topk_token_probabilities(
     input_text: str,
     k: int = 10,
 ) -> tuple[torch.tensor, torch.tensor]:
-    """Get the K most probable tokens & probabilities the model would select.
+    r"""Get the K most probable tokens & probabilities the model would select.
 
     See also `torch.topk`.
 
@@ -73,7 +72,6 @@ def topk_token_probabilities(
     Returns:
         (topk_values, topk_indices): tuple of torch tensors
     """
-
     input_ids = tokenizer.encode(input_text, return_tensors="pt").to(model.device)
 
     with torch.no_grad():
@@ -195,7 +193,6 @@ def draw_decision_tree(
     decision_tree: nx.DiGraph, label_type: Literal["token", "token_id"] = "token_id"
 ):
     """Draw the LLM top-k token decision tree."""
-
     if label_type == "token_id":
         labels = {
             node_id: decision_tree.nodes[node_id][label_type]

@@ -1,3 +1,5 @@
+"""Test suite for LLM decision tree generation."""
+
 import unittest
 from itertools import product
 
@@ -23,7 +25,6 @@ class TestLLMDecisions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up common objects used in the test suite."""
-
         cls.model = AutoModelForCausalLM.from_pretrained(
             "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
         )
@@ -33,7 +34,6 @@ class TestLLMDecisions(unittest.TestCase):
 
     def test_topk_token_probabilities(self):
         """Test calculations for top-k next tokens."""
-
         input_text = "The quick brown fox jumps over the lazy"
         top_k_probabilities, top_k_token_ids = topk_token_probabilities(
             self.model, self.tokenizer, input_text
@@ -47,7 +47,6 @@ class TestLLMDecisions(unittest.TestCase):
 
     def test_token_decision_tree(self):
         """Test decision tree calculation."""
-
         input_text = "The quick brown fox jumps over the lazy"
         decision_tree = token_decision_tree(
             self.model,
@@ -64,7 +63,6 @@ class TestLLMDecisions(unittest.TestCase):
 
     def test_balanced_tree_order(self):
         """Test calculating the order of a balanced tree."""
-
         for r, h in product(range(2, 9), range(1, 4)):
             with self.subTest(r=r, h=h):
                 tree = nx.balanced_tree(r=r, h=h)
