@@ -27,9 +27,6 @@ dev = [
 	"ipython",
 	"jupyter",
 	"matplotlib",
-	"pyqt5",
-	"pyqt6",
-	"pyside2",
 	"pytest",
 	"qtpy",
 ]
