@@ -33,9 +33,9 @@ def prettify_token(token: str) -> str:
     modified_token = ""
     for character in token:
         if 0x100 <= ord(character) <= 0x120:
-            modified_token += ASCII_CONTROL_CODES[ord(character) - 0x100]
+            modified_token += PRETTY_CONTROL_CODES[ord(character) - 0x100]
         elif 0x00 <= ord(character) <= 0x20:
-            modified_token += ASCII_CONTROL_CODES[ord(character)]
+            modified_token += PRETTY_CONTROL_CODES[ord(character)]
         else:
             modified_token += character
 
@@ -265,7 +265,7 @@ def package_in_vocabulary(tokenizer: AutoTokenizer, package: str) -> bool:
     return package in tokenizer.get_vocab()
 
 
-ASCII_CONTROL_CODES = [
+PRETTY_CONTROL_CODES = [
     "[NUL]",
     "[SOH]",
     "[STX]",
