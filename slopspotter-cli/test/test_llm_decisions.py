@@ -69,11 +69,11 @@ class TestLLMDecisions(unittest.TestCase):
             self.model, self.tokenizer, input_text
         )
 
-        print(input_text + "...")
-        for prob, token_id in zip(top_k_probabilities, top_k_token_ids, strict=True):
-            prob_percent = prob * 100
-            token = self.tokenizer.decode(token_id)
-            print(f"\t{prob_percent:.2f}%: ID {token_id} ('{token}')")
+        # print(input_text + "...")
+        # for prob, token_id in zip(top_k_probabilities, top_k_token_ids, strict=True):
+        #     prob_percent = prob * 100
+        #     token = self.tokenizer.decode(token_id)
+        #     print(f"\t{prob_percent:.2f}%: ID {token_id} ('{token}')")
 
     def test_token_decision_tree(self):
         """Test decision tree calculation."""
@@ -83,8 +83,8 @@ class TestLLMDecisions(unittest.TestCase):
             self.tokenizer,
             input_text,
             k=3,
-            max_depth=3,
-            stop_strings=("\n"),
+            max_depth=5,
+            stop_strings=(".", "\n"),
         )
         save_decision_tree_plots(decision_tree, "decision_tree")
 
