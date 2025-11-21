@@ -13,9 +13,12 @@ from transformers import (
     PreTrainedTokenizer,
 )
 
+from slopspotter.drawing import (
+    draw_decision_tree_dot,
+    draw_decision_tree_plt,
+)
 from slopspotter.llm_decisions import (
     balanced_tree_order,
-    draw_decision_tree,
     get_packages_from_token_decision_tree,
     predict_hallucinated_packages,
     token_decision_tree,
@@ -32,8 +35,14 @@ def save_decision_tree_plots(decision_tree: nx.DiGraph, prefix: str):
     """
     for label_type in ["token", "token_id"]:
         plt.figure()
-        draw_decision_tree(decision_tree, label_type=label_type)
-        plt.savefig(os.path.join("test", f"{prefix}_{label_type}.png"))
+        draw_decision_tree_plt(decision_tree, label_type=label_type)
+        plt.savefig(os.path.join("test", "outputs", f"{prefix}_{label_type}.png"))
+        plt.close()
+        draw_decision_tree_dot(
+            decision_tree,
+            os.path.join("test", "outputs", f"{prefix}_{label_type}_dot.png"),
+            label_type,
+        )
 
 
 class TestLLMDecisions(unittest.TestCase):
@@ -45,6 +54,7 @@ class TestLLMDecisions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up common objects used in the test suite."""
+        os.makedirs(os.path.join("test", "outputs"), exist_ok=True)
         cls.model = AutoModelForCausalLM.from_pretrained(
             "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
         )
@@ -83,7 +93,7 @@ class TestLLMDecisions(unittest.TestCase):
         for r, h in product(range(2, 9), range(1, 4)):
             with self.subTest(r=r, h=h):
                 tree = nx.balanced_tree(r=r, h=h)
-                self.assertEqual(balanced_tree_order(r, h), len(tree.nodes))
+                self.assertEqual(balanced_tree_order(r, h), tree.order())
 
     def test_predict_hallucinated_packages(self):
         """Test predicting hallucinated packages."""

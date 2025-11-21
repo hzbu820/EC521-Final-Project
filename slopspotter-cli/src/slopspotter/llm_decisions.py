@@ -1,7 +1,6 @@
 """Tools for testing LLM decision trees."""
 
 import re
-from typing import Literal
 
 import networkx as nx
 import torch
@@ -37,20 +36,6 @@ def reset_control_codes(token: str) -> str:
     for character in token:
         if 0x100 <= ord(character) <= 0x120:
             modified_token += chr(ord(character) - 0x100)
-        else:
-            modified_token += character
-
-    return modified_token
-
-
-def prettify_token(token: str) -> str:
-    """Modify a token for printing."""
-    modified_token = ""
-    for character in token:
-        if 0x100 <= ord(character) <= 0x120:
-            modified_token += PRETTY_CONTROL_CODES[ord(character) - 0x100]
-        elif 0x00 <= ord(character) <= 0x20:
-            modified_token += PRETTY_CONTROL_CODES[ord(character)]
         else:
             modified_token += character
 
@@ -205,33 +190,6 @@ def token_decision_tree(
     return decision_tree
 
 
-def draw_decision_tree(
-    decision_tree: nx.DiGraph, label_type: Literal["token", "token_id"] = "token_id"
-):
-    """Draw the LLM top-k token decision tree."""
-    if label_type == "token_id":
-        labels = {
-            node_id: decision_tree.nodes[node_id][label_type]
-            for node_id in decision_tree.nodes
-        }
-    elif label_type == "token":
-        labels = {
-            node_id: prettify_token(decision_tree.nodes[node_id][label_type])
-            for node_id in decision_tree.nodes
-        }
-    else:
-        msg = f"Invalid label type: {label_type}"
-        raise ValueError(msg)
-
-    edge_labels = {
-        edge_id: format(decision_tree.edges[edge_id]["probability"], ".2e")
-        for edge_id in decision_tree.edges
-    }
-    layout = nx.multipartite_layout(decision_tree, subset_key="depth")
-    nx.draw(decision_tree, pos=layout, with_labels=True, labels=labels)
-    nx.draw_networkx_edge_labels(decision_tree, pos=layout, edge_labels=edge_labels)
-
-
 def predict_hallucinated_packages(
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
@@ -300,41 +258,3 @@ def package_in_vocabulary(tokenizer: PreTrainedTokenizer, package: str) -> bool:
     is written in that language (e.g., `numpy` doesn't exist in JavaScript).
     """
     return package in tokenizer.get_vocab()
-
-
-PRETTY_CONTROL_CODES = [
-    "[NUL]",
-    "[SOH]",
-    "[STX]",
-    "[ETX]",
-    "[EOT]",
-    "[ENQ]",
-    "[ACK]",
-    "[BEL]",
-    "[BS]",
-    "\\t",  # HT
-    "\\n",  # LF
-    "\\v",  # VT
-    "\\f",  # FF
-    "\\r",  # CR
-    "[SO]",
-    "[SI]",
-    "[DLE]",
-    "[DC1]",
-    "[DC2]",
-    "[DC3]",
-    "[DC4]",
-    "[NAK]",
-    "[SYN]",
-    "[ETB]",
-    "[CAN]",
-    "[EM]",
-    "[SUB]",
-    "[ESC]",
-    "[FS]",
-    "[GS]",
-    "[RS]",
-    "[US]",
-    "␣",  # SP
-]
-"""List of alternative strings for printing ASCII control codes 0 to 32."""
