@@ -224,7 +224,7 @@ def predict_hallucinated_packages(
         input_text,
         k,
         max_depth,
-        stop_strings=("`", "\t", "\n", "\v", "\f", "\r", ".", " "),
+        stop_strings=("`", "\t", "\n", "\v", "\f", "\r"),
     )
 
 
