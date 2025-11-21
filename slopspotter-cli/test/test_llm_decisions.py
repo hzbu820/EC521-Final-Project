@@ -6,6 +6,7 @@ from itertools import product
 
 import matplotlib.pyplot as plt
 import networkx as nx
+import numpy as np
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
@@ -24,6 +25,30 @@ from slopspotter.llm_decisions import (
     token_decision_tree,
     topk_token_probabilities,
 )
+
+
+def next_token_probability(
+    model: PreTrainedModel, tokenizer: PreTrainedTokenizer, input_text: str
+):
+    """Calculate the probability of the next token.
+
+    This function is only for checking that the outputs of
+    `topk_token_probabilities` matches official `transformers` documentation.
+    """
+    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=1,
+        return_dict_in_generate=True,
+        output_scores=True,
+        do_sample=False,
+    )
+    transition_scores = model.compute_transition_scores(
+        outputs.sequences, outputs.scores, normalize_logits=True
+    )
+    input_length = 1 if model.config.is_encoder_decoder else inputs.input_ids.shape[1]
+    generated_token_ids = outputs.sequences[:, input_length:]
+    return generated_token_ids[0].item(), transition_scores[0].item()
 
 
 def save_decision_tree_plots(decision_tree: nx.DiGraph, prefix: str):
@@ -67,6 +92,13 @@ class TestLLMDecisions(unittest.TestCase):
         input_text = "The quick brown fox jumps over the lazy"
         top_k_probabilities, top_k_token_ids = topk_token_probabilities(
             self.model, self.tokenizer, input_text
+        )
+        generated_token_id, transition_score = next_token_probability(
+            self.model, self.tokenizer, input_text
+        )
+        self.assertEqual(generated_token_id, top_k_token_ids[0].item())
+        self.assertAlmostEqual(
+            np.exp(transition_score), top_k_probabilities[0].item(), 4
         )
 
         # print(input_text + "...")
