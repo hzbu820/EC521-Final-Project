@@ -1,12 +1,13 @@
 [project]
+dependencies = [
+	"accelerate", 
+	"networkx>=3.5",
+	"pygraphviz>=1.14; sys_platform != 'win32'",
+	"torch>=2.7.1",
+	"transformers",
+]
 name = "slopspotter"
 version = "0.1.0"
-dependencies = [
-    "accelerate",
-    "networkx>=3.5",
-    "torch>=2.7.1",
-    "transformers",
-]
 requires-python = ">3.11"
 authors = [
 	{ name = "Victor Mercola", email = "vmercola@bu.edu" },
@@ -22,14 +23,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [dependency-groups]
-dev = [
-	"ipympl",
-	"ipython",
-	"jupyter",
-	"matplotlib",
-	"pytest",
-	"qtpy",
-]
+dev = ["ipympl", "ipython", "jupyter", "matplotlib", "pytest", "qtpy"]
 
 [project.scripts]
 slopspotter = "slopspotter.__main__:main"
@@ -39,7 +33,7 @@ Repository = "https://github.com/hzbu820/EC521-Final-Project"
 
 [tool.uv.sources]
 torch = [
-  { index = "pytorch-cu118", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+	{ index = "pytorch-cu118", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
 ]
 
 [[tool.uv.index]]
@@ -52,4 +46,3 @@ select = ["E", "F", "UP", "B", "SIM", "I", "D"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-
