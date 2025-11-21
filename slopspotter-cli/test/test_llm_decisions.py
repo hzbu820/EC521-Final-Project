@@ -22,6 +22,7 @@ from slopspotter.llm_decisions import (
     balanced_tree_order,
     packages_from_token_decision_tree,
     predict_hallucinated_packages,
+    token_by_token_probability,
     token_decision_tree,
     topk_token_probabilities,
 )
@@ -151,6 +152,23 @@ class TestLLMDecisions(unittest.TestCase):
                 decision_tree, f"hallucinated_packages_{language}_{package}"
             )
             print(packages_from_token_decision_tree(decision_tree))
+
+    def test_token_by_token_probability(self):
+        """Test that token-by-token probability matches with other functions."""
+        input_text = "The quick brown fox jumps"
+        output_text = " over the lazy dog"
+
+        token_probabilities = token_by_token_probability(
+            self.model, self.tokenizer, input_text, output_text
+        )
+        generated_token_id, transition_score = next_token_probability(
+            self.model,
+            self.tokenizer,
+            "The quick brown fox jumps over the lazy",
+        )
+        self.assertAlmostEqual(
+            np.exp(transition_score), token_probabilities[-1].item(), 4
+        )
 
 
 if __name__ == "__main__":
