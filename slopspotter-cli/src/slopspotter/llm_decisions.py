@@ -15,7 +15,7 @@ BACKTICK_REGEX = re.compile("(.*)`(.*)`")
 disable_progress_bar()
 
 
-def get_package(llm_node_text: str):
+def package_from_node_text(llm_node_text: str):
     """Get the package from a decision tree node's text."""
     match = BACKTICK_REGEX.match(llm_node_text)
     if match is not None:
@@ -228,7 +228,7 @@ def predict_hallucinated_packages(
     )
 
 
-def get_packages_from_token_decision_tree(decision_tree: nx.DiGraph) -> set:
+def packages_from_token_decision_tree(decision_tree: nx.DiGraph) -> set:
     """Obtain the set of hallucinated package names from an LLM's token decision tree.
 
     Args:
@@ -244,7 +244,7 @@ def get_packages_from_token_decision_tree(decision_tree: nx.DiGraph) -> set:
         node_text = input_text + "".join(
             [decision_tree.nodes[n]["token"] for n in traversal[1:]]
         )
-        package_names.add(get_package(node_text))
+        package_names.add(package_from_node_text(node_text))
     return package_names
 
 

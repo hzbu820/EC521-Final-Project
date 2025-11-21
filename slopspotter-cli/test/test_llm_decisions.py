@@ -19,7 +19,7 @@ from slopspotter.drawing import (
 )
 from slopspotter.llm_decisions import (
     balanced_tree_order,
-    get_packages_from_token_decision_tree,
+    packages_from_token_decision_tree,
     predict_hallucinated_packages,
     token_decision_tree,
     topk_token_probabilities,
@@ -118,7 +118,7 @@ class TestLLMDecisions(unittest.TestCase):
             save_decision_tree_plots(
                 decision_tree, f"hallucinated_packages_{language}_{package}"
             )
-            print(get_packages_from_token_decision_tree(decision_tree))
+            print(packages_from_token_decision_tree(decision_tree))
 
 
 if __name__ == "__main__":
