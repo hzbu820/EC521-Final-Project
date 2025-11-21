@@ -17,6 +17,7 @@ disable_progress_bar()
 
 
 def get_package(llm_node_text: str):
+    """Get the package from a decision tree node's text."""
     match = BACKTICK_REGEX.match(llm_node_text)
     if match is not None:
         return match.groups(0)[1]
@@ -167,11 +168,13 @@ def token_decision_tree(
             # Skip over nodes that don't exist from pruning
             continue
 
-        if any([s in decision_tree.nodes[node_id]["token"] for s in stop_strings]):
+        current_depth = decision_tree.nodes[node_id]["depth"]
+
+        if current_depth != 0 and any(
+            [s in decision_tree.nodes[node_id]["token"] for s in stop_strings]
+        ):
             # Don't propagate nodes that match a stop string
             continue
-
-        current_depth = decision_tree.nodes[node_id]["depth"]
 
         node_input_text = input_text
         if current_depth != 0:
@@ -230,8 +233,8 @@ def draw_decision_tree(
 
 
 def predict_hallucinated_packages(
-    model,
-    tokenizer,
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
     language: str | None,
     package: str | None,
     k: int = 3,
@@ -249,12 +252,13 @@ def predict_hallucinated_packages(
     """
     if not max_depth >= 1:
         raise ValueError("max depth must be an integer greater than 1")
-    if language is None:
-        language = ""
 
-    first_token_id = tokenizer.encode(package)[0]
-    first_token = tokenizer.decode(first_token_id)
-    input_text = f"Here is the name of a {language.title()} package: `{first_token}"
+    # language & package default values
+    language = language.title() if language else "programming language"
+    first_token = tokenizer.tokenize(package)[0] if package else ""
+
+    # initialize input text
+    input_text = f"Here is the name of a {language} package: `{first_token}"
 
     return token_decision_tree(
         model,

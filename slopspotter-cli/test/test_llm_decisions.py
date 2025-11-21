@@ -1,5 +1,6 @@
 """Test suite for LLM decision tree generation."""
 
+import os
 import unittest
 from itertools import product
 
@@ -20,6 +21,19 @@ from slopspotter.llm_decisions import (
     token_decision_tree,
     topk_token_probabilities,
 )
+
+
+def save_decision_tree_plots(decision_tree: nx.DiGraph, prefix: str):
+    """Save decision tree plots as images for the given decision tree.
+
+    Args:
+        decision_tree: LLM token decision tree
+        prefix: name prefix for the images
+    """
+    for label_type in ["token", "token_id"]:
+        plt.figure()
+        draw_decision_tree(decision_tree, label_type=label_type)
+        plt.savefig(os.path.join("test", f"{prefix}_{label_type}.png"))
 
 
 class TestLLMDecisions(unittest.TestCase):
@@ -62,10 +76,7 @@ class TestLLMDecisions(unittest.TestCase):
             max_depth=3,
             stop_strings=("\n"),
         )
-        for label_type in ["token", "token_id"]:
-            plt.figure()
-            draw_decision_tree(decision_tree, label_type=label_type)
-            plt.savefig(f"test/decision_tree_{label_type}.png")
+        save_decision_tree_plots(decision_tree, "decision_tree")
 
     def test_balanced_tree_order(self):
         """Test calculating the order of a balanced tree."""
@@ -76,15 +87,28 @@ class TestLLMDecisions(unittest.TestCase):
 
     def test_predict_hallucinated_packages(self):
         """Test predicting hallucinated packages."""
-        decision_tree = predict_hallucinated_packages(
-            self.model,
-            self.tokenizer,
-            "python",
-            "ramanspy",
-            k=3,
-            max_depth=4,
+        languages = (None, "Python", "JavaScript", "Go")
+        packages = (
+            None,
+            "beautifulsoup4",
+            "webpack-dev-server",
+            "gocui",
         )
-        print(get_packages_from_token_decision_tree(decision_tree))
+
+        for language, package in product(languages, packages):
+            with self.subTest(language=language, package=package):
+                decision_tree = predict_hallucinated_packages(
+                    self.model,
+                    self.tokenizer,
+                    language,
+                    package,
+                    k=3,
+                    max_depth=5,
+                )
+            save_decision_tree_plots(
+                decision_tree, f"hallucinated_packages_{language}_{package}"
+            )
+            print(get_packages_from_token_decision_tree(decision_tree))
 
 
 if __name__ == "__main__":
