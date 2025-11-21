@@ -21,6 +21,14 @@ def prettify_token(token: str) -> str:
     return modified_token
 
 
+def format_probability(probability: float) -> str:
+    """Format the probability for printing / drawing."""
+    if probability > 1e-4:
+        return format(probability * 100, ".2f") + "%"
+    else:
+        return format(probability * 100, ".2e") + "%"
+
+
 def draw_decision_tree_dot(
     decision_tree: nx.DiGraph,
     png_path: str,
@@ -55,7 +63,7 @@ def draw_decision_tree_dot(
             raise ValueError(msg)
     for edge in plotting_decision_tree.edges:
         probability = plotting_decision_tree.edges[edge]["probability"]
-        plotting_decision_tree.edges[edge]["label"] = format(probability, ".2e")
+        plotting_decision_tree.edges[edge]["label"] = format_probability(probability)
 
     dot_graph = nx.nx_agraph.to_agraph(plotting_decision_tree)
     dot_graph.draw(path=png_path, prog="dot")
@@ -85,7 +93,7 @@ def draw_decision_tree_plt(
         raise ValueError(msg)
 
     edge_labels = {
-        edge_id: format(decision_tree.edges[edge_id]["probability"], ".2e")
+        edge_id: format_probability(decision_tree.edges[edge_id]["probability"])
         for edge_id in decision_tree.edges
     }
     layout = nx.multipartite_layout(decision_tree, subset_key="depth")
