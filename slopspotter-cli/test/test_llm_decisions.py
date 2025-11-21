@@ -5,11 +5,17 @@ from itertools import product
 
 import matplotlib.pyplot as plt
 import networkx as nx
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    PreTrainedModel,
+    PreTrainedTokenizer,
+)
 
 from slopspotter.llm_decisions import (
     balanced_tree_order,
     draw_decision_tree,
+    get_packages_from_token_decision_tree,
     predict_hallucinated_packages,
     token_decision_tree,
     topk_token_probabilities,
@@ -19,8 +25,8 @@ from slopspotter.llm_decisions import (
 class TestLLMDecisions(unittest.TestCase):
     """Test suite for calculating LLM token probabilities."""
 
-    model: AutoModelForCausalLM
-    tokenizer: AutoTokenizer
+    model: PreTrainedModel
+    tokenizer: PreTrainedTokenizer
 
     @classmethod
     def setUpClass(cls):
@@ -78,16 +84,7 @@ class TestLLMDecisions(unittest.TestCase):
             k=3,
             max_depth=4,
         )
-        input_text = decision_tree.nodes[0]["input_text"]
-
-        for node_id in decision_tree.nodes:
-            node_input_text = input_text
-            if len(list(decision_tree.successors(node_id))) == 0:
-                traversal = nx.shortest_path(decision_tree, 0, node_id)
-                node_input_text += self.tokenizer.decode(
-                    [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
-                )
-                print(node_input_text)
+        print(get_packages_from_token_decision_tree(decision_tree))
 
 
 if __name__ == "__main__":

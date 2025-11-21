@@ -1,13 +1,27 @@
 """Tools for testing LLM decision trees."""
 
+import re
 from typing import Literal
 
 import networkx as nx
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import (
+    PreTrainedModel,
+    PreTrainedTokenizer,
+)
 from transformers.utils.logging import disable_progress_bar
 
+BACKTICK_REGEX = re.compile("(.*)`(.*)`")
+
 disable_progress_bar()
+
+
+def get_package(llm_node_text: str):
+    match = BACKTICK_REGEX.match(llm_node_text)
+    if match is not None:
+        return match.groups(0)[1]
+    else:
+        return None
 
 
 def reset_control_codes(token: str) -> str:
@@ -43,11 +57,11 @@ def prettify_token(token: str) -> str:
 
 
 def topk_token_probabilities(
-    model: AutoModelForCausalLM,
-    tokenizer: AutoTokenizer,
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
     input_text: str,
     k: int = 10,
-) -> tuple[torch.tensor, torch.tensor]:
+) -> tuple[torch.Tensor, torch.Tensor]:
     r"""Get the K most probable tokens & probabilities the model would select.
 
     See also `torch.topk`.
@@ -103,8 +117,8 @@ def balanced_tree_order(r: int, h: int) -> int:
 
 
 def token_decision_tree(
-    model: AutoModelForCausalLM,
-    tokenizer: AutoTokenizer,
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
     input_text: str,
     k: int = 3,
     max_depth: int = 2,
@@ -132,7 +146,7 @@ def token_decision_tree(
     if not max_depth > 0:
         raise ValueError("max depth must be an integer greater than 0")
     if stop_strings is None:
-        stop_strings = []
+        stop_strings = tuple()
 
     decision_tree = nx.DiGraph()
 
@@ -153,9 +167,8 @@ def token_decision_tree(
             # Skip over nodes that don't exist from pruning
             continue
 
-        if any(
-            [sstr in decision_tree.nodes[node_id]["token"] for sstr in stop_strings]
-        ):
+        if any([s in decision_tree.nodes[node_id]["token"] for s in stop_strings]):
+            # Don't propagate nodes that match a stop string
             continue
 
         current_depth = decision_tree.nodes[node_id]["depth"]
@@ -253,7 +266,27 @@ def predict_hallucinated_packages(
     )
 
 
-def package_in_vocabulary(tokenizer: AutoTokenizer, package: str) -> bool:
+def get_packages_from_token_decision_tree(decision_tree: nx.DiGraph) -> set:
+    """Obtain the set of hallucinated package names from an LLM's token decision tree.
+
+    Args:
+        decision_tree: LLM top-k token decision tree
+    """
+    input_text = decision_tree.nodes[0]["input_text"]
+    package_names = set()
+    for node_id in decision_tree.nodes:
+        if len(list(decision_tree.successors(node_id))) > 0:
+            continue
+
+        traversal = nx.shortest_path(decision_tree, 0, node_id)
+        node_text = input_text + "".join(
+            [decision_tree.nodes[n]["token"] for n in traversal[1:]]
+        )
+        package_names.add(get_package(node_text))
+    return package_names
+
+
+def package_in_vocabulary(tokenizer: PreTrainedTokenizer, package: str) -> bool:
     """Determine whether the package's name is already in the tokenizer.
 
     We can assume that short and/or common package names like `numpy` are more
