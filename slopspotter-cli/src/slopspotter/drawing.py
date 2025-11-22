@@ -54,6 +54,8 @@ def draw_decision_tree_dot(
             "\\", "\\\\"
         )
         token_id = plotting_decision_tree.nodes[node_id]["token_id"]
+        expected = plotting_decision_tree.nodes[node_id]["expected"]
+
         if label_type == "token_id":
             plotting_decision_tree.nodes[node_id]["label"] = token_id
         elif label_type == "token":
@@ -61,9 +63,18 @@ def draw_decision_tree_dot(
         else:
             msg = f"Invalid label type: {label_type}"
             raise ValueError(msg)
+
+        plotting_decision_tree.nodes[node_id]["fontcolor"] = (
+            "red" if expected else "black"
+        )
+        plotting_decision_tree.nodes[node_id]["color"] = "red" if expected else "black"
+
     for edge in plotting_decision_tree.edges:
         probability = plotting_decision_tree.edges[edge]["probability"]
+        expected = plotting_decision_tree.edges[edge]["expected"]
         plotting_decision_tree.edges[edge]["label"] = format_probability(probability)
+        plotting_decision_tree.edges[edge]["color"] = "red" if expected else "black"
+        plotting_decision_tree.edges[edge]["fontcolor"] = "red" if expected else "black"
 
     dot_graph = nx.nx_agraph.to_agraph(plotting_decision_tree)
     dot_graph.draw(path=png_path, prog="dot")
