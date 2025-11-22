@@ -19,6 +19,7 @@ from slopspotter.drawing import (
     draw_decision_tree_plt,
 )
 from slopspotter.llm_decisions import (
+    add_expected_output_tokens,
     balanced_tree_order,
     packages_from_token_decision_tree,
     predict_hallucinated_packages,
@@ -137,7 +138,6 @@ class TestLLMDecisions(unittest.TestCase):
             "webpack-dev-server",
             "gocui",
         )
-
         for language, package in product(languages, packages):
             with self.subTest(language=language, package=package):
                 # Go packages are specified by git repos
@@ -162,7 +162,7 @@ class TestLLMDecisions(unittest.TestCase):
     def test_token_by_token_probability(self):
         """Test that token-by-token probability matches with other functions."""
         input_text = "The quick brown fox jumps"
-        output_text = " over the lazy dog"
+        output_text = self.tokenizer.tokenize(" over the lazy dog")
 
         token_probabilities = token_by_token_probability(
             self.model, self.tokenizer, input_text, output_text
@@ -175,6 +175,39 @@ class TestLLMDecisions(unittest.TestCase):
         self.assertAlmostEqual(
             np.exp(transition_score), token_probabilities[-1].item(), 4
         )
+
+    def test_add_expected_output_tokens(self):
+        """Test adding expected output tokens."""
+        input_text = "The quick brown fox jumps over the lazy"
+        output_text = " lorem ipsum dolor sit amet"
+        output_tokens = self.tokenizer.tokenize(output_text)
+        output_token_ids = self.tokenizer.convert_tokens_to_ids(output_tokens)
+
+        decision_tree = token_decision_tree(
+            self.model,
+            self.tokenizer,
+            input_text,
+            k=3,
+            max_depth=5,
+            stop_strings=(".", "\n"),
+        )
+
+        for node_id in decision_tree.nodes:
+            self.assertNotIn(decision_tree.nodes[node_id]["token_id"], output_token_ids)
+
+        decision_tree = add_expected_output_tokens(
+            self.model, self.tokenizer, decision_tree, input_text, output_tokens
+        )
+
+        save_decision_tree_plots(decision_tree, "add_expected_output_before")
+
+        dt_token_ids = [
+            decision_tree.nodes[node_id]["token_id"] for node_id in decision_tree.nodes
+        ]
+        for output_token_id in output_token_ids:
+            self.assertIn(output_token_id, dt_token_ids)
+
+        save_decision_tree_plots(decision_tree, "add_expected_output_after")
 
 
 if __name__ == "__main__":
