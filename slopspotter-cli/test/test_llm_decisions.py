@@ -195,11 +195,11 @@ class TestLLMDecisions(unittest.TestCase):
         for node_id in decision_tree.nodes:
             self.assertNotIn(decision_tree.nodes[node_id]["token_id"], output_token_ids)
 
+        save_decision_tree_plots(decision_tree, "add_expected_output_before")
+
         decision_tree = add_expected_output_tokens(
             self.model, self.tokenizer, decision_tree, input_text, output_tokens
         )
-
-        save_decision_tree_plots(decision_tree, "add_expected_output_before")
 
         dt_token_ids = [
             decision_tree.nodes[node_id]["token_id"] for node_id in decision_tree.nodes
