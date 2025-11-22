@@ -1,6 +1,6 @@
 [project]
 dependencies = [
-	"accelerate", 
+	"accelerate",
 	"networkx>=3.5",
 	"pygraphviz>=1.14; sys_platform != 'win32'",
 	"torch>=2.7.1",
