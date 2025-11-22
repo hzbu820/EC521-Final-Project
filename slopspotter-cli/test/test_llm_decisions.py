@@ -140,11 +140,17 @@ class TestLLMDecisions(unittest.TestCase):
 
         for language, package in product(languages, packages):
             with self.subTest(language=language, package=package):
+                # Go packages are specified by git repos
+                if package == "gocui":
+                    package_name = "github.com/jroimartin/gocui"
+                else:
+                    package_name = package
+
                 decision_tree = predict_hallucinated_packages(
                     self.model,
                     self.tokenizer,
                     language,
-                    package,
+                    package_name,
                     k=3,
                     max_depth=5,
                 )
