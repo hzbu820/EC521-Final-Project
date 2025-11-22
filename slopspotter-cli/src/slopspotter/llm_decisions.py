@@ -255,6 +255,7 @@ def predict_hallucinated_packages(
     package: str | None,
     k: int = 3,
     max_depth: int = 5,
+    add_expected_tokens: bool = False,
 ) -> nx.DiGraph:
     """Predict alternative hallucinated packages using the given model and tokenizer.
 
@@ -265,9 +266,13 @@ def predict_hallucinated_packages(
         package: the name of a package in that programming language
         k: the k in "top-k"
         max_depth: decision tree depth
+        add_expected_tokens: whether to add the package name to the decision tree
+
+    Raises:
+        ValueError: if `max_depth` is not an integer greater than 0
     """
     if not max_depth >= 1:
-        raise ValueError("max depth must be an integer greater than 1")
+        raise ValueError("max depth must be an integer greater than 0")
 
     # language & package default values
     language = language.title() if language else "programming language"
@@ -285,15 +290,15 @@ def predict_hallucinated_packages(
         stop_strings=("`", "\t", "\n", "\v", "\f", "\r"),
     )
 
-    if len(package_tokens) <= 1:
+    if (not add_expected_tokens) or len(package_tokens) <= 1:
         return decision_tree
 
-    return add_expected_output(
+    return add_expected_output_tokens(
         model, tokenizer, decision_tree, input_text, package_tokens
     )
 
 
-def add_expected_output(
+def add_expected_output_tokens(
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
     decision_tree: nx.DiGraph,
