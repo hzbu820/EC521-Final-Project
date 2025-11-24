@@ -1,4 +1,5 @@
 #!/usr/bin/env -S python3 -u
+"""Main entry point for `slopspotter`."""
 
 import argparse
 import json
@@ -48,14 +49,15 @@ def encode_message(message_content):
     return {"length": encoded_length, "content": encoded_content}
 
 
-# Send an encoded message to stdout
 def send_message(encoded_message):
+    """Send an encoded message to stdout."""
     sys.stdout.buffer.write(encoded_message["length"])
     sys.stdout.buffer.write(encoded_message["content"])
     sys.stdout.buffer.flush()
 
 
 def loop() -> int:
+    """Main background function."""
     send_message(encode_message("test"))
     while True:
         received_message = get_message()
@@ -66,6 +68,7 @@ def loop() -> int:
 
 
 def main() -> int:
+    """Main entry point for `slopspotter`."""
     logging.debug("starting __main__.main()")
     parser = argparse.ArgumentParser(
         prog="slopspotter",

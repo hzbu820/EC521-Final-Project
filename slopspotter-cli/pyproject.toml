@@ -1,7 +1,13 @@
 [project]
+dependencies = [
+	"accelerate",
+	"networkx>=3.5",
+	"pygraphviz>=1.14; sys_platform != 'win32'",
+	"torch>=2.7.1",
+	"transformers",
+]
 name = "slopspotter"
 version = "0.1.0"
-dependencies = []
 requires-python = ">3.11"
 authors = [
 	{ name = "Victor Mercola", email = "vmercola@bu.edu" },
@@ -16,12 +22,27 @@ readme = "README.md"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[dependency-groups]
+dev = ["ipympl", "ipython", "jupyter", "matplotlib", "pytest", "qtpy"]
+
 [project.scripts]
 slopspotter = "slopspotter.__main__:main"
 
 [project.urls]
 Repository = "https://github.com/hzbu820/EC521-Final-Project"
 
-[tool.ruff.lint]
+[tool.uv.sources]
+torch = [
+	{ index = "pytorch-cu118", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
 
-select = ["E", "F", "UP", "B", "SIM", "I"]
+[[tool.uv.index]]
+name = "pytorch-cu118"
+url = "https://download.pytorch.org/whl/cu118"
+explicit = true
+
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
