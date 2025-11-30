@@ -8,6 +8,7 @@ import os
 import struct
 import sys
 from importlib.metadata import metadata
+from typing import Any, Literal
 
 from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
@@ -24,14 +25,41 @@ logging.basicConfig(
 )
 
 
-def get_message():
-    """Read a message from stdin and decode it."""
+def get_message() -> dict[Literal["snippetId", "packages"], Any]:
+    """Read a native message from STDIN and return it as a dictionary.
+
+    On the application side, native messages are serialized using UTF-8 encoded
+    JSON and are preceded with an unsigned 32-bit value containing the message
+    length in native byte order.
+
+    Returns:
+        message_dict: JSON message as a Python dictionary
+    """
+    # Get 32-bit unsigned integer containing message length
     raw_length = sys.stdin.buffer.read(4)
-    if len(raw_length) == 0:
-        return ""
     message_length = struct.unpack("@I", raw_length)[0]
-    message = sys.stdin.buffer.read(message_length).decode("utf-8")
-    return json.loads(message)
+    logging.debug("Message length: %d", message_length)
+    if len(raw_length) == 0:
+        return {}
+
+    # Get the actual message, return as dict
+    message_str = sys.stdin.buffer.read(message_length).decode("utf-8")
+    logging.debug("Received message: %s", message_str)
+    return json.loads(message_str)
+
+
+def placeholder_package_results(name, language):
+    """Create placeholder package result dict for the given package in language."""
+    return {
+        "name": name,
+        "language": language,
+        "result": {
+            "riskLevel": "low",
+            "score": 0.12,
+            "summary": "Lorem ipsum dolor sit amet",
+            "metadataUrl": "https://www.example.com",
+        },
+    }
 
 
 def encode_message(message_content):
@@ -54,17 +82,6 @@ def send_message(encoded_message):
     sys.stdout.buffer.write(encoded_message["length"])
     sys.stdout.buffer.write(encoded_message["content"])
     sys.stdout.buffer.flush()
-
-
-def loop() -> int:
-    """Main background function."""
-    send_message(encode_message("test"))
-    while True:
-        received_message = get_message()
-        if received_message == "ping":
-            logging.debug("received ping, sending pong")
-            send_message(encode_message("pong"))
-    return 0
 
 
 def main() -> int:
@@ -99,6 +116,7 @@ def main() -> int:
         help="Print the current version and exit.",
     )
     args = parser.parse_args(sys.argv[1:])
+    logging.debug("Received args: " + str(vars(args)))
 
     if args.version:
         print(SLOPSPOTTER_VERSION)
@@ -117,8 +135,26 @@ def main() -> int:
         )
         return 1
 
-    logging.debug("starting loop")
-    return loop()
+    # Actual call-and-response
+    message_dict = get_message()
+    logging.debug("Snippet ID: %s", message_dict["snippetId"])
+    logging.debug(
+        "Packages: %s",
+        [package_dict["name"] for package_dict in message_dict["packages"]],
+    )
+    response_dict = {
+        "snippetId": message_dict["snippetId"],
+        "packages": [
+            placeholder_package_results(package_dict["name"], package_dict["language"])
+            for package_dict in message_dict["packages"]
+        ],
+    }
+    logging.debug("A")
+    logging.debug("Response: %s", response_dict)
+    encoded_message = encode_message(json.dumps(response_dict))
+    send_message(encoded_message)
+    logging.debug("__main__.main() complete")
+    return 0
 
 
 if __name__ == "__main__":
