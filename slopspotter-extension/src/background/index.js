@@ -86,6 +86,75 @@ const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
 
 const NAME_TOKENS = ["installer", "updater", "crypto", "mining", "hack", "typo"];
 
+const STD_LIBS = {
+  python: new Set([
+    "abc",
+    "argparse",
+    "array",
+    "asyncio",
+    "base64",
+    "collections",
+    "concurrent",
+    "contextlib",
+    "copy",
+    "csv",
+    "datetime",
+    "enum",
+    "functools",
+    "getopt",
+    "getpass",
+    "glob",
+    "gzip",
+    "hashlib",
+    "heapq",
+    "html",
+    "http",
+    "importlib",
+    "io",
+    "ipaddress",
+    "itertools",
+    "json",
+    "logging",
+    "math",
+    "multiprocessing",
+    "os",
+    "pathlib",
+    "pickle",
+    "platform",
+    "plistlib",
+    "pprint",
+    "queue",
+    "random",
+    "re",
+    "selectors",
+    "shlex",
+    "signal",
+    "socket",
+    "sqlite3",
+    "ssl",
+    "statistics",
+    "string",
+    "struct",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "textwrap",
+    "threading",
+    "time",
+    "tkinter",
+    "traceback",
+    "typing",
+    "unittest",
+    "urllib",
+    "uuid",
+    "venv",
+    "warnings",
+    "weakref",
+    "xml",
+    "zipfile",
+  ]),
+};
+
 const computeNameRisk = (normalizedName) => {
   let risk = 0;
   if (NAME_TOKENS.some((token) => normalizedName.includes(token))) {
@@ -279,6 +348,16 @@ const daysSince = (date) => {
 
 const buildHeuristicRisk = async (pkg) => {
   const normalizedName = pkg.name.toLowerCase();
+
+  if (STD_LIBS[pkg.language]?.has(normalizedName)) {
+    return {
+      riskLevel: "low",
+      score: 0.05,
+      summary: "Standard library module; not a third-party package.",
+      metadataUrl: registryUrlFor(pkg),
+    };
+  }
+
   const signals = await getSignalsForPackage(pkg);
 
   if (!signals.exists) {
