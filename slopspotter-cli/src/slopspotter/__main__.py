@@ -2,16 +2,14 @@
 """Main entry point for `slopspotter`."""
 
 import argparse
-import json
 import logging
 import os
-import struct
 import sys
 from importlib.metadata import metadata
-from typing import Any, Literal
 
 from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
+from slopspotter.messaging import NativeMessage
 
 logger = logging.getLogger(__name__)
 
@@ -23,65 +21,6 @@ logging.basicConfig(
     encoding="utf-8",
     format="%(asctime)s - PID %(process)d [%(levelname)s]: %(message)s",
 )
-
-
-def get_message() -> dict[Literal["snippetId", "packages"], Any]:
-    """Read a native message from STDIN and return it as a dictionary.
-
-    On the application side, native messages are serialized using UTF-8 encoded
-    JSON and are preceded with an unsigned 32-bit value containing the message
-    length in native byte order.
-
-    Returns:
-        message_dict: JSON message as a Python dictionary
-    """
-    # Get 32-bit unsigned integer containing message length
-    raw_length = sys.stdin.buffer.read(4)
-    message_length = struct.unpack("@I", raw_length)[0]
-    logging.debug("Message length: %d", message_length)
-    if len(raw_length) == 0:
-        return {}
-
-    # Get the actual message, return as dict
-    message_str = sys.stdin.buffer.read(message_length).decode("utf-8")
-    logging.debug("Received message: %s", message_str)
-    return json.loads(message_str)
-
-
-def placeholder_package_results(name, language):
-    """Create placeholder package result dict for the given package in language."""
-    return {
-        "name": name,
-        "language": language,
-        "result": {
-            "riskLevel": "low",
-            "score": 0.12,
-            "summary": "Lorem ipsum dolor sit amet",
-            "metadataUrl": "https://www.example.com",
-        },
-    }
-
-
-def encode_message(message_content):
-    """Encode a message for transmission, given its content.
-
-    https://docs.python.org/3/library/json.html#basic-usage
-
-    To get the most compact JSON representation, you should specify (',', ':')
-    to eliminate whitespace. We want the most compact representation because
-    the browser rejects # messages that exceed 1 MB.
-    """
-    logging.debug("encoding message")
-    encoded_content = json.dumps(message_content, separators=(",", ":")).encode("utf-8")
-    encoded_length = struct.pack("@I", len(encoded_content))
-    return {"length": encoded_length, "content": encoded_content}
-
-
-def send_message(encoded_message):
-    """Send an encoded message to stdout."""
-    sys.stdout.buffer.write(encoded_message["length"])
-    sys.stdout.buffer.write(encoded_message["content"])
-    sys.stdout.buffer.flush()
 
 
 def main() -> int:
@@ -135,25 +74,13 @@ def main() -> int:
         )
         return 1
 
-    # Actual call-and-response
-    message_dict = get_message()
-    logging.debug("Snippet ID: %s", message_dict["snippetId"])
-    logging.debug(
-        "Packages: %s",
-        [package_dict["name"] for package_dict in message_dict["packages"]],
-    )
-    response_dict = {
-        "snippetId": message_dict["snippetId"],
-        "packages": [
-            placeholder_package_results(package_dict["name"], package_dict["language"])
-            for package_dict in message_dict["packages"]
-        ],
-    }
-    logging.debug("A")
-    logging.debug("Response: %s", response_dict)
-    encoded_message = encode_message(json.dumps(response_dict))
-    send_message(encoded_message)
-    logging.debug("__main__.main() complete")
+    message = NativeMessage.from_stdin()
+    if message.content == "ping":
+        logging.debug("Received ping. Sending pong...")
+        response = NativeMessage.from_content("pong")
+        logging.debug("%s", str(response))
+        response.to_stdout()
+
     return 0
 
 
