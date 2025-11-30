@@ -81,6 +81,7 @@ def main() -> int:
         logging.debug("%s", str(response))
         response.to_stdout()
 
+    logging.debug("__main__.main() complete, exiting.")
     return 0
 
 
