@@ -105,7 +105,7 @@ def main() -> int:
         return 0
 
     if args.install_manifests:
-        manifests.install_unixlike_manifests(args.install_manifests)
+        manifests.install_manifests(args.install_manifests)
         return 0
 
     if args.manifest_path == "" or args.browser_settings == "":
