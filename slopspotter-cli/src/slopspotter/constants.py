@@ -82,3 +82,6 @@ HF_INSTRUCT_MODELS = [
     "Microsoft/Phi-4-mini-instruct",
 ]
 """HuggingFace Instruct LLM model repositories for decision tree analysis."""
+
+FrontendQuestion = dict[Literal["snippetId", "packages"], Any]
+BackendResponse = dict[Literal["snippetId", "packages", "warning"], Any]

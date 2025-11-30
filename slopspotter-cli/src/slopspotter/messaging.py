@@ -8,7 +8,7 @@ from typing import Any, NamedTuple
 
 
 class NativeMessage(NamedTuple):
-    """An message to be sent via native messaging."""
+    """A message to be sent via native messaging."""
 
     raw_length: bytes
     """The length of the native message, represented as bytes for transmission."""
@@ -56,6 +56,7 @@ class NativeMessage(NamedTuple):
 
     def to_stdout(self):
         """Send the encoded message to STDOUT."""
+        logging.debug("Sending message on STDOUT: %s", str(self))
         sys.stdout.buffer.write(self.raw_length)
         sys.stdout.buffer.write(self.raw_content)
         sys.stdout.buffer.flush()
