@@ -14,10 +14,9 @@ const STYLE_CONTENT = `
 .slopspotter-chip {
   position: relative;
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 8px 12px 10px 10px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 10px;
   border-radius: 9999px;
   color: #0f172a;
   background: linear-gradient(135deg, rgba(148, 163, 184, 0.18), rgba(148, 163, 184, 0.08));
@@ -59,21 +58,6 @@ const STYLE_CONTENT = `
 .slopspotter-chip__label {
   font-weight: 600;
   color: inherit;
-}
-
-.slopspotter-chip__tags-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.slopspotter-chip__tag-inline {
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 8px;
-  background: rgba(148, 163, 184, 0.2);
-  color: #0f172a;
-  border: 1px solid rgba(148, 163, 184, 0.35);
 }
 
 .slopspotter-chip__tooltip {
@@ -309,19 +293,6 @@ const createChip = (pkg) => {
   label.textContent = pkg.name;
 
   chip.append(dot, label);
-
-  const inlineTags = buildTags(pkg).slice(0, 2);
-  if (inlineTags.length) {
-    const tagRow = document.createElement('div');
-    tagRow.className = 'slopspotter-chip__tags-inline';
-    inlineTags.forEach((tag) => {
-      const t = document.createElement('span');
-      t.className = 'slopspotter-chip__tag-inline';
-      t.textContent = tag;
-      tagRow.appendChild(t);
-    });
-    chip.appendChild(tagRow);
-  }
   const tooltip = createTooltip(pkg);
   tooltip.addEventListener('click', (event) => event.stopPropagation());
   chip.appendChild(tooltip);

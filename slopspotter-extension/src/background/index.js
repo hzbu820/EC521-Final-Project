@@ -213,6 +213,9 @@ const extractPypiSignals = async (pkg) => {
     latestFiles.length > 0 &&
     latestFiles.every((file) => file?.packagetype === "bdist_wheel");
 
+  const projectUrls = data.info?.project_urls || {};
+  const hasAnyProjectUrl = Object.values(projectUrls).some((v) => typeof v === "string" && v.trim().length > 0);
+
   return {
     exists: true,
     firstRelease,
@@ -220,10 +223,16 @@ const extractPypiSignals = async (pkg) => {
     releaseCount: Object.keys(releases).length,
     hasOnlyWheels: hasOnlyWheels && !hasSdist,
     hasRepo:
-      Boolean(data.info?.project_urls?.Source) ||
       Boolean(data.info?.home_page) ||
-      Boolean(data.info?.project_urls?.Homepage),
-    hasLicense: Boolean(data.info?.license),
+      Boolean(projectUrls?.Source) ||
+      Boolean(projectUrls?.Homepage) ||
+      hasAnyProjectUrl,
+    hasLicense: Boolean(
+      data.info?.license &&
+        typeof data.info.license === "string" &&
+        data.info.license.trim().length > 3 &&
+        !data.info.license.toLowerCase().includes("unknown"),
+    ),
   };
 };
 
@@ -420,7 +429,7 @@ const buildHeuristicRisk = async (pkg) => {
     0.4 * maintainerRisk +
     0.6 * installRisk -
     0.3 * (signals.hasRepo ? 1 : 0) -
-    0.2 * (signals.hasLicense ? 1 : 0);
+    0.1 * (signals.hasLicense ? 1 : 0);
 
   const score = clamp(rawScore / 3); // keep the combined score in [0,1]
   const riskLevel = scoreToLevel(score);
@@ -433,7 +442,7 @@ const buildHeuristicRisk = async (pkg) => {
     if (popularityRisk >= 0.6) summaryParts.push("Low adoption or few releases.");
     if (freshnessRisk >= 0.6) summaryParts.push("Very new or recently changed.");
     if (installRisk >= 0.6) summaryParts.push("Install hooks or binary-only artifacts.");
-    if (!signals.hasRepo || !signals.hasLicense) {
+    if (!signals.hasRepo && !signals.hasLicense) {
       summaryParts.push("Missing repo/homepage/license metadata.");
     }
   }
