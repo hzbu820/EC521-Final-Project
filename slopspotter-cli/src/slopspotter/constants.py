@@ -1,4 +1,4 @@
-"""Constants for the slopspotter package."""
+"""Constants & type annotations for the slopspotter package."""
 
 import os
 import shutil
@@ -14,14 +14,15 @@ SUPPORTED_BROWSERS = [
     "firefox",
 ]
 
+SupportedBrowser = Literal["firefox"]
+
 SUPPORTED_PLATFORMS = [
     "darwin",
     "linux",
     "win32",
 ]
 
-SupportedBrowser = Literal[*SUPPORTED_BROWSERS]
-SupportedPlatform = Literal[*SUPPORTED_PLATFORMS]
+SupportedPlatform = Literal["darwin", "linux", "win32"]
 
 EXECUTABLE_PATH = shutil.which("slopspotter")
 
