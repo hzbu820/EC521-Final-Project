@@ -54,34 +54,34 @@ def placeholder_response(fq: FrontendQuestion) -> BackendResponse:
 #     return 0
 
 
-# def handle_check_packages(payload: dict) -> dict:
-#     """Build a structured response for check-packages command.
+def handle_check_packages(payload: dict) -> dict:
+    """Build a structured response for check-packages command.
 
-#     Placeholder scorer: returns "unknown" risk so the pipeline remains wired.
-#     Replace this with a real classifier to override the frontend heuristic.
-#     """
-#     snippet_id = payload.get("snippetId", "")
-#     packages = payload.get("packages", []) or []
+    Placeholder scorer: returns "unknown" risk so the pipeline remains wired.
+    Replace this with a real classifier to override the frontend heuristic.
+    """
+    snippet_id = payload.get("snippetId", "")
+    packages = payload.get("packages", []) or []
 
-#     formatted = []
-#     for pkg in packages:
-#         name = pkg.get("name", "")
-#         language = pkg.get("language", "")
-#         formatted.append(
-#             {
-#                 "name": name,
-#                 "language": language,
-#                 "result": {
-#                     "riskLevel": "unknown",
-#                     "score": None,
-#                     "summary": "Backend scoring not implemented; please verify manually.",
-#                     "metadataUrl": pkg.get("metadataUrl"),
-#                 },
-#             }
-#         )
+    formatted = []
+    for pkg in packages:
+        name = pkg.get("name", "")
+        language = pkg.get("language", "")
+        formatted.append(
+            {
+                "name": name,
+                "language": language,
+                "result": {
+                    "riskLevel": "unknown",
+                    "score": None,
+                    "summary": "Backend scoring not implemented; please verify manually.",
+                    "metadataUrl": pkg.get("metadataUrl"),
+                },
+            }
+        )
 
-#     return {
-#         "snippetId": snippet_id,
-#         "packages": formatted,
-#         "warning": "Backend scoring placeholder in native host.",
-#     }
+    return {
+        "snippetId": snippet_id,
+        "packages": formatted,
+        "warning": "Backend scoring placeholder in native host.",
+    }
