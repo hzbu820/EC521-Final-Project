@@ -2,15 +2,15 @@
 """Main entry point for `slopspotter`."""
 
 import argparse
-import json
 import logging
 import os
-import struct
 import sys
 from importlib.metadata import metadata
 
 from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
+from slopspotter.diagnostics import placeholder_response
+from slopspotter.messaging import NativeMessage
 
 logger = logging.getLogger(__name__)
 
@@ -149,6 +149,7 @@ def main() -> int:
         help="Print the current version and exit.",
     )
     args = parser.parse_args(sys.argv[1:])
+    logging.debug("Received args: " + str(vars(args)))
 
     if args.version:
         print(SLOPSPOTTER_VERSION)
@@ -167,8 +168,19 @@ def main() -> int:
         )
         return 1
 
-    logging.debug("starting loop")
-    return loop()
+    native_message = NativeMessage.from_stdin()
+    if native_message.content == "ping":
+        logging.debug("Received ping. Sending pong...")
+        response = NativeMessage.from_content("pong")
+        response.to_stdout()
+    elif isinstance(native_message.content, dict):
+        logging.debug("Received dictionary")
+        response = placeholder_response(native_message.content)
+        logging.debug("Response: %s", response)
+        NativeMessage.from_content(response).to_stdout()
+
+    logging.debug("__main__.main() complete, exiting.")
+    return 0
 
 
 if __name__ == "__main__":
