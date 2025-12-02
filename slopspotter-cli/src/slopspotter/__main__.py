@@ -9,8 +9,8 @@ from importlib.metadata import metadata
 
 from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
-from slopspotter.diagnostics import handle_check_packages
 from slopspotter.messaging import NativeMessage
+from slopspotter.scoring import handle_check_packages
 
 logger = logging.getLogger(__name__)
 
