@@ -68,7 +68,13 @@ Expected response:
         "riskLevel": "low",
         "score": 0.12,
         "summary": "No strong red flags detected.",
-        "metadataUrl": "https://pypi.org/project/requests/"
+        "metadataUrl": "https://pypi.org/project/requests/",
+        "signals": {
+          "registry": { "score": 0.0, "reason": "Found in registry" },
+          "name": { "score": 0.0, "reason": "Benign name" },
+          "install": { "score": 0.0, "reason": "No install concerns" },
+          "metadata": { "score": 0.0, "reason": "Metadata present" }
+        }
       }
     }
   ],
@@ -82,12 +88,13 @@ The native messaging host must write the JSON response to stdout using the WebEx
 
 If the host is unreachable, the background computes a risk score and level:
 
-- Signals: registry existence (PyPI/npm/crates/proxy.golang), popularity/downloads/release count, recency, name risk, install scripts/wheels-only (npm/PyPI), metadata presence (repo/homepage/license), and a Python stdlib allowlist (e.g., `sys`, `math`, `json`, `os`, etc.) forced to low.
+- Signals: registry existence (PyPI/npm/crates/proxy.golang), popularity/downloads/release count, recency, name risk, install scripts/wheels-only (npm/PyPI), metadata presence (repo/homepage/license), and a Python stdlib allowlist (e.g., `sys`, `math`, `json`, `os`, etc.) forced to low. When the native host is reachable, the same signals are computed server-side in Python and returned via the `signals` object above.
 - Scoring: weighted sum → clamp to [0,1] → `riskLevel`: `>= 0.7` high, `>= 0.4` medium, else low.
 - Metadata links point to the appropriate registry. Warning banner shown when using heuristics.
 
 ## Tests
 
 - Frontend tests use Vitest. Run `npm test`. Current coverage: parser import extraction (aliased imports, relative imports, stdlib handling).
+- Backend scoring lives in the native host (Python). Run `python -m pytest test/test_scoring_backend.py` from `slopspotter-cli/` to exercise the signal combinators.
 
-No backend changes are required for these tests. The native host still needs real scoring logic to replace the heuristic when available.
+The native host must implement the scoring logic described above; the frontend fallback only runs when the host is unreachable.
