@@ -41,9 +41,35 @@ def extract_pypi_signals(name: str) -> dict:
         f.get("packagetype") == "bdist_wheel" for f in latest_files or []
     )
     project_urls = data.get("info", {}).get("project_urls", {}) or {}
-    has_any_project_url = any(
-        isinstance(v, str) and v.strip() for v in project_urls.values()
+    homepage = (
+        data.get("info", {}).get("home_page")
+        or project_urls.get("Homepage")
+        or project_urls.get("home")
     )
+    if not homepage:
+        homepage = next(
+            (url for url in project_urls.values() if isinstance(url, str) and url.strip()),
+            None,
+        )
+    repo = (
+        project_urls.get("Source")
+        or project_urls.get("Repository")
+        or project_urls.get("Code")
+        or project_urls.get("source")
+        or project_urls.get("GitHub")
+        or project_urls.get("gitlab")
+    )
+    if not repo:
+        repo = next(
+            (
+                url
+                for url in project_urls.values()
+                if isinstance(url, str)
+                and ("github" in url.lower() or "gitlab" in url.lower() or "bitbucket" in url.lower())
+            ),
+            None,
+        )
+    license_text = (data.get("info", {}) or {}).get("license") or ""
 
     return {
         "exists": True,
@@ -51,15 +77,10 @@ def extract_pypi_signals(name: str) -> dict:
         "lastRelease": last_release,
         "releaseCount": len(releases),
         "hasOnlyWheels": has_only_wheels and not has_sdist,
-        "hasRepo": bool(data.get("info", {}).get("home_page"))
-        or bool(project_urls.get("Source"))
-        or bool(project_urls.get("Homepage"))
-        or has_any_project_url,
-        "hasLicense": bool(
-            isinstance(data.get("info", {}).get("license"), str)
-            and len((data.get("info", {}) or {}).get("license", "").strip()) > 3
-            and "unknown" not in (data.get("info", {}) or {}).get("license", "").lower()
-        ),
+        "homepage": homepage,
+        "repo": repo,
+        "license": license_text if license_text and "unknown" not in license_text.lower() else "",
+        "metadataUrl": registry_url_for(name, "python"),
     }
 
 
@@ -90,54 +111,20 @@ def extract_npm_signals(name: str) -> dict:
         downloads.get("downloads") if isinstance(downloads, dict) else None
     )
 
+    repo = latest_meta.get("repository")
+    homepage = latest_meta.get("homepage")
+    license_text = latest_meta.get("license")
     return {
         "exists": True,
         "firstRelease": first_release,
         "lastRelease": last_release,
         "releaseCount": len(version_dates),
         "hasInstallScripts": has_install_scripts,
-        "hasRepo": bool(latest_meta.get("repository") or latest_meta.get("homepage")),
-        "hasLicense": bool(latest_meta.get("license")),
+        "repo": repo,
+        "homepage": homepage,
+        "license": license_text,
         "weeklyDownloads": weekly_downloads,
-    }
-
-
-def extract_npm_signals(name: str) -> dict:
-    registry = fetch_json(f"https://registry.npmjs.org/{name}")
-    downloads = fetch_json(f"https://api.npmjs.org/downloads/point/last-week/{name}")
-    if not registry:
-        return {"exists": False}
-
-    time = registry.get("time", {}) or {}
-    version_dates = [
-        datetime.fromisoformat(v.replace("Z", "+00:00"))
-        for k, v in time.items()
-        if k not in ("created", "modified")
-    ]
-    version_dates.sort()
-    first_release = version_dates[0] if version_dates else None
-    last_release = version_dates[-1] if version_dates else None
-    latest_version = (registry.get("dist-tags") or {}).get("latest")
-    latest_meta = (
-        (registry.get("versions") or {}).get(latest_version, {})
-        if latest_version
-        else {}
-    )
-    scripts = latest_meta.get("scripts") or {}
-    has_install_scripts = "install" in scripts or "postinstall" in scripts
-    weekly_downloads = (
-        downloads.get("downloads") if isinstance(downloads, dict) else None
-    )
-
-    return {
-        "exists": True,
-        "firstRelease": first_release,
-        "lastRelease": last_release,
-        "releaseCount": len(version_dates),
-        "hasInstallScripts": has_install_scripts,
-        "hasRepo": bool(latest_meta.get("repository") or latest_meta.get("homepage")),
-        "hasLicense": bool(latest_meta.get("license")),
-        "weeklyDownloads": weekly_downloads,
+        "metadataUrl": registry_url_for(name, "javascript"),
     }
 
 
@@ -167,8 +154,10 @@ def extract_crates_signals(name: str) -> dict:
         "firstRelease": first_release,
         "lastRelease": last_release,
         "downloadCount": crate.get("downloads"),
-        "hasRepo": bool(crate.get("repository") or crate.get("homepage")),
-        "hasLicense": bool(crate.get("license")),
+        "repo": crate.get("repository"),
+        "homepage": crate.get("homepage"),
+        "license": crate.get("license"),
+        "metadataUrl": registry_url_for(name, "rust"),
     }
 
 
@@ -187,7 +176,8 @@ def extract_go_signals(name: str) -> dict:
             return {
                 "exists": True,
                 "releaseCount": len(versions),
-                "hasRepo": "." in name,
+                "repo": f"https://pkg.go.dev/{name}" if "." in name else None,
+                "metadataUrl": registry_url_for(name, "go"),
             }
     except urllib.error.URLError:
         return {"exists": False}
