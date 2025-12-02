@@ -43,7 +43,7 @@ class TestScoringBackend(unittest.TestCase):
             any(
                 [
                     "present in tokenizer vocabulary" in reason
-                    for reason in name_results.reasons
+                    for reason in name_results.reason
                 ]
             )
         )
