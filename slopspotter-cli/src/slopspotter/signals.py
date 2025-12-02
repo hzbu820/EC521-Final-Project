@@ -10,7 +10,7 @@ from typing import Any
 from transformers import PreTrainedTokenizer
 
 from slopspotter.llm_decisions import package_in_vocabulary
-from slopspotter.words import in_unix_words, unix_words_path
+from slopspotter.words import in_unix_words
 
 NAME_TOKENS = ["installer", "updater", "crypto", "mining", "hack", "typo"]
 
@@ -128,10 +128,11 @@ def name_signal(
     if sys.platform != "win32":
         in_words = in_unix_words(name)
     if in_words:
-        reasons.append(f"Valid word in '{unix_words_path()}'")
-        logging.debug(f"Package name {name} is present in {unix_words_path()}")
+        reasons.append("Found in system word list")
+        logging.debug(f"Package name {name} is present in system word list")
     else:
-        logging.debug(f"Package name {name} is not present in dictionary")
+        reasons.append("Missing from system word list")
+        logging.debug(f"Package name {name} is not present in system word list")
 
     # Check if the package is inside the tokenizer's vocabulary
 
@@ -139,11 +140,14 @@ def name_signal(
     if tokenizer is not None:
         in_vocab = package_in_vocabulary(tokenizer, name)
     if in_vocab:
-        reasons.append("Inside local tokenizer vocabulary")
+        reasons.append("Found in tokenizer vocabulary")
         logging.debug(f"Package name {name} is present in tokenizer vocabulary")
     else:
+        reasons.append("Missing from tokenizer vocabulary")
         logging.debug(f"Package name {name} is not present in tokenizer vocabulary")
 
+    if not (in_vocab and not in_words):
+        risk += 0.1
     if any(token in lowered for token in NAME_TOKENS):
         risk += 0.4
         reasons.append("Suspicious token")

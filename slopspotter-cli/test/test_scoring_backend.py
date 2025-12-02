@@ -39,5 +39,12 @@ class TestScoringBackend(unittest.TestCase):
             "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
         )
         name_results = name_signal("numpy", tokenizer)
-        self.assertIn("Inside local tokenizer vocabulary", name_results.reason)
+        self.assertTrue(
+            any(
+                [
+                    "present in tokenizer vocabulary" in reason
+                    for reason in name_results.reasons
+                ]
+            )
+        )
         print(score_package("numpy", language="python", tokenizer=tokenizer))
