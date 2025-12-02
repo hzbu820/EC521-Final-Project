@@ -33,17 +33,21 @@ logging.basicConfig(
 
 def loop(model: PreTrainedModel, tokenizer: PreTrainedTokenizer):
     """Main background function."""
-    native_message = NativeMessage.from_stdin()
+    try:
+        native_message = NativeMessage.from_stdin()
 
-    if native_message.content == "ping":
-        logging.debug("Received ping. Sending pong...")
-        response = NativeMessage.from_content("pong")
-        response.to_stdout()
-    elif isinstance(native_message.content, dict):
-        logging.debug("Received dictionary")
-        response = handle_check_packages(native_message.content, tokenizer)
-        logging.debug("Response: %s", response)
-        NativeMessage.from_content(response).to_stdout()
+        if native_message.content == "ping":
+            logging.debug("Received ping. Sending pong...")
+            response = NativeMessage.from_content("pong")
+            response.to_stdout()
+        elif isinstance(native_message.content, dict):
+            logging.debug("Received dictionary")
+            response = handle_check_packages(native_message.content, tokenizer)
+            logging.debug("Response: %s", response)
+            NativeMessage.from_content(response).to_stdout()
+    except Exception as e:
+        logging.debug(e)
+        sys.exit(1)
 
 
 def main() -> int:
