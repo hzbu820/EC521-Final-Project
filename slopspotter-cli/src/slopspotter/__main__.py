@@ -78,43 +78,12 @@ def loop() -> int:
                     send_message(encode_message(response))
                 except Exception as exc:  # noqa: BLE001
                     logging.exception("failed to handle check-packages: %s", exc)
-                    # Return a graceful fallback so the frontend still renders
-                    send_message(
-                        encode_message(
-                            build_unknown_response(
-                                received_message.get("payload", {}),
-                                warning="backend-scoring-error",
-                            )
-                        )
-                    )
+                    send_message(encode_message({"error": "backend-scoring-error"}))
                 continue
 
         # Unknown message; ignore to allow fallback on the frontend.
         continue
     return 0
-
-
-def build_unknown_response(payload: dict, warning: str | None = None) -> dict:
-    """Return an unknown-risk response for all packages in the payload."""
-    snippet_id = payload.get("snippetId", "")
-    packages = payload.get("packages", []) or []
-    formatted = []
-    for pkg in packages:
-        name = pkg.get("name", "")
-        language = pkg.get("language", "")
-        formatted.append(
-            {
-                "name": name,
-                "language": language,
-                "result": {
-                    "riskLevel": "unknown",
-                    "score": None,
-                    "summary": "Backend scoring unavailable; verify manually.",
-                    "metadataUrl": registry_url_for(name, language),
-                },
-            }
-        )
-    return {"snippetId": snippet_id, "packages": formatted, "warning": warning}
 
 
 def handle_check_packages(payload: dict) -> dict:
@@ -129,16 +98,7 @@ def handle_check_packages(payload: dict) -> dict:
     for pkg in packages:
         name = pkg.get("name", "")
         language = pkg.get("language", "")
-        try:
-            result = build_heuristic_risk(name, language)
-        except Exception as exc:  # noqa: BLE001
-            logging.exception("failed to score package %s: %s", name, exc)
-            result = {
-                "riskLevel": "unknown",
-                "score": None,
-                "summary": "Backend scoring error; verify manually.",
-                "metadataUrl": registry_url_for(name, language),
-            }
+        result = build_heuristic_risk(name, language)
         formatted.append({"name": name, "language": language, "result": result})
 
     return {
@@ -217,34 +177,8 @@ STD_LIBS = {
         "weakref",
         "xml",
         "zipfile",
-    },
-    "go": {
-        "fmt",
-        "math",
-        "strings",
-        "strconv",
-        "net/http",
-        "io",
-        "os",
-        "time",
-        "bytes",
-        "context",
-        "errors",
-        "log",
-        "path/filepath",
-        "sync",
-        "encoding/json",
-        "encoding/xml",
-        "regexp",
-    },
-    "rust": {
-        "std",
-        "core",
-        "alloc",
-    },
+    }
 }
-
-SUPPORTED_LANGUAGES = {"python", "javascript", "rust", "go"}
 
 
 def score_to_level(score: float) -> str:
@@ -262,13 +196,7 @@ def clamp(value: float, min_value: float = 0.0, max_value: float = 1.0) -> float
 def days_since(dt: datetime | None) -> float | None:
     if dt is None:
         return None
-    # Align timezone awareness to avoid subtraction errors
-    if dt.tzinfo is not None and dt.tzinfo.utcoffset(dt) is not None:
-        now = datetime.now(tz=dt.tzinfo)
-    else:
-        now = datetime.utcnow()
-        dt = dt.replace(tzinfo=None)
-    return (now - dt).total_seconds() / 86400
+    return (datetime.utcnow() - dt).total_seconds() / 86400
 
 
 def compute_name_risk(name: str) -> float:
@@ -295,25 +223,6 @@ def fetch_json(url: str, timeout: int = 3) -> dict | None:
         return None
 
 
-def parse_iso_date(value: str | None) -> datetime | None:
-    """Parse ISO-like timestamps; return None on failure."""
-    if not value or not isinstance(value, str):
-        return None
-    cleaned = value.replace("Z", "+00:00")
-    try:
-        return datetime.fromisoformat(cleaned)
-    except ValueError:
-        if "." in cleaned:
-            base, _, tz = cleaned.partition("+")
-            base = base.split(".")[0]
-            cleaned = base + ("+" + tz if tz else "")
-            try:
-                return datetime.fromisoformat(cleaned)
-            except ValueError:
-                return None
-        return None
-
-
 def extract_pypi_signals(name: str) -> dict:
     data = fetch_json(f"https://pypi.org/pypi/{name}/json")
     if not data:
@@ -322,9 +231,12 @@ def extract_pypi_signals(name: str) -> dict:
     dates = []
     for files in releases.values():
         for file in files or []:
-            dt = parse_iso_date(file.get("upload_time"))
-            if dt:
-                dates.append(dt)
+            upload_time = file.get("upload_time")
+            if upload_time:
+                try:
+                    dates.append(datetime.fromisoformat(upload_time.replace("Z", "+00:00")))
+                except ValueError:
+                    continue
     dates.sort()
     first_release = dates[0] if dates else None
     last_release = dates[-1] if dates else None
@@ -361,13 +273,11 @@ def extract_npm_signals(name: str) -> dict:
         return {"exists": False}
 
     time = registry.get("time", {}) or {}
-    version_dates = []
-    for k, v in time.items():
-        if k in ("created", "modified"):
-            continue
-        dt = parse_iso_date(v)
-        if dt:
-            version_dates.append(dt)
+    version_dates = [
+        datetime.fromisoformat(v.replace("Z", "+00:00"))
+        for k, v in time.items()
+        if k not in ("created", "modified")
+    ]
     version_dates.sort()
     first_release = version_dates[0] if version_dates else None
     last_release = version_dates[-1] if version_dates else None
@@ -394,8 +304,18 @@ def extract_crates_signals(name: str) -> dict:
     if not data:
         return {"exists": False}
     crate = data.get("crate") or {}
-    first_release = parse_iso_date(crate.get("created_at"))
-    last_release = parse_iso_date(crate.get("updated_at"))
+    first_release = None
+    last_release = None
+    if crate.get("created_at"):
+        try:
+            first_release = datetime.fromisoformat(crate["created_at"].replace("Z", "+00:00"))
+        except ValueError:
+            pass
+    if crate.get("updated_at"):
+        try:
+            last_release = datetime.fromisoformat(crate["updated_at"].replace("Z", "+00:00"))
+        except ValueError:
+            pass
     return {
         "exists": True,
         "firstRelease": first_release,
@@ -435,14 +355,6 @@ def registry_url_for(name: str, language: str) -> str | None:
 
 def build_heuristic_risk(name: str, language: str) -> dict:
     normalized = name.lower()
-
-    if language not in SUPPORTED_LANGUAGES:
-        return {
-            "riskLevel": "unknown",
-            "score": None,
-            "summary": f"Language '{language}' not supported by backend.",
-            "metadataUrl": registry_url_for(name, language),
-        }
 
     if normalized in STD_LIBS.get(language, set()):
         return {
