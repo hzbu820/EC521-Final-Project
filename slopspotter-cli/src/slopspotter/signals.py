@@ -176,7 +176,9 @@ def registry_signal(meta: dict[str, Any] | None) -> SignalResult:
 def install_signal(meta: dict[str, Any] | None) -> SignalResult:
     """Install-time risk: npm scripts or wheels-only."""
     if not meta:
-        return SignalResult(0.0, "No install flags")
+        return SignalResult(1.0, "Missing metadata")
+    if not meta.get("exists", False):
+        return SignalResult(1.0, "Package does not exist")
     if meta.get("hasInstallScripts"):
         return SignalResult(0.6, "Installs with scripts")
     if meta.get("wheelsOnly"):
@@ -187,7 +189,7 @@ def install_signal(meta: dict[str, Any] | None) -> SignalResult:
 def metadata_signal(meta: dict[str, Any] | None) -> SignalResult:
     """Metadata completeness: repo/homepage/license."""
     if not meta:
-        return SignalResult(0.3, "Missing metadata")
+        return SignalResult(1.0, "Missing metadata")
     missing = []
     if not meta.get("repo"):
         missing.append("repo")
@@ -196,5 +198,5 @@ def metadata_signal(meta: dict[str, Any] | None) -> SignalResult:
     if not meta.get("license"):
         missing.append("license")
     if missing:
-        return SignalResult(0.3, f"Missing {', '.join(missing)}")
+        return SignalResult(len(missing) / 3, f"Missing {', '.join(missing)}")
     return SignalResult(0.0, "Metadata present")
