@@ -37,7 +37,7 @@ def handle_check_packages(
     for pkg in packages:
         name = pkg.get("name", "")
         language = pkg.get("language", "")
-        meta = extract_registry_signals(name)
+        meta = extract_registry_signals(name, language)
         pkg_score = score_package(
             name=name, language=language, meta=meta, tokenizer=tokenizer
         )
