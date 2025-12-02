@@ -1,5 +1,13 @@
 import browser from "webextension-polyfill";
 
+/*
+Table of Contents
+- DOM refs & state
+- Lifecycle: load + event binding
+- Settings load/save
+- Status handling (form toggle, status text, host ping/pill)
+*/
+
 const form = document.getElementById("settings-form");
 const nativeHostInput = document.getElementById("native-host");
 const autoAnnotateInput = document.getElementById("auto-annotate");
@@ -7,12 +15,14 @@ const statusNode = document.getElementById("status");
 const hostStatusNode = document.getElementById("host-status");
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Hydrate settings and bind form events (submit + host ping on blur).
   loadSettings();
   form.addEventListener("submit", handleSubmit);
   nativeHostInput.addEventListener("blur", () => pingHost(nativeHostInput.value.trim()));
 });
 
 async function loadSettings() {
+  // Fetch current settings from background and prime the form controls.
   try {
     const settings = await browser.runtime.sendMessage({
       type: "get-settings",
@@ -36,6 +46,7 @@ async function loadSettings() {
 }
 
 async function handleSubmit(event) {
+  // Save settings to background and re-ping host.
   event.preventDefault();
   updateStatus("");
 
@@ -64,12 +75,14 @@ async function handleSubmit(event) {
 }
 
 function toggleForm(enabled) {
+  // Enable/disable form during async save.
   autoAnnotateInput.disabled = !enabled;
   nativeHostInput.disabled = !enabled;
   form.querySelector('button[type="submit"]').disabled = !enabled;
 }
 
 function updateStatus(message, isError = false) {
+  // Update inline status text with success/error styling.
   statusNode.textContent = message;
   statusNode.className = "status";
   if (!message) {
@@ -79,6 +92,8 @@ function updateStatus(message, isError = false) {
 }
 
 async function pingHost(host) {
+  // Try a ping to the native host to drive the status pill.
+  // Uses a simple "ping" message; absence of response marks unreachable.
   if (!host) {
     setHostStatus("idle", "Enter host ID");
     return;
@@ -97,6 +112,7 @@ async function pingHost(host) {
 }
 
 function setHostStatus(state, text) {
+  // Update the status pill appearance/text based on host reachability.
   if (!hostStatusNode) return;
   hostStatusNode.textContent = text;
   hostStatusNode.className = "status-pill";

@@ -8,6 +8,17 @@ import {
   renderError
 } from '../utils/dom';
 
+/*
+Table of Contents
+- State & constants
+- Lifecycle: initialize + mutation observer
+- Settings loading
+- Code discovery & analysis
+- Rendering helpers (manual trigger, pending/error)
+- Language detection helpers
+- Code sanitization
+*/
+
 const SNIPPET_ATTR = 'data-slopspotter-snippet-id';
 let snippetCounter = 0;
 let settings = {
@@ -21,9 +32,11 @@ const nextSnippetId = () => {
 
 const processedSnippets = new Set();
 
-initialize();
+initialize(); // kick off setup on load
 
 async function initialize() {
+  // Inject styles, hydrate settings, scan current DOM, and watch for changes.
+  // This runs once when the content script is loaded into the page.
   ensureStylesInjected();
   await loadSettings();
   scanForCodeBlocks();
@@ -56,6 +69,8 @@ async function initialize() {
 }
 
 async function loadSettings() {
+  // Pull synced settings from background; fall back to defaults if missing.
+  // This allows user-configured host name and auto-annotate toggle to persist.
   try {
     const result = await browser.runtime.sendMessage({ type: 'get-settings' });
     if (result) {
@@ -67,6 +82,8 @@ async function loadSettings() {
 }
 
 function containsCode(node) {
+  // Determine whether a node contains a code block we care about.
+  // Accepts <pre> itself or any element containing <pre>/<code>.
   if (!(node instanceof Element)) {
     return false;
   }
@@ -75,6 +92,8 @@ function containsCode(node) {
 }
 
 async function scanForCodeBlocks() {
+  // Scan the page for code blocks and analyze any new ones.
+  // Keeps a Set to avoid reprocessing the same snippet.
   const codeBlocks = collectCodeBlocks();
 
   for (const block of codeBlocks) {
@@ -87,6 +106,8 @@ async function scanForCodeBlocks() {
 }
 
 function collectCodeBlocks() {
+  // Gather unique <pre> containers with non-empty code content.
+  // Also includes <code> elements nested in <pre>.
   const set = new Set();
 
   document.querySelectorAll('pre').forEach((pre) => {
@@ -107,6 +128,8 @@ function collectCodeBlocks() {
 }
 
 async function analyzeSnippet(snippetElement) {
+  // Parse code, detect language, extract packages, and dispatch a check.
+  // Assigns a stable snippet id for associating responses with DOM nodes.
   const snippetId = snippetElement.getAttribute(SNIPPET_ATTR) ?? nextSnippetId();
   snippetElement.setAttribute(SNIPPET_ATTR, snippetId);
 
@@ -147,6 +170,8 @@ async function analyzeSnippet(snippetElement) {
 }
 
 function renderManualTrigger(snippetElement, snippetId, packages) {
+  // Render a manual "Analyze" button when autoAnnotate is disabled.
+  // Clicking triggers the same runCheck path used for auto mode.
   const container = getIndicatorContainer(snippetElement);
   container.replaceChildren();
 
@@ -165,6 +190,8 @@ function renderManualTrigger(snippetElement, snippetId, packages) {
 }
 
 async function runCheck(snippetElement, snippetId, packages) {
+  // Ask the background to check packages; show pending/error UI.
+  // On failure, show retry so users can re-run after transient issues.
   console.debug('Slopspotter: running check', { snippetId, packages });
   renderPending(snippetElement);
 
@@ -189,6 +216,8 @@ async function runCheck(snippetElement, snippetId, packages) {
 }
 
 function detectLanguage(snippetElement) {
+  // Guess language from data attributes or class names near the snippet.
+  // Walks the snippet and a few ancestors to find hints.
   if (!snippetElement) {
     return undefined;
   }
@@ -219,6 +248,8 @@ function detectLanguage(snippetElement) {
 }
 
 function extractLanguageFromElement(element) {
+  // Inspect dataset/attrs/classList for language hints.
+  // Returns a normalized language string or undefined.
   if (!element) {
     return undefined;
   }
@@ -272,6 +303,8 @@ const DIRECT_LANGUAGE_TOKENS = {
 };
 
 function normalizeLanguageToken(token) {
+  // Normalize common language class tokens (e.g., language-py → python).
+  // Supports multiple class naming conventions.
   if (!token) {
     return undefined;
   }
@@ -308,6 +341,8 @@ const KNOWN_LANGUAGE_LABELS = new Set([
 ]);
 
 function sanitizeCodeText(text) {
+  // Strip UI artifacts (language labels, "Copy code") before parsing.
+  // Ensures extractPackages sees only code, not chrome from the host site.
   if (!text) return '';
   // Remove common UI artifacts like "Copy code"
   let cleaned = text.replace(/\bcopy code\b/gi, '');
