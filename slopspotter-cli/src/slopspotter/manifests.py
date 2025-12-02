@@ -96,9 +96,20 @@ def install_win32_manifests(browser: SupportedBrowser, is_local: bool = True):
     if sys.platform != "win32":
         raise OSError(f"Cannot install Windows manifest on platform {sys.platform}")
 
+    # On Windows, registry keys point to a manifest.json file on disk.
+    manifest_dir = os.path.join(os.path.expandvars(r"%LOCALAPPDATA%"), "slopspotter")
+    os.makedirs(manifest_dir, exist_ok=True)
+    manifest_path = os.path.join(manifest_dir, "slopspotter.json")
+
+    manifest = MANIFEST_JSONS[browser]
+    manifest["path"] = EXECUTABLE_PATH
+
+    with open(manifest_path, "w", encoding="utf-8") as fh:
+        json.dump(manifest, fh, indent=4)
+
     key = winreg.HKEY_CURRENT_USER if is_local else winreg.HKEY_LOCAL_MACHINE
     sub_keys = WINDOWS_REGISTRY_SUBKEYS.get(browser, [])
 
     for sub_key in sub_keys:
         winreg.CreateKey(key, sub_key)
-        winreg.SetValue(key, sub_key, winreg.REG_SZ, EXECUTABLE_PATH)
+        winreg.SetValue(key, sub_key, winreg.REG_SZ, manifest_path)
