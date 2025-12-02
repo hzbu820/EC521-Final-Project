@@ -41,7 +41,7 @@ def loop(model: PreTrainedModel, tokenizer: PreTrainedTokenizer):
         response.to_stdout()
     elif isinstance(native_message.content, dict):
         logging.debug("Received dictionary")
-        response = handle_check_packages(native_message.content, model, tokenizer)
+        response = handle_check_packages(native_message.content, tokenizer)
         logging.debug("Response: %s", response)
         NativeMessage.from_content(response).to_stdout()
 

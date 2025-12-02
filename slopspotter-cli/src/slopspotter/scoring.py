@@ -8,6 +8,7 @@ from typing import Any
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
 from slopspotter.constants import BackendResponse, FrontendQuestion
+from slopspotter.registries import extract_registry_signals
 from slopspotter.signals import (
     SignalResult,
     install_signal,
@@ -22,7 +23,7 @@ MEDIUM_THRESHOLD = 0.4
 
 
 def handle_check_packages(
-    payload: FrontendQuestion, model: PreTrainedModel, tokenizer: PreTrainedTokenizer
+    payload: FrontendQuestion, tokenizer: PreTrainedTokenizer
 ) -> BackendResponse:
     """Build a structured response for check-packages command.
 
@@ -36,7 +37,7 @@ def handle_check_packages(
     for pkg in packages:
         name = pkg.get("name", "")
         language = pkg.get("language", "")
-        meta = pkg.get("meta") or {}
+        meta = extract_registry_signals(name)
         pkg_score = score_package(
             name=name, language=language, meta=meta, tokenizer=tokenizer
         )
