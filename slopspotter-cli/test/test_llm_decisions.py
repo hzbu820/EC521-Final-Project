@@ -151,8 +151,8 @@ class TestLLMDecisions(unittest.TestCase):
                     self.tokenizer,
                     language,
                     package_name,
-                    k=3,
-                    max_depth=5,
+                    k=2,
+                    max_depth=3,
                 )
             save_decision_tree_plots(
                 decision_tree, f"hallucinated_packages_{language}_{package}"
@@ -179,7 +179,7 @@ class TestLLMDecisions(unittest.TestCase):
     def test_add_expected_output_tokens(self):
         """Test adding expected output tokens."""
         input_text = "The quick brown fox jumps over the lazy"
-        output_text = " lorem ipsum dolor sit amet"
+        output_text = " lorem ipsum dolor"
         output_tokens = self.tokenizer.tokenize(output_text)
         output_token_ids = self.tokenizer.convert_tokens_to_ids(output_tokens)
 

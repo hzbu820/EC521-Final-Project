@@ -69,6 +69,11 @@ def draw_decision_tree_dot(
         )
         plotting_decision_tree.nodes[node_id]["color"] = "red" if expected else "black"
 
+    if label_type == "token":
+        plotting_decision_tree.nodes[0]["label"] = plotting_decision_tree.nodes[0][
+            "input_text"
+        ]
+
     for edge in plotting_decision_tree.edges:
         probability = plotting_decision_tree.edges[edge]["probability"]
         expected = plotting_decision_tree.edges[edge]["expected"]
