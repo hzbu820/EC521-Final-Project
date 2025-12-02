@@ -4,7 +4,8 @@ import {
   ensureStylesInjected,
   renderIndicators,
   renderPending,
-  getIndicatorContainer
+  getIndicatorContainer,
+  renderError
 } from '../utils/dom';
 
 const SNIPPET_ATTR = 'data-slopspotter-snippet-id';
@@ -109,7 +110,8 @@ async function analyzeSnippet(snippetElement) {
   const snippetId = snippetElement.getAttribute(SNIPPET_ATTR) ?? nextSnippetId();
   snippetElement.setAttribute(SNIPPET_ATTR, snippetId);
 
-  const codeText = snippetElement.textContent ?? '';
+  const rawText = snippetElement.textContent ?? '';
+  const codeText = sanitizeCodeText(rawText);
   const detectedLanguage = detectLanguage(snippetElement);
   if (detectedLanguage) {
     snippetElement.setAttribute('data-slopspotter-language', detectedLanguage);
@@ -117,9 +119,22 @@ async function analyzeSnippet(snippetElement) {
   const packages = extractPackages(codeText, { language: detectedLanguage });
 
   if (!packages.length) {
+    console.debug('Slopspotter: no packages detected', {
+      snippetId,
+      language: detectedLanguage,
+      codePreview: codeText.slice(0, 120)
+    });
     processedSnippets.add(snippetElement);
     return;
   }
+
+  console.debug('Slopspotter: packages detected', {
+    snippetId,
+    language: detectedLanguage,
+    packages: packages.map((p) => p.name),
+    count: packages.length,
+    codePreview: codeText.slice(0, 120)
+  });
 
   if (!settings.autoAnnotate) {
     renderManualTrigger(snippetElement, snippetId, packages);
@@ -150,6 +165,7 @@ function renderManualTrigger(snippetElement, snippetId, packages) {
 }
 
 async function runCheck(snippetElement, snippetId, packages) {
+  console.debug('Slopspotter: running check', { snippetId, packages });
   renderPending(snippetElement);
 
   try {
@@ -166,18 +182,9 @@ async function runCheck(snippetElement, snippetId, packages) {
     }
   } catch (error) {
     console.warn('Slopspotter: background communication failed', error);
-    renderIndicators(snippetElement, {
-      snippetId,
-      packages: packages.map((pkg) => ({
-        ...pkg,
-        result: {
-          riskLevel: 'unknown',
-          score: null,
-          summary: 'Unable to retrieve metadata for this package. Check manually.'
-        }
-      })),
-      warning: 'Extension could not reach the background service.'
-    });
+    renderError(snippetElement, 'Extension could not reach the background service.', () =>
+      runCheck(snippetElement, snippetId, packages)
+    );
   }
 }
 
@@ -280,4 +287,57 @@ function normalizeLanguageToken(token) {
     return direct;
   }
   return undefined;
+}
+
+const KNOWN_LANGUAGE_LABELS = new Set([
+  ...Object.keys(DIRECT_LANGUAGE_TOKENS),
+  'python',
+  'javascript',
+  'typescript',
+  'bash',
+  'shell',
+  'go',
+  'rust',
+  'json',
+  'yaml',
+  'java',
+  'c',
+  'cpp',
+  'c++',
+  'c#'
+]);
+
+function sanitizeCodeText(text) {
+  if (!text) return '';
+  // Remove common UI artifacts like "Copy code"
+  let cleaned = text.replace(/\bcopy code\b/gi, '');
+
+  const lines = cleaned.split('\n').map((line) => line.trimEnd());
+
+  const labelPattern = new RegExp(
+    `^\\s*(?:${Array.from(KNOWN_LANGUAGE_LABELS)
+      .map((l) => l.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'))
+      .join('|')})(?:\\s*copy\\s*code)?\\s*`,
+    'i'
+  );
+
+  // Drop or strip leading language labels, even if attached to code
+  while (lines.length) {
+    const first = lines[0].trim();
+    if (!first) {
+      lines.shift();
+      continue;
+    }
+    if (labelPattern.test(first) && first.replace(labelPattern, '') === '') {
+      lines.shift();
+      continue;
+    }
+    break;
+  }
+
+  // Strip label prefixes that are glued to code (e.g., "pythonCopy codeimport numpy")
+  const stripped = lines.map((line) => line.replace(labelPattern, ''));
+
+  cleaned = stripped.join('\n');
+  return cleaned;
 }

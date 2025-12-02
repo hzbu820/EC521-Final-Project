@@ -1,6 +1,6 @@
 const RELATIVE_PREFIXES = ['.', '/', '~'];
 const COMMON_IDENTIFIER_BLACKLIST = {
-  python: new Set(['array', 'string', 'path', 'datetime', 'sys', 'os']),
+  python: new Set([]),
   javascript: new Set(['string', 'number'])
 };
 
@@ -47,13 +47,13 @@ const PATTERNS = [
   },
   {
     languages: ['python'],
-    regex: /from\s+([a-zA-Z0-9_.]+)/gi,
-    sanitizer: (name) => name.split('.')[0]
+    regex: /from\s+(\.*[a-zA-Z0-9_.]+)/gi,
+    sanitizer: (name) => name.replace(/^\.+/, '').split('.')[0]
   },
   {
     languages: ['python'],
-    regex: /\bimport\s+([a-zA-Z0-9_.]+)/gi,
-    sanitizer: (name) => name.split('.')[0],
+    regex: /\bimport\s+(\.*[a-zA-Z0-9_.]+)/gi,
+    sanitizer: (name) => name.replace(/^\.+/, '').split('.')[0],
     validator: ({ code, index }) => !isPartOfFromStatement(code, index)
   },
   {

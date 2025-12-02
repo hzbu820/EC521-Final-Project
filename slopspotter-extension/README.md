@@ -38,7 +38,7 @@ For Firefox:
 
 If the backend is offline, the extension still renders heuristic estimates and displays a warning banner.
 
-## Backend expectations
+## Frontend ↔ Backend contract
 
 The background worker posts JSON payloads shaped like:
 
@@ -55,4 +55,39 @@ The background worker posts JSON payloads shaped like:
 }
 ```
 
-It expects a response containing per-package `riskLevel`, optional `score`, `summary`, and `metadataUrl`. The native messaging host must write the JSON response to stdout using the WebExtensions native messaging framing (length prefix + UTF-8 payload). See `src/background/index.js` for the full contract and heuristic fallback.
+Expected response:
+
+```jsonc
+{
+  "snippetId": "snippet-123",
+  "packages": [
+    {
+      "name": "requests",
+      "language": "python",
+      "result": {
+        "riskLevel": "low",
+        "score": 0.12,
+        "summary": "No strong red flags detected.",
+        "metadataUrl": "https://pypi.org/project/requests/"
+      }
+    }
+  ],
+  "warning": "optional warning string"
+}
+```
+
+The native messaging host must write the JSON response to stdout using the WebExtensions native messaging framing (length prefix + UTF-8 payload).
+
+## Heuristic fallback (frontend)
+
+If the host is unreachable, the background computes a risk score and level:
+
+- Signals: registry existence (PyPI/npm/crates/proxy.golang), popularity/downloads/release count, recency, name risk, install scripts/wheels-only (npm/PyPI), metadata presence (repo/homepage/license), and a Python stdlib allowlist (e.g., `sys`, `math`, `json`, `os`, etc.) forced to low.
+- Scoring: weighted sum → clamp to [0,1] → `riskLevel`: `>= 0.7` high, `>= 0.4` medium, else low.
+- Metadata links point to the appropriate registry. Warning banner shown when using heuristics.
+
+## Tests
+
+- Frontend tests use Vitest. Run `npm test`. Current coverage: parser import extraction (aliased imports, relative imports, stdlib handling).
+
+No backend changes are required for these tests. The native host still needs real scoring logic to replace the heuristic when available.

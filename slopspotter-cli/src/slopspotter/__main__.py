@@ -1,15 +1,16 @@
 #!/usr/bin/env -S python3 -u
+"""Main entry point for `slopspotter`."""
 
 import argparse
-import json
 import logging
 import os
-import struct
 import sys
 from importlib.metadata import metadata
 
 from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
+from slopspotter.diagnostics import handle_check_packages, placeholder_response
+from slopspotter.messaging import NativeMessage
 
 logger = logging.getLogger(__name__)
 
@@ -23,49 +24,8 @@ logging.basicConfig(
 )
 
 
-def get_message():
-    """Read a message from stdin and decode it."""
-    raw_length = sys.stdin.buffer.read(4)
-    if len(raw_length) == 0:
-        return ""
-    message_length = struct.unpack("@I", raw_length)[0]
-    message = sys.stdin.buffer.read(message_length).decode("utf-8")
-    return json.loads(message)
-
-
-def encode_message(message_content):
-    """Encode a message for transmission, given its content.
-
-    https://docs.python.org/3/library/json.html#basic-usage
-
-    To get the most compact JSON representation, you should specify (',', ':')
-    to eliminate whitespace. We want the most compact representation because
-    the browser rejects # messages that exceed 1 MB.
-    """
-    logging.debug("encoding message")
-    encoded_content = json.dumps(message_content, separators=(",", ":")).encode("utf-8")
-    encoded_length = struct.pack("@I", len(encoded_content))
-    return {"length": encoded_length, "content": encoded_content}
-
-
-# Send an encoded message to stdout
-def send_message(encoded_message):
-    sys.stdout.buffer.write(encoded_message["length"])
-    sys.stdout.buffer.write(encoded_message["content"])
-    sys.stdout.buffer.flush()
-
-
-def loop() -> int:
-    send_message(encode_message("test"))
-    while True:
-        received_message = get_message()
-        if received_message == "ping":
-            logging.debug("received ping, sending pong")
-            send_message(encode_message("pong"))
-    return 0
-
-
 def main() -> int:
+    """Main entry point for `slopspotter`."""
     logging.debug("starting __main__.main()")
     parser = argparse.ArgumentParser(
         prog="slopspotter",
@@ -96,13 +56,14 @@ def main() -> int:
         help="Print the current version and exit.",
     )
     args = parser.parse_args(sys.argv[1:])
+    logging.debug("Received args: " + str(vars(args)))
 
     if args.version:
         print(SLOPSPOTTER_VERSION)
         return 0
 
     if args.install_manifests:
-        manifests.install_unixlike_manifests(args.install_manifests)
+        manifests.install_manifests(args.install_manifests)
         return 0
 
     if args.manifest_path == "" or args.browser_settings == "":
@@ -114,8 +75,20 @@ def main() -> int:
         )
         return 1
 
-    logging.debug("starting loop")
-    return loop()
+    native_message = NativeMessage.from_stdin()
+
+    if native_message.content == "ping":
+        logging.debug("Received ping. Sending pong...")
+        response = NativeMessage.from_content("pong")
+        response.to_stdout()
+    elif isinstance(native_message.content, dict):
+        logging.debug("Received dictionary")
+        response = handle_check_packages(native_message.content)
+        logging.debug("Response: %s", response)
+        NativeMessage.from_content(response).to_stdout()
+
+    logging.debug("__main__.main() complete, exiting.")
+    return 0
 
 
 if __name__ == "__main__":

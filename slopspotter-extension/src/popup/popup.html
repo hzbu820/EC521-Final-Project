@@ -6,39 +6,42 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <header>
-      <h1>Slopspotter</h1>
-      <p class="subtitle">Package risk insights for AI code snippets</p>
-    </header>
-    <main>
-      <form id="settings-form">
-        <label for="native-host">Native messaging host ID</label>
-        <input
-          type="text"
-          id="native-host"
-          name="native-host"
-          placeholder="slopspotter"
-          autocomplete="off"
-          required
-        />
-        <p class="supporting-text">
-          Must match the host name defined by the Slopspotter CLI when you install its manifests.
-        </p>
+    <div class="popup-shell">
+      <header class="hero">
+        <div class="hero__eyebrow">Settings</div>
+        <h1>Slopspotter</h1>
+        <p class="subtitle">Package risk insights for AI code snippets</p>
+      </header>
+      <main>
+        <section class="card">
+          <form id="settings-form">
+            <div class="field-header">
+              <label for="native-host">Native messaging host ID</label>
+              <span id="host-status" class="status-pill status-pill--idle">Checking...</span>
+            </div>
+            <input
+              type="text"
+              id="native-host"
+              name="native-host"
+              placeholder="slopspotter"
+              autocomplete="off"
+              required
+            />
+            <p class="supporting-text">
+              Must match the host name defined by the Slopspotter CLI when you install its manifests.
+            </p>
 
-        <label class="checkbox">
-          <input type="checkbox" id="auto-annotate" name="auto-annotate" />
-          <span>Automatically analyze new code blocks</span>
-        </label>
+            <label class="checkbox">
+              <input type="checkbox" id="auto-annotate" name="auto-annotate" />
+              <span>Automatically analyze new code blocks</span>
+            </label>
 
-        <button type="submit">Save settings</button>
-        <p id="status" role="status" aria-live="polite"></p>
-      </form>
-    </main>
-    <footer>
-      <a href="https://github.com/hzbu820/EC521-Final-Project" target="_blank" rel="noopener"
-        >Project repository</a
-      >
-    </footer>
+            <button type="submit">Save settings</button>
+            <p id="status" class="status" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+      </main>
+    </div>
     <script type="module" src="popup.js"></script>
   </body>
 </html>

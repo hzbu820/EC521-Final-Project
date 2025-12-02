@@ -79,6 +79,7 @@ def install_manifests(browser: SupportedBrowser, is_local: bool = True) -> None:
 def install_unixlike_manifests(
     browser: SupportedBrowser, is_local: bool = True
 ) -> None:
+    """Install the native app manifest for UNIX-like OSes (MacOS & Linux)."""
     manifest_paths = get_unixlike_manifest_paths(browser, is_local)
     manifest = MANIFEST_JSONS[browser]
 
@@ -92,7 +93,6 @@ def install_unixlike_manifests(
 
 def install_win32_manifests(browser: SupportedBrowser, is_local: bool = True):
     """Install the manifest in the Windows registry."""
-
     if sys.platform != "win32":
         raise OSError(f"Cannot install Windows manifest on platform {sys.platform}")
 

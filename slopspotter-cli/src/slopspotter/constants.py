@@ -1,4 +1,4 @@
-"""Constants for the slopspotter package."""
+"""Constants & type annotations for the slopspotter package."""
 
 import os
 import shutil
@@ -6,24 +6,32 @@ from importlib.metadata import metadata
 from typing import Any, Literal
 
 ADDON_ID = "slopspotter@bu.edu"
+"""Manifest Addon ID."""
+
 NATIVE_TO_BACKGROUND_PORT = "slopspotter"
+"""Name of the native port for backend-to-frontend communication."""
 
 SLOPSPOTTER_VERSION = metadata("slopspotter")["Version"]
+"""Version number of this package, stored in this project's metadata."""
 
-SUPPORTED_BROWSERS = [
+SUPPORTED_BROWSERS: set[str] = {
     "firefox",
-]
+}
 
-SUPPORTED_PLATFORMS = [
+SupportedBrowser = Literal["firefox"]
+
+SUPPORTED_PLATFORMS: set[str] = {
     "darwin",
     "linux",
     "win32",
-]
+}
+"""Set of all supported OS platforms."""
 
-SupportedBrowser = Literal[*SUPPORTED_BROWSERS]
-SupportedPlatform = Literal[*SUPPORTED_PLATFORMS]
+SupportedPlatform = Literal["darwin", "linux", "win32"]
+"""Supported OS platforms."""
 
 EXECUTABLE_PATH = shutil.which("slopspotter")
+"""Executable path of this application."""
 
 MANIFEST_JSONS: dict[SupportedBrowser, dict[str, Any]] = {
     "firefox": {
@@ -34,6 +42,7 @@ MANIFEST_JSONS: dict[SupportedBrowser, dict[str, Any]] = {
         "allowed_extensions": [ADDON_ID],
     }
 }
+"""Manifest dictionary definitions, sorted by browser."""
 
 UNIXLIKE_MANIFEST_SETTINGS: dict[
     SupportedBrowser, dict[SupportedPlatform, dict[str, Any]]
@@ -63,6 +72,10 @@ UNIXLIKE_MANIFEST_SETTINGS: dict[
         },
     },
 }
+"""This program's manifest JSON file locations for UNIX-like OSes, sorted by browser/OS.
+
+See also https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests#manifest_location 
+"""
 
 WINDOWS_REGISTRY_SUBKEYS: dict[SupportedBrowser, list[str]] = {
     "firefox": [
@@ -71,3 +84,23 @@ WINDOWS_REGISTRY_SUBKEYS: dict[SupportedBrowser, list[str]] = {
         r"SOFTWARE\Mozilla\PKCS11Modules\slopspotter",
     ]
 }
+"""This program's Windows registry subkeys, sorted by browser.
+
+See also https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests#windows
+"""
+
+HF_INSTRUCT_MODELS: set[str] = {
+    "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+    "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+    "Qwen/Qwen2.5-Coder-3B-Instruct",
+    "Microsoft/Phi-3-mini-4k-instruct",
+    "Microsoft/Phi-3.5-mini-instruct",
+    "Microsoft/Phi-4-mini-instruct",
+}
+"""HuggingFace Instruct LLM model repositories for decision tree analysis."""
+
+FrontendQuestion = dict[Literal["snippetId", "packages"], Any]
+"""The content of a native messaging packet sent by the frontend."""
+
+BackendResponse = dict[Literal["snippetId", "packages", "warning"], Any]
+"""The content of a native messaging packet sent by the backend."""
