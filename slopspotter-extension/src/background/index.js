@@ -1,17 +1,5 @@
 import browser from "webextension-polyfill";
 
-/*
-Table of Contents 
-// 1. Constants & defaults
-// 2. Installation lifecycle
-// 3. Message routing (content ↔ background ↔ native host)
-// 4. Native host adapter
-// 5. Heuristic helpers (timeouts, name risk, stdlib, registry URLs)
-// 6. Registry collectors (PyPI/npm/crates/go)
-// 7. Heuristic scorer (buildHeuristicRisk)
-// 8. Settings persistence
-*/
-
 const DEFAULT_SETTINGS = {
   autoAnnotate: true,
   nativeHostName: "slopspotter",
@@ -40,27 +28,13 @@ browser.runtime.onMessage.addListener(async (message) => {
   }
 });
 
-// 3. Handle a content-script request: try native host first (command envelope), then fallback heuristic.
-//    - If the native host responds, return its payload verbatim.
-//    - If it fails or is unreachable, compute heuristic risk per package.
 const handlePackageCheck = async (payload) => {
   const settings = await getSettings();
 
   try {
-    const response = await queryNativeHost(settings.nativeHostName, {
-      type: "check-packages",
-      payload,
-    });
-    // Only accept responses that contain a packages array; error responses fall back to heuristics.
-    if (response && Array.isArray(response.packages)) {
+    const response = await queryNativeHost(settings.nativeHostName, payload);
+    if (response) {
       return response;
-    }
-    // If response exists but has an error or invalid structure, log and fall back
-    if (response && response.error) {
-      console.debug(
-        "Slopspotter native host returned error, using heuristics fallback",
-        response.error,
-      );
     }
   } catch (error) {
     console.warn(
@@ -83,7 +57,6 @@ const handlePackageCheck = async (payload) => {
   };
 };
 
-// 4. Thin wrapper around native messaging to keep a single codepath.
 const queryNativeHost = async (hostName, payload) => {
   if (!hostName) {
     return null;
@@ -92,7 +65,6 @@ const queryNativeHost = async (hostName, payload) => {
   return browser.runtime.sendNativeMessage(hostName, payload);
 };
 
-// 5. Abortable fetch to avoid hanging on slow registries.
 const fetchWithTimeout = async (url, timeoutMs = 3000) => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -112,10 +84,8 @@ const scoreToLevel = (score) => {
 
 const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
 
-// Name patterns we consider suspicious in heuristics.
 const NAME_TOKENS = ["installer", "updater", "crypto", "mining", "hack", "typo"];
 
-// Known stdlib modules that should never be escalated to risky.
 const STD_LIBS = {
   python: new Set([
     "abc",
@@ -186,7 +156,6 @@ const STD_LIBS = {
 };
 
 const computeNameRisk = (normalizedName) => {
-  // Simple token/shape scoring for package names.
   let risk = 0;
   if (NAME_TOKENS.some((token) => normalizedName.includes(token))) {
     risk += 0.5;
@@ -204,7 +173,6 @@ const computeNameRisk = (normalizedName) => {
 };
 
 const registryUrlFor = (pkg) => {
-  // Build a human-friendly metadata URL for tooltips.
   switch (pkg.language) {
     case "python":
       return `https://pypi.org/project/${pkg.name}/`;
@@ -219,7 +187,6 @@ const registryUrlFor = (pkg) => {
   }
 };
 
-// 6. Registry collectors
 const extractPypiSignals = async (pkg) => {
   const url = `https://pypi.org/pypi/${pkg.name}/json`;
   const response = await fetchWithTimeout(url);
@@ -382,14 +349,12 @@ const getSignalsForPackage = async (pkg) => {
   return signals;
 };
 
-// Utility to convert Date into days since today.
 const daysSince = (date) => {
   if (!date) return undefined;
   const diff = Date.now() - date.getTime();
   return diff / (1000 * 60 * 60 * 24);
 };
 
-// 7. Main heuristic scorer used only when the native host is unreachable.
 const buildHeuristicRisk = async (pkg) => {
   const normalizedName = pkg.name.toLowerCase();
 

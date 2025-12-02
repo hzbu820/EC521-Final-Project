@@ -64,20 +64,6 @@ def loop() -> int:
         if received_message == "ping":
             logging.debug("received ping, sending pong")
             send_message(encode_message("pong"))
-            continue
-
-        # Command envelope from extension
-        if isinstance(received_message, dict) and "type" in received_message:
-            cmd_type = received_message.get("type")
-            if cmd_type == "check-packages":
-                # Placeholder response to keep the pipeline wired.
-                # Backend scoring not implemented here; return an error so frontend can fallback.
-                logging.debug("received check-packages command (stub response)")
-                send_message(encode_message({"error": "backend-scoring-not-implemented"}))
-                continue
-
-        # Unknown message; ignore to allow fallback on the frontend.
-        continue
     return 0
 
 

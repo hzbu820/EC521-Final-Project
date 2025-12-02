@@ -1,14 +1,7 @@
 const STYLE_ID = 'slopspotter-style';
 
 const STYLE_CONTENT = `
-/* Table of Contents (CSS)
-   1) Base indicator styles
-   2) Chips + tooltips
-   3) Warnings / pending / buttons
-   4) Tag styles + spinner
-*/
 .slopspotter-indicators {
-  /* Container for chip row injected above snippets */
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -19,7 +12,6 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-chip {
-  /* Pill that wraps a package name + dot + tooltip trigger */
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -42,39 +34,33 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-chip[data-risk="low"] {
-  /* Green chip background/border for low risk */
   border-color: rgba(16, 185, 129, 0.65);
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(16, 185, 129, 0.1));
 }
 
 .slopspotter-chip[data-risk="medium"] {
-  /* Yellow chip background/border for medium risk */
   border-color: rgba(245, 158, 11, 0.65);
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(245, 158, 11, 0.1));
 }
 
 .slopspotter-chip[data-risk="high"] {
-  /* Red chip background/border for high risk */
   border-color: rgba(244, 63, 94, 0.7);
   background: linear-gradient(135deg, rgba(244, 63, 94, 0.24), rgba(244, 63, 94, 0.12));
   color: #7f1d1d;
 }
 
 .slopspotter-chip__dot {
-  /* Colored dot indicating risk level */
   width: 10px;
   height: 10px;
   border-radius: 9999px;
 }
 
 .slopspotter-chip__label {
-  /* Package name text */
   font-weight: 600;
   color: inherit;
 }
 
 .slopspotter-chip__tooltip {
-  /* Hover/click tooltip with details */
   visibility: hidden;
   position: absolute;
   top: calc(100% + 8px);
@@ -103,7 +89,6 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-chip__tooltip h4 {
-  /* Tooltip title line: risk + score */
   margin: 0 0 6px 0;
   font-size: 13px;
   font-weight: 700;
@@ -111,14 +96,12 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-chip__tooltip p {
-  /* Tooltip summary body */
   margin: 0;
   font-size: 12px;
   line-height: 1.4;
 }
 
 .slopspotter-chip__tooltip a {
-  /* Tooltip metadata link button */
   display: inline-block;
   margin-top: 8px;
   font-size: 12px;
@@ -131,7 +114,6 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-warning {
-  /* Warning banner for pending/error states; adjust background/border here */
   font-size: 11px;
   background: rgba(234, 179, 8, 0.12);
   border: 1px solid rgba(234, 179, 8, 0.35);
@@ -144,7 +126,6 @@ const STYLE_CONTENT = `
   box-shadow: 0 6px 14px rgba(234, 179, 8, 0.15);
 }
 .slopspotter-warning .slopspotter-spinner {
-  /* Tiny spinner used in pending state */
   width: 12px;
   height: 12px;
   border-radius: 999px;
@@ -154,7 +135,6 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-action-button {
-  /* Reusable pill button styling */
   appearance: none;
   border: 1px solid rgba(59, 130, 246, 0.6);
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(59, 130, 246, 0.1));
@@ -178,7 +158,6 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-chip__tags {
-  /* Tooltip tag row */
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -186,7 +165,6 @@ const STYLE_CONTENT = `
 }
 
 .slopspotter-chip__tag {
-  /* Individual tag pill */
   display: inline-flex;
   align-items: center;
   padding: 3px 8px;
@@ -213,7 +191,6 @@ const RISK_COLORS = {
 let activeChip = null;
 let documentClickBound = false;
 
-// Injects the style tag once per page.
 export const ensureStylesInjected = () => {
   if (document.getElementById(STYLE_ID)) {
     return;
@@ -226,8 +203,6 @@ export const ensureStylesInjected = () => {
 };
 
 export const getIndicatorContainer = (snippetElement) => {
-  // Locate or create the chip container for a given snippet.
-  // Scoped per snippet id so siblings don't overwrite each other's UI.
   const parent = snippetElement.parentElement ?? snippetElement;
   const snippetId = snippetElement.getAttribute('data-slopspotter-snippet-id') || '';
   const selector = `:scope > .slopspotter-indicators[data-for="${snippetId}"]`;
@@ -244,7 +219,6 @@ export const getIndicatorContainer = (snippetElement) => {
 };
 
 export const renderPending = (snippetElement, message = 'Slopspotter is checking packages...') => {
-  // Show a transient pending banner while we await a response.
   const container = getIndicatorContainer(snippetElement);
   container.replaceChildren();
 
@@ -262,7 +236,6 @@ export const renderPending = (snippetElement, message = 'Slopspotter is checking
 };
 
 export const renderError = (snippetElement, message, onRetry) => {
-  // Show an inline error with optional retry button.
   const container = getIndicatorContainer(snippetElement);
   container.replaceChildren();
 
@@ -283,7 +256,6 @@ export const renderError = (snippetElement, message, onRetry) => {
 };
 
 export const renderIndicators = (snippetElement, response) => {
-  // Render warning + chips for a given snippet response.
   if (!snippetElement || !response) {
     return;
   }
@@ -301,7 +273,6 @@ export const renderIndicators = (snippetElement, response) => {
 };
 
 const createWarningNode = (warning) => {
-  // Simple warning badge node.
   const node = document.createElement('div');
   node.className = 'slopspotter-warning';
   node.textContent = warning;
@@ -309,7 +280,6 @@ const createWarningNode = (warning) => {
 };
 
 const createChip = (pkg) => {
-  // Build a single risk chip + tooltip.
   const chip = document.createElement('div');
   chip.className = 'slopspotter-chip';
   chip.dataset.risk = pkg.result?.riskLevel ?? 'unknown';
@@ -351,7 +321,6 @@ const createChip = (pkg) => {
 };
 
 const createTooltip = (pkg) => {
-  // Tooltip with risk, summary, tags, and metadata link.
   const tooltip = document.createElement('div');
   tooltip.className = 'slopspotter-chip__tooltip';
 
@@ -392,7 +361,6 @@ const createTooltip = (pkg) => {
 };
 
 const buildTags = (pkg) => {
-  // Derive short tags from the summary text for quick scanning.
   const tags = [];
   const summary = pkg.result?.summary?.toLowerCase?.() ?? '';
   if (summary.includes('not found')) tags.push('Not found');

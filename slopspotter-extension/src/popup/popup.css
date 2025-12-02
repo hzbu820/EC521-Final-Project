@@ -1,5 +1,4 @@
 :root {
-  /* Tweak these to change theme colors / backgrounds */
   --bg: #07141c;
   --panel: #0b1c27;
   --surface: #0d1f2c;
@@ -15,24 +14,12 @@
   --shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
 }
 
-/* Table of Contents (CSS)
-   1) Root variables/theme
-   2) Resets/layout
-   3) Hero header
-   4) Card + form
-   5) Inputs/checkbox
-   6) Buttons
-   7) Status + status pill
-   8) Footer (currently unused)
-*/
-
 * {
   box-sizing: border-box;
 }
 
 html,
 body {
-  /* Page background gradient lives here */
   margin: 0;
   padding: 0;
   width: 360px;
@@ -48,7 +35,6 @@ body {
 }
 
 .hero {
-  /* Header background + border radius */
   background: linear-gradient(155deg, #0c1c28, #0a2635);
   border-radius: calc(var(--radius) + 2px) calc(var(--radius) + 2px) var(--radius)
     var(--radius);
@@ -81,7 +67,6 @@ main {
 }
 
 .card {
-  /* Settings card background/border */
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: var(--radius);
@@ -148,7 +133,6 @@ input[type='text']:focus {
 }
 
 button {
-  /* Primary button gradient/shadow */
   padding: 11px 0;
   border: none;
   border-radius: 12px;
