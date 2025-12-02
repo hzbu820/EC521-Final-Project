@@ -48,6 +48,7 @@ class TestScoringBackend(unittest.TestCase):
         self.assertIn("Found in tokenizer vocabulary", result.signals["name"]["reason"])
 
     def test_handle_check_packages(self):
+        """Test parsing frontend question dictionaries."""
         example_question: FrontendQuestion = {
             "snippetId": "snippet-1764713438142-2",
             "packages": [
