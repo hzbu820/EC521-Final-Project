@@ -116,7 +116,6 @@ def score_package(
     """Calculate a risk score for a single package."""
     # Stdlib override
     allow = stdlib_allowlist(name, language)
-    signals: dict[str, SignalResult] = {}
     if allow:
         signals = {
             "registry": SignalResult(0.0, "Stdlib"),
@@ -124,13 +123,26 @@ def score_package(
             "install": SignalResult(0.0, "Stdlib"),
             "metadata": SignalResult(0.0, "Stdlib"),
         }
-    else:
-        signals = {
-            "registry": registry_signal(meta),
-            "name": name_signal(name, tokenizer),
-            "install": install_signal(meta),
-            "metadata": metadata_signal(meta),
-        }
+        return PackageScore(
+            name=name,
+            language=language,
+            score=0.0,
+            riskLevel="low",
+            summary="Stdlib module",
+            signals={k: asdict(v) for k, v in signals.items()},
+            metadataUrl=(meta or {}).get("metadataUrl"),
+        )
+
+    forced = _check_shortcuts(name, language, meta)
+    if forced:
+        return forced
+
+    signals = {
+        "registry": registry_signal(meta),
+        "name": name_signal(name, tokenizer),
+        "install": install_signal(meta),
+        "metadata": metadata_signal(meta),
+    }
 
     score = combine_signals(signals)
     risk = map_level(score)
@@ -145,3 +157,27 @@ def score_package(
         signals={k: asdict(v) for k, v in signals.items()},
         metadataUrl=(meta or {}).get("metadataUrl"),
     )
+
+
+def _check_shortcuts(
+    name: str, language: str, meta: dict[str, Any] | None
+) -> PackageScore | None:
+    """Return a forced high-risk score for hard-stop conditions."""
+    if meta and meta.get("exists") is False:
+        summary = "Package not found in registry; cannot verify publisher."
+        signals = {
+            "registry": asdict(SignalResult(1.0, "Not found in registry")),
+            "name": asdict(SignalResult(0.0, "Not evaluated")),
+            "install": asdict(SignalResult(0.0, "Not evaluated")),
+            "metadata": asdict(SignalResult(0.0, "Not evaluated")),
+        }
+        return PackageScore(
+            name=name,
+            language=language,
+            score=1.0,
+            riskLevel="high",
+            summary=summary,
+            signals=signals,
+            metadataUrl=(meta or {}).get("metadataUrl"),
+        )
+    return None

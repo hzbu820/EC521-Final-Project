@@ -31,11 +31,11 @@ class TestScoringBackend(unittest.TestCase):
         self.assertEqual(result.riskLevel, "low")
         self.assertEqual(result.score, 0)
 
-    def test_missing_registry_defaults_to_medium(self):
-        """Test that missing registry defaults to medium."""
+    def test_missing_registry_forces_high(self):
+        """Missing registry entries should immediately be marked high risk."""
         result = score_package("totally-made-up", "python", meta={"exists": False})
-        self.assertIn(result.riskLevel, {"medium", "high"})
-        self.assertGreaterEqual(result.score, 0.4)
+        self.assertEqual(result.riskLevel, "high")
+        self.assertEqual(result.score, 1.0)
 
     def test_safe_name_low_risk(self):
         """Test that safe names are low-risk."""
