@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from transformers import PreTrainedModel, PreTrainedTokenizer
+
 from slopspotter.constants import BackendResponse, FrontendQuestion
 from slopspotter.signals import (
     SignalResult,
@@ -19,7 +21,9 @@ HIGH_THRESHOLD = 0.7
 MEDIUM_THRESHOLD = 0.4
 
 
-def handle_check_packages(payload: FrontendQuestion) -> BackendResponse:
+def handle_check_packages(
+    payload: FrontendQuestion, model: PreTrainedModel, tokenizer: PreTrainedTokenizer
+) -> BackendResponse:
     """Build a structured response for check-packages command.
 
     Placeholder scorer: returns "unknown" risk so the pipeline remains wired.
@@ -33,7 +37,9 @@ def handle_check_packages(payload: FrontendQuestion) -> BackendResponse:
         name = pkg.get("name", "")
         language = pkg.get("language", "")
         meta = pkg.get("meta") or {}
-        pkg_score = score_package(name=name, language=language, meta=meta)
+        pkg_score = score_package(
+            name=name, language=language, meta=meta, tokenizer=tokenizer
+        )
         formatted.append(
             {
                 "name": name,
@@ -94,14 +100,17 @@ def map_level(score: float) -> str:
 
 def build_summary(signals: dict[str, SignalResult], fallback: str) -> str:
     """Create the summary based on the given signals."""
-    reasons = [sig.reason for sig in signals.values() if sig.score > 0]
+    reasons = [sig.reason for sig in signals.values()]
     if reasons:
         return "; ".join(reasons)
     return fallback
 
 
 def score_package(
-    name: str, language: str, meta: dict[str, Any] | None = None
+    name: str,
+    language: str,
+    meta: dict[str, Any] | None = None,
+    tokenizer: PreTrainedTokenizer | None = None,
 ) -> PackageScore:
     """Calculate a risk score for a single package."""
     # Stdlib override
@@ -117,7 +126,7 @@ def score_package(
     else:
         signals = {
             "registry": registry_signal(meta),
-            "name": name_signal(name),
+            "name": name_signal(name, tokenizer),
             "install": install_signal(meta),
             "metadata": metadata_signal(meta),
         }

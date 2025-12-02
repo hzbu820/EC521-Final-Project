@@ -2,8 +2,15 @@
 
 from __future__ import annotations
 
+import logging
+import sys
 from dataclasses import dataclass
 from typing import Any
+
+from transformers import PreTrainedTokenizer
+
+from slopspotter.llm_decisions import package_in_vocabulary
+from slopspotter.words import in_unix_words, unix_words_path
 
 NAME_TOKENS = ["installer", "updater", "crypto", "mining", "hack", "typo"]
 
@@ -104,7 +111,9 @@ def stdlib_allowlist(name: str, language: str) -> SignalResult | None:
     return None
 
 
-def name_signal(name: str) -> SignalResult:
+def name_signal(
+    name: str, tokenizer: PreTrainedTokenizer | None = None
+) -> SignalResult:
     """Simple lexical risk: suspicious tokens, digits/hyphens, length."""
     lowered = (name or "").lower()
     if not lowered:
@@ -112,6 +121,28 @@ def name_signal(name: str) -> SignalResult:
 
     risk = 0.0
     reasons: list[str] = []
+
+    # Check if the package is a valid dictionary word
+
+    in_words = False
+    if sys.platform != "win32":
+        in_words = in_unix_words(name)
+    if in_words:
+        reasons.append(f"Valid word in '{unix_words_path()}'")
+        logging.debug(f"Package name {name} is present in {unix_words_path()}")
+    else:
+        logging.debug(f"Package name {name} is not present in dictionary")
+
+    # Check if the package is inside the tokenizer's vocabulary
+
+    in_vocab = False
+    if tokenizer is not None:
+        in_vocab = package_in_vocabulary(tokenizer, name)
+    if in_vocab:
+        reasons.append("Inside local tokenizer vocabulary")
+        logging.debug(f"Package name {name} is present in tokenizer vocabulary")
+    else:
+        logging.debug(f"Package name {name} is not present in tokenizer vocabulary")
 
     if any(token in lowered for token in NAME_TOKENS):
         risk += 0.4
