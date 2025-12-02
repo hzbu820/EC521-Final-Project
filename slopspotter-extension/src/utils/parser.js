@@ -1,14 +1,4 @@
-/*
-Table of Contents
-- Language normalization helpers
-- Regex patterns per language
-- Helpers: context snippet, blacklist, validators
-- extractPackages: main exported API
-*/
-
-// Disallow paths/URLs that look like local files or protocol targets.
 const RELATIVE_PREFIXES = ['.', '/', '~'];
-// Identifiers we should ignore per language (kept intentionally small).
 const COMMON_IDENTIFIER_BLACKLIST = {
   python: new Set([]),
   javascript: new Set(['string', 'number'])
@@ -42,7 +32,6 @@ export const normalizeLanguage = (value = '') => {
   return LANGUAGE_ALIASES[cleaned] ?? cleaned;
 };
 
-// Patterns that extract candidate package names from code by language.
 const PATTERNS = [
   {
     languages: ['javascript', 'typescript'],
@@ -82,7 +71,6 @@ const PATTERNS = [
 ];
 
 const isLikelyPackageName = (value) => {
-  // Basic sanity checks: non-empty, not a path/URL.
   if (!value) {
     return false;
   }
@@ -105,14 +93,12 @@ const isLikelyPackageName = (value) => {
 };
 
 const buildContextSnippet = (code, index) => {
-  // Grab a short slice of code around the match for diagnostics.
   const start = Math.max(0, index - 40);
   const end = Math.min(code.length, index + 60);
   return code.slice(start, end).replace(/\s+/g, ' ').trim();
 };
 
 const isPartOfFromStatement = (code, index) => {
-  // Detects whether an "import X" is actually part of "from Y import X".
   const windowStart = Math.max(0, index - 30);
   const snippet = code
     .slice(windowStart, index)
@@ -122,7 +108,6 @@ const isPartOfFromStatement = (code, index) => {
 };
 
 const isBlacklisted = (language, name) => {
-  // Skip common identifiers that are unlikely to be packages.
   const normalized = name.toLowerCase();
   const blacklist = COMMON_IDENTIFIER_BLACKLIST[language];
   return blacklist ? blacklist.has(normalized) : false;
@@ -130,9 +115,6 @@ const isBlacklisted = (language, name) => {
 
 /**
  * Extract candidate package references from code text.
- * - Parses using regex patterns per language.
- * - De-duplicates by name.
- * - Applies simple sanity checks and optional language hint.
  * @param {string} code
  * @param {{language?: string}} options
  * @returns {Array<{name: string, language: string, contextSnippet: string}>}
