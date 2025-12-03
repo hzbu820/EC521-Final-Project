@@ -7,10 +7,17 @@ import os
 import sys
 from importlib.metadata import metadata
 
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    PreTrainedModel,
+    PreTrainedTokenizer,
+)
+
 from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
-from slopspotter.diagnostics import handle_check_packages, placeholder_response
 from slopspotter.messaging import NativeMessage
+from slopspotter.scoring import handle_check_packages
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +29,25 @@ logging.basicConfig(
     encoding="utf-8",
     format="%(asctime)s - PID %(process)d [%(levelname)s]: %(message)s",
 )
+
+
+def loop(model: PreTrainedModel, tokenizer: PreTrainedTokenizer):
+    """Main background function."""
+    try:
+        native_message = NativeMessage.from_stdin()
+
+        if native_message.content == "ping":
+            logging.debug("Received ping. Sending pong...")
+            response = NativeMessage.from_content("pong")
+            response.to_stdout()
+        elif isinstance(native_message.content, dict):
+            logging.debug("Received dictionary")
+            response = handle_check_packages(native_message.content, tokenizer)
+            logging.debug("Response: %s", response)
+            NativeMessage.from_content(response).to_stdout()
+    except Exception as e:
+        logging.debug(e)
+        sys.exit(1)
 
 
 def main() -> int:
@@ -75,20 +101,14 @@ def main() -> int:
         )
         return 1
 
-    native_message = NativeMessage.from_stdin()
-
-    if native_message.content == "ping":
-        logging.debug("Received ping. Sending pong...")
-        response = NativeMessage.from_content("pong")
-        response.to_stdout()
-    elif isinstance(native_message.content, dict):
-        logging.debug("Received dictionary")
-        response = handle_check_packages(native_message.content)
-        logging.debug("Response: %s", response)
-        NativeMessage.from_content(response).to_stdout()
-
-    logging.debug("__main__.main() complete, exiting.")
-    return 0
+    model = AutoModelForCausalLM.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
+    while True:
+        loop(model, tokenizer)
 
 
 if __name__ == "__main__":

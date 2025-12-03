@@ -2,3 +2,6 @@
 *.swp
 *.swo
 *.swn
+
+# Test outputs (may be generated in root directory)
+test/outputs/*

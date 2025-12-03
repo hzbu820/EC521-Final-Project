@@ -365,7 +365,13 @@ const buildTags = (pkg) => {
   const summary = pkg.result?.summary?.toLowerCase?.() ?? '';
   if (summary.includes('not found')) tags.push('Not found');
   if (summary.includes('install hooks') || summary.includes('install scripts')) tags.push('Install scripts');
-  if (summary.includes('missing repo') || summary.includes('metadata')) tags.push('Missing metadata');
+  if (
+    summary.includes('missing metadata') ||
+    summary.includes('missing repo') ||
+    summary.includes('missing homepage')
+  ) {
+    tags.push('Missing metadata');
+  }
   if (summary.includes('very new') || summary.includes('recently changed')) tags.push('New/changed');
   if (summary.includes('low adoption') || summary.includes('few releases')) tags.push('Low adoption');
   return tags;

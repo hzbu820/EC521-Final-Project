@@ -320,9 +320,9 @@ def add_expected_output_tokens(
         expected_token_probs, expected_tokens, expected_token_ids, strict=True
     ):
         current_depth = decision_tree.nodes[current_node_id]["depth"]
+        successors = list(decision_tree.successors(current_node_id))
         successor_token_ids = [
-            decision_tree.nodes[successor]["token_id"]
-            for successor in decision_tree.successors(current_node_id)
+            decision_tree.nodes[successor]["token_id"] for successor in successors
         ]
         if token_id not in successor_token_ids:
             new_node_id = decision_tree.order()
@@ -341,7 +341,7 @@ def add_expected_output_tokens(
             )
             current_node_id = new_node_id
         else:
-            current_node_id = successor_token_ids.index(token_id)
+            current_node_id = successors[successor_token_ids.index(token_id)]
 
     return decision_tree
 
