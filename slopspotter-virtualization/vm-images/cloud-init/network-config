@@ -1,0 +1,10 @@
+version: 2
+ethernets:
+  default:
+    match:
+      name: "en*"
+    dhcp4: true
+  fallback:
+    match:
+      name: "eth*"
+    dhcp4: true

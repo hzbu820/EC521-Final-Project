@@ -1,0 +1,21 @@
+# VM disk images (too large for git)
+*.qcow2
+*.img
+*.iso
+
+# Keep the cloud-init config directory but not generated files
+!vm-images/cloud-init/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# SSH keys (security)
+id_rsa
+id_rsa.pub
+
+# Temporary files
+*.tmp
+*.log
+
