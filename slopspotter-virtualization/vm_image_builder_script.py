@@ -291,7 +291,7 @@ ethernets:
             "--disk", f"path={image_path},format=qcow2",
             "--disk", f"path={cloud_init_iso},device=cdrom",
             "--os-variant", "ubuntu22.04" if os_type == "ubuntu" else "generic",
-            "--virt-type", "kvm",
+            "--virt-type", "qemu",
             "--graphics", "none",
             "--network", "network=default",
             "--import",

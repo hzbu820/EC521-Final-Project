@@ -2,14 +2,13 @@
 dependencies = [
 	"accelerate",
 	"networkx>=3.5",
-	"pygraphviz>=1.14; sys_platform != 'win32'",
 	"scipy>=1.16.3",
 	"torch>=2.7.1",
 	"transformers",
 ]
 name = "slopspotter"
 version = "0.1.0"
-requires-python = ">3.11"
+requires-python = ">=3.11"
 authors = [
 	{ name = "Victor Mercola", email = "vmercola@bu.edu" },
 	{ name = "Kevin Zhang", email = "wzhang@bu.edu" },
@@ -22,6 +21,9 @@ readme = "README.md"
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [dependency-groups]
 dev = ["ipympl", "ipython", "jupyter", "matplotlib", "pytest", "qtpy"]
