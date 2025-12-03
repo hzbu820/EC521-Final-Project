@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 const STYLE_ID = 'slopspotter-style';
 
 const STYLE_CONTENT = `
@@ -111,6 +113,63 @@ const STYLE_CONTENT = `
   border-radius: 8px;
   border: 1px solid rgba(56, 189, 248, 0.4);
   background: rgba(56, 189, 248, 0.12);
+}
+
+.slopspotter-deep-scan-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  margin-right: 8px;
+  font-size: 12px;
+  color: #fbbf24;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  background: rgba(251, 191, 36, 0.15);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.slopspotter-deep-scan-btn:hover {
+  background: rgba(251, 191, 36, 0.25);
+  transform: translateY(-1px);
+}
+
+.slopspotter-deep-scan-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.slopspotter-deep-scan-btn .icon {
+  font-size: 14px;
+}
+
+.slopspotter-deep-scan-result {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.slopspotter-deep-scan-result.safe {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+}
+
+.slopspotter-deep-scan-result.malicious {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+}
+
+.slopspotter-deep-scan-result.error {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: #cbd5e1;
 }
 
 .slopspotter-warning {
@@ -348,16 +407,154 @@ const createTooltip = (pkg) => {
     tooltip.appendChild(tagRow);
   }
 
+  // Add action buttons row
+  const actionsRow = document.createElement('div');
+  actionsRow.style.display = 'flex';
+  actionsRow.style.flexWrap = 'wrap';
+  actionsRow.style.alignItems = 'center';
+  actionsRow.style.gap = '8px';
+
+  // Deep Scan button for medium/high risk packages
+  if (riskLabel === 'high' || riskLabel === 'medium') {
+    const deepScanBtn = createDeepScanButton(pkg);
+    actionsRow.appendChild(deepScanBtn);
+  }
+
   if (pkg.result?.metadataUrl) {
     const link = document.createElement('a');
     link.href = pkg.result.metadataUrl;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.textContent = 'View metadata';
-    tooltip.appendChild(link);
+    actionsRow.appendChild(link);
+  }
+
+  if (actionsRow.children.length > 0) {
+    tooltip.appendChild(actionsRow);
   }
 
   return tooltip;
+};
+
+/**
+ * Create a Deep Scan button for VM-based analysis
+ */
+const createDeepScanButton = (pkg) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'slopspotter-deep-scan-btn';
+  btn.innerHTML = '<span class="icon">🔬</span> Deep Scan';
+  btn.title = 'Run package in isolated VM to detect malicious behavior';
+
+  // Container for results (will be added after scan)
+  const resultContainer = document.createElement('div');
+
+  btn.addEventListener('click', async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="icon">⏳</span> Scanning...';
+
+    try {
+      const response = await browser.runtime.sendMessage({
+        type: 'deep-scan',
+        payload: {
+          packageName: pkg.name,
+          language: normalizeLanguageForDeepScan(pkg.language)
+        }
+      });
+
+      if (response && response.success && response.result) {
+        const result = response.result;
+        renderDeepScanResult(resultContainer, result);
+        btn.innerHTML = result.isMalicious
+          ? '<span class="icon">⚠️</span> Malicious!'
+          : '<span class="icon">✓</span> Scanned';
+        btn.disabled = true;
+      } else {
+        renderDeepScanError(resultContainer, response?.error || 'Deep scan failed');
+        btn.innerHTML = '<span class="icon">🔬</span> Retry Scan';
+        btn.disabled = false;
+      }
+    } catch (error) {
+      console.error('Deep scan error:', error);
+      renderDeepScanError(resultContainer, error.message);
+      btn.innerHTML = '<span class="icon">🔬</span> Retry Scan';
+      btn.disabled = false;
+    }
+  });
+
+  // Wrap button and result container
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.flexDirection = 'column';
+  wrapper.appendChild(btn);
+  wrapper.appendChild(resultContainer);
+
+  return wrapper;
+};
+
+/**
+ * Normalize language string for deep scan API
+ */
+const normalizeLanguageForDeepScan = (language) => {
+  if (!language) return 'Python';
+  const lower = language.toLowerCase();
+  if (lower === 'python' || lower === 'py') return 'Python';
+  if (lower === 'javascript' || lower === 'js' || lower === 'node' || lower === 'npm') return 'JavaScript';
+  return 'Python'; // Default fallback
+};
+
+/**
+ * Render deep scan result in the tooltip
+ */
+const renderDeepScanResult = (container, result) => {
+  container.innerHTML = '';
+
+  const div = document.createElement('div');
+  div.className = `slopspotter-deep-scan-result ${result.isMalicious ? 'malicious' : 'safe'}`;
+
+  const title = document.createElement('strong');
+  title.textContent = result.isMalicious
+    ? `⚠️ Malicious behavior detected (${Math.round(result.confidence * 100)}% confidence)`
+    : '✓ No malicious behavior detected';
+
+  div.appendChild(title);
+
+  if (result.indicators && result.indicators.length > 0) {
+    const list = document.createElement('ul');
+    list.style.margin = '6px 0 0 0';
+    list.style.paddingLeft = '16px';
+    result.indicators.slice(0, 5).forEach((indicator) => {
+      const li = document.createElement('li');
+      li.textContent = indicator;
+      list.appendChild(li);
+    });
+    div.appendChild(list);
+  }
+
+  if (result.networkConnections && result.networkConnections.length > 0) {
+    const netInfo = document.createElement('p');
+    netInfo.style.marginTop = '6px';
+    netInfo.textContent = `🌐 ${result.networkConnections.length} network connection(s) detected`;
+    div.appendChild(netInfo);
+  }
+
+  container.appendChild(div);
+};
+
+/**
+ * Render deep scan error in the tooltip
+ */
+const renderDeepScanError = (container, errorMessage) => {
+  container.innerHTML = '';
+
+  const div = document.createElement('div');
+  div.className = 'slopspotter-deep-scan-result error';
+  div.textContent = `⚠️ ${errorMessage}`;
+
+  container.appendChild(div);
 };
 
 const buildTags = (pkg) => {
