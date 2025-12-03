@@ -18,6 +18,8 @@ browser.runtime.onMessage.addListener(async (message) => {
   switch (message.type) {
     case "check-packages":
       return handlePackageCheck(message.payload);
+    case "deep-scan":
+      return handleDeepScan(message.payload);
     case "get-settings":
       return getSettings();
     case "save-settings":
@@ -55,6 +57,47 @@ const handlePackageCheck = async (payload) => {
     })),
     warning: "Native host unreachable. Displaying heuristic risk estimates.",
   };
+};
+
+/**
+ * Handle deep scan request - runs package in VM sandbox for dynamic analysis
+ * @param {Object} payload - { packageName: string, language: string }
+ * @returns {Promise<Object>} Deep scan results
+ */
+const handleDeepScan = async (payload) => {
+  const settings = await getSettings();
+
+  try {
+    // Send deep scan request to native host
+    const response = await queryNativeHost(settings.nativeHostName, {
+      type: "deep-scan",
+      payload: {
+        packageName: payload.packageName,
+        language: payload.language,
+      },
+    });
+
+    if (response && response.success) {
+      return {
+        success: true,
+        packageName: payload.packageName,
+        result: response.result,
+      };
+    }
+
+    return {
+      success: false,
+      packageName: payload.packageName,
+      error: response?.error || "Deep scan failed",
+    };
+  } catch (error) {
+    console.error("Deep scan error:", error);
+    return {
+      success: false,
+      packageName: payload.packageName,
+      error: `Deep scan unavailable: ${error.message}. VM sandbox requires Linux with QEMU/libvirt.`,
+    };
+  }
 };
 
 const queryNativeHost = async (hostName, payload) => {

@@ -18,6 +18,7 @@ from slopspotter import manifests
 from slopspotter.constants import SLOPSPOTTER_VERSION, SUPPORTED_BROWSERS
 from slopspotter.messaging import NativeMessage
 from slopspotter.scoring import handle_check_packages
+from slopspotter.vm_sandbox import handle_deep_scan_request
 
 logger = logging.getLogger(__name__)
 
@@ -41,9 +42,22 @@ def loop(model: PreTrainedModel, tokenizer: PreTrainedTokenizer):
             response = NativeMessage.from_content("pong")
             response.to_stdout()
         elif isinstance(native_message.content, dict):
-            logging.debug("Received dictionary")
-            response = handle_check_packages(native_message.content, tokenizer)
-            logging.debug("Response: %s", response)
+            content = native_message.content
+            msg_type = content.get("type", "check-packages")
+
+            logging.debug("Received message type: %s", msg_type)
+
+            if msg_type == "deep-scan":
+                # Handle deep scan request (VM-based analysis)
+                logging.debug("Processing deep scan request")
+                response = handle_deep_scan_request(content.get("payload", content))
+                logging.debug("Deep scan response: %s", response)
+            else:
+                # Default: handle package check request
+                logging.debug("Processing check-packages request")
+                response = handle_check_packages(content, tokenizer)
+                logging.debug("Response: %s", response)
+
             NativeMessage.from_content(response).to_stdout()
     except Exception as e:
         logging.debug(e)
