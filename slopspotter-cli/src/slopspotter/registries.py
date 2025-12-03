@@ -5,6 +5,14 @@ import urllib.error
 import urllib.request
 from datetime import datetime
 
+LANGUAGE_ALIASES = {
+    "typescript": "javascript",
+}
+
+
+def normalize_language(language: str) -> str:
+    return LANGUAGE_ALIASES.get(language, language)
+
 
 def fetch_json(url: str, timeout: int = 3) -> dict | None:
     try:
@@ -91,11 +99,16 @@ def extract_npm_signals(name: str) -> dict:
         return {"exists": False}
 
     time = registry.get("time", {}) or {}
-    version_dates = [
-        datetime.fromisoformat(v.replace("Z", "+00:00"))
-        for k, v in time.items()
-        if k not in ("created", "modified")
-    ]
+    version_dates = []
+    for key, value in time.items():
+        if key in ("created", "modified"):
+            continue
+        if not isinstance(value, str):
+            continue
+        try:
+            version_dates.append(datetime.fromisoformat(value.replace("Z", "+00:00")))
+        except ValueError:
+            continue
     version_dates.sort()
     first_release = version_dates[0] if version_dates else None
     last_release = version_dates[-1] if version_dates else None
@@ -112,8 +125,14 @@ def extract_npm_signals(name: str) -> dict:
     )
 
     repo = latest_meta.get("repository")
+    if isinstance(repo, dict):
+        repo = repo.get("url")
     homepage = latest_meta.get("homepage")
-    license_text = latest_meta.get("license")
+    license_field = latest_meta.get("license")
+    if isinstance(license_field, dict):
+        license_text = license_field.get("type") or license_field.get("name")
+    else:
+        license_text = license_field
     return {
         "exists": True,
         "firstRelease": first_release,
@@ -184,6 +203,7 @@ def extract_go_signals(name: str) -> dict:
 
 
 def registry_url_for(name: str, language: str) -> str | None:
+    language = normalize_language(language)
     if language == "python":
         return f"https://pypi.org/project/{name}/"
     if language == "javascript":
@@ -196,6 +216,7 @@ def registry_url_for(name: str, language: str) -> str | None:
 
 
 def extract_registry_signals(name: str, language: str):
+    language = normalize_language(language)
     if language == "python":
         return extract_pypi_signals(name)
     if language == "javascript":

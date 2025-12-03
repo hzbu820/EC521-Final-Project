@@ -195,7 +195,15 @@ def metadata_signal(meta: dict[str, Any] | None) -> SignalResult:
         missing.append("repo")
     if not meta.get("homepage"):
         missing.append("homepage")
-    if not meta.get("license"):
+    license_value = meta.get("license")
+    if isinstance(license_value, str):
+        license_text = license_value
+    elif isinstance(license_value, dict):
+        license_text = license_value.get("type") or license_value.get("name") or ""
+    else:
+        license_text = ""
+    license_text = license_text.strip().lower()
+    if not license_text or license_text in {"unknown", "n/a"}:
         missing.append("license")
     if missing:
         return SignalResult(len(missing) / 3, f"Missing {', '.join(missing)}")
