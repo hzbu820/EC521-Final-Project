@@ -50,11 +50,11 @@ def draw_decision_tree_dot(
     plotting_decision_tree = nx.DiGraph(decision_tree)
 
     for node_id in plotting_decision_tree.nodes:
-        token = prettify_token(plotting_decision_tree.nodes[node_id]["token"]).replace(
-            "\\", "\\\\"
-        )
-        token_id = plotting_decision_tree.nodes[node_id]["token_id"]
-        expected = plotting_decision_tree.nodes[node_id]["expected"]
+        token = prettify_token(
+            plotting_decision_tree.nodes[node_id].get("token", "")
+        ).replace("\\", "\\\\")
+        token_id = plotting_decision_tree.nodes[node_id].get("token_id", -1)
+        expected = plotting_decision_tree.nodes[node_id].get("expected", False)
 
         if label_type == "token_id":
             plotting_decision_tree.nodes[node_id]["label"] = token_id
@@ -75,8 +75,8 @@ def draw_decision_tree_dot(
         ]
 
     for edge in plotting_decision_tree.edges:
-        probability = plotting_decision_tree.edges[edge]["probability"]
-        expected = plotting_decision_tree.edges[edge]["expected"]
+        probability = plotting_decision_tree.edges[edge].get("probability", -1)
+        expected = plotting_decision_tree.edges[edge].get("expected", False)
         plotting_decision_tree.edges[edge]["label"] = format_probability(probability)
         plotting_decision_tree.edges[edge]["color"] = "red" if expected else "black"
         plotting_decision_tree.edges[edge]["fontcolor"] = "red" if expected else "black"
