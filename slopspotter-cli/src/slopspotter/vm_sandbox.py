@@ -452,7 +452,7 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
 
 def deep_scan_package(
     package_name: str,
-    language: Literal["Python", "JavaScript"],
+    language: Literal["Python", "JavaScript", "Go", "Rust"],
     vm_image_path: Optional[str] = None,
     timeout: int = 120,
     context: Optional[dict[str, Any]] = None,
@@ -462,7 +462,19 @@ def deep_scan_package(
         try:
             if language == "Python":
                 return _docker_scan_python(package_name, context or {})
-            return _docker_scan_npm(package_name, context or {})
+            if language == "JavaScript":
+                return _docker_scan_npm(package_name, context or {})
+            # Go/Rust not yet supported in sandbox; return informative placeholder
+            return VMScanResult(
+                package_name=package_name,
+                language=language,
+                is_malicious=False,
+                confidence=0.3,
+                indicators=[f"Deep scan not available for {language}; using heuristic only."],
+                network_connections=[],
+                file_operations=[],
+                process_spawns=[],
+            )
         except Exception as e:  # pragma: no cover
             logger.warning("Docker scan failed, falling back to VM if available: %s", e)
 
@@ -515,7 +527,20 @@ def _lightweight_scan(package_name: str, language: Literal["Python", "JavaScript
             confidence=0.0,
             error="Neither VM nor Docker available for deep scanning",
         )
-    return _docker_scan_python(package_name, context or {}) if language == "Python" else _docker_scan_npm(package_name, context or {})
+    if language == "Python":
+        return _docker_scan_python(package_name, context or {})
+    if language == "JavaScript":
+        return _docker_scan_npm(package_name, context or {})
+    return VMScanResult(
+        package_name=package_name,
+        language=language,
+        is_malicious=False,
+        confidence=0.3,
+        indicators=[f"Deep scan not available for {language}; using heuristic only."],
+        network_connections=[],
+        file_operations=[],
+        process_spawns=[],
+    )
 
 
 def handle_deep_scan_request(payload: dict[str, Any]) -> dict[str, Any]:
@@ -528,10 +553,15 @@ def handle_deep_scan_request(payload: dict[str, Any]) -> dict[str, Any]:
     if not package_name:
         return {"success": False, "error": "Package name is required"}
 
-    if language.lower() in ("python", "py"):
+    lang_lower = language.lower()
+    if lang_lower in ("python", "py"):
         language = "Python"
-    elif language.lower() in ("javascript", "js", "node", "npm", "typescript", "ts"):
+    elif lang_lower in ("javascript", "js", "node", "npm", "typescript", "ts"):
         language = "JavaScript"
+    elif lang_lower in ("go", "golang"):
+        language = "Go"
+    elif lang_lower in ("rust", "rs", "cargo"):
+        language = "Rust"
     else:
         return {"success": False, "error": f"Unsupported language: {language}"}
 
