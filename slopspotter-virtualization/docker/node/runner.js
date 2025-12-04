@@ -2,6 +2,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { execFileSync, spawnSync } = require("child_process");
+const fs = require("fs");
 
 function main() {
   const pkg = process.argv[2];
@@ -17,6 +18,8 @@ function main() {
     require_rc: null,
     install_error: null,
     require_error: null,
+    installed_version: null,
+    download_bytes: null,
     install_out: "",
     install_err: "",
     require_out: "",
@@ -46,6 +49,30 @@ function main() {
     report.install_err = (install.stderr || "").slice(-4000);
     if (install.status !== 0) {
       report.install_error = "install_failed";
+    }
+    // Try to read installed version from node_modules/<pkg>/package.json
+    try {
+      const pkgJsonPath = path.join(process.cwd(), "node_modules", pkg, "package.json");
+      if (fs.existsSync(pkgJsonPath)) {
+        const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
+        if (pkgJson && pkgJson.version) {
+          report.installed_version = pkgJson.version;
+        }
+        // compute dir size
+        const dirSize = (dir) => {
+          let total = 0;
+          const entries = fs.readdirSync(dir, { withFileTypes: true });
+          for (const entry of entries) {
+            const full = path.join(dir, entry.name);
+            if (entry.isDirectory()) total += dirSize(full);
+            else total += fs.statSync(full).size;
+          }
+          return total;
+        };
+        report.download_bytes = dirSize(path.join(process.cwd(), "node_modules", pkg));
+      }
+    } catch (e) {
+      // ignore
     }
 
     const req = spawnSync(

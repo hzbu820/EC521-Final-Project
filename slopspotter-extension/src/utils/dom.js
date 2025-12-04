@@ -612,7 +612,10 @@ const createDeepScanButton = (pkg) => {
         payload: {
           packageName: pkg.name,
           language: normalizeLanguageForDeepScan(pkg.language),
-          context: pkg.result ?? {} // pass heuristic context (registry/score) to native host
+          context: {
+            ...(pkg.result ?? {}),
+            originalLanguage: pkg.language || ''
+          } // pass heuristic context (registry/score) + original language to native host
         }
       });
 
@@ -660,7 +663,7 @@ const normalizeLanguageForDeepScan = (language) => {
   if (!language) return 'Python';
   const lower = language.toLowerCase();
   if (lower === 'python' || lower === 'py') return 'Python';
-  if (lower === 'javascript' || lower === 'js' || lower === 'node' || lower === 'npm') return 'JavaScript';
+  if (['javascript', 'js', 'node', 'npm', 'typescript', 'ts'].includes(lower)) return 'JavaScript';
   return 'Python'; // Default fallback
 };
 
@@ -692,12 +695,7 @@ const renderDeepScanResult = (container, result) => {
     div.appendChild(list);
   }
 
-  if (result.networkConnections && result.networkConnections.length > 0) {
-    const netInfo = document.createElement('p');
-    netInfo.style.marginTop = '6px';
-    netInfo.textContent = `${result.networkConnections.length} network connection(s) detected`;
-    div.appendChild(netInfo);
-  }
+  // Network details are already summarized in indicators; skip redundant count here.
 
   container.appendChild(div);
 };
