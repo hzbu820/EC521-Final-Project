@@ -23,9 +23,7 @@ from slopspotter.vm_sandbox import handle_deep_scan_request
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
-    filename=os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "log.log"
-    ),
+    filename=r"C:\Users\haora\Desktop\slopspotter_debug.log",
     level=logging.DEBUG,
     encoding="utf-8",
     format="%(asctime)s - PID %(process)d [%(levelname)s]: %(message)s",
