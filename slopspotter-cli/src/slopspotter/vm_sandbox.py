@@ -106,7 +106,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
                 "docker",
                 "run",
                 "--rm",
-                "--network=none",
+                # Allow network so install/import can fetch real artifacts
                 "slopspotter-scan-py",
                 package_name,
             ],
@@ -157,8 +157,12 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
                     confidence = max(confidence, 0.65 if prior_risk == "high" or (isinstance(prior_score, (int, float)) and prior_score >= 0.7) else 0.5)
         if meaningful_net:
             indicators.append("Network attempts observed")
-            is_malicious = True
-            confidence = max(confidence, 0.7)
+            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
+                # benign for known-low packages
+                confidence = max(confidence, 0.3)
+            else:
+                is_malicious = True
+                confidence = max(confidence, 0.7)
         if (not is_malicious) and (
             (data.get("install_rc") not in (0, None)) or (data.get("import_rc") not in (0, None))
         ):
@@ -205,7 +209,7 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
                 "docker",
                 "run",
                 "--rm",
-                "--network=none",
+                # Allow network so install/require can fetch real artifacts
                 "slopspotter-scan-node",
                 package_name,
             ],
@@ -254,8 +258,11 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
                     confidence = max(confidence, 0.65 if prior_risk == "high" or (isinstance(prior_score, (int, float)) and prior_score >= 0.7) else 0.5)
         if meaningful_net:
             indicators.append("Network attempts observed")
-            is_malicious = True
-            confidence = max(confidence, 0.7)
+            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
+                confidence = max(confidence, 0.3)
+            else:
+                is_malicious = True
+                confidence = max(confidence, 0.7)
         if (not is_malicious) and (
             (data.get("install_rc") not in (0, None)) or (data.get("require_rc") not in (0, None))
         ):
