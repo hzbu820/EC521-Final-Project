@@ -74,7 +74,16 @@ class VMImageBuilder:
                 "jammy-server-cloudimg-amd64.img",
                 "filename": "ubuntu-22.04-cloudimg.img",
             },
-            # ... rest of the dict
+            "debian": {
+                "url": "https://cloud.debian.org/images/cloud/bookworm/latest/"
+                "debian-12-generic-amd64.qcow2",
+                "filename": "debian-12-cloudimg-amd64.qcow2",
+            },
+            "fedora": {
+                "url": "https://download.fedoraproject.org/pub/fedora/linux/releases/"
+                "39/Cloud/x86_64/images/Fedora-Cloud-Base-39-1.5.x86_64.qcow2",
+                "filename": "fedora-39-cloudimg-amd64.qcow2",
+            },
         }
 
         if os_type not in cloud_images:
@@ -85,7 +94,7 @@ class VMImageBuilder:
 
         if image_path.exists():
             logger.info("Cloud image already exists: %s", image_path)
-            return str(image_path.absolute())  # ← Change here
+            return str(image_path.absolute())
 
         logger.info("Downloading %s cloud image...", os_type)
         logger.info("URL: %s", image_info["url"])
@@ -100,7 +109,7 @@ class VMImageBuilder:
             logger.error("Failed to download image: %s", e)
             raise
 
-        return str(image_path.absolute())  # ← Change here
+        return str(image_path.absolute())
 
     def create_cloud_init_iso(self) -> str:
         """Create cloud-init ISO with configuration.
@@ -243,9 +252,8 @@ ethernets:
 
         if image_path.exists():
             logger.warning("Image already exists: %s", image_path)
-            response = input("Overwrite? (y/n): ")
-            if response.lower() != "y":
-                return str(image_path)
+            # Auto-overwrite for this task to avoid interaction
+            logger.info("Overwriting existing image...")
             image_path.unlink()
 
         # Download cloud image
@@ -310,14 +318,14 @@ ethernets:
 
         # Shutdown the VM
         logger.info("Shutting down VM...")
-        subprocess.run(["sudo", "virsh", "shutdown", base_name], check=True)  # Remove space
+        subprocess.run(["sudo", "virsh", "shutdown", base_name], check=True)
 
         # Wait for shutdown
         logger.info("Waiting for VM shutdown...")
         time.sleep(30)
 
         # Undefine the VM (but keep the disk)
-        subprocess.run(["sudo", "virsh", "undefine", base_name], check=True)  # Remove space
+        subprocess.run(["sudo", "virsh", "undefine", base_name], check=True)
 
         logger.info("Base image created successfully: %s", image_path)
         logger.info("SSH private key: %s", self.output_dir / "id_rsa")

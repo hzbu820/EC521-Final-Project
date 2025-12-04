@@ -249,19 +249,6 @@ local-hostname: slopspotter-sandbox
         Args:
             image_path: Path to VM disk image
             cloud_init_iso: Path to cloud-init ISO
-        """
-        # Start VM with cloud-init ISO
-        process = subprocess.Popen(
-            [
-                "qemu-system-x86_64",
-                "-machine",
-                "accel=kvm",
-                "-m",
-                "2048",
-                "-smp",
-                "2",
-                "-drive",
-                f"file={image_path},if=virtio",
                 "-drive",
                 f"file={cloud_init_iso},if=virtio,format=raw",
                 "-netdev",
