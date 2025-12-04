@@ -98,9 +98,134 @@ def _filter_meaningful_network(lines: list[str]) -> list[str]:
     return signals
 
 
+def _classify_network(lines: list[str]) -> tuple[int, int]:
+    """Classify network connections into benign (known registry/CDN) vs other."""
+    benign = 0
+    other = 0
+    for line in lines:
+        # crude match on known registry/CDN patterns
+        if any(
+            token in line
+            for token in (
+                "151.101.",  # fastly (pypi/npm)
+                "104.16.",  # cloudflare npm
+                "104.17.",
+                "104.18.",
+                "104.19.",
+                "104.20.",
+                "104.21.",
+                "pypi",
+                "pythonhosted",
+                "npmjs",
+                "registry.npmjs",
+                "fastly",
+                "cloudflare",
+                "amazonaws",
+                "pkg.github.com",
+            )
+        ):
+            benign += 1
+        else:
+            other += 1
+    return benign, other
+
+
+def _summarize_endpoints(lines: list[str], max_items: int = 3) -> str:
+    """Extract a short summary of unique endpoints from connect() lines."""
+    endpoints: list[str] = []
+    seen = set()
+    for line in lines:
+        parts = line.split("inet_addr(\"")
+        if len(parts) > 1:
+            addr_part = parts[1].split("\")")[0]
+            if addr_part and addr_part not in seen:
+                seen.add(addr_part)
+                endpoints.append(addr_part)
+        if len(endpoints) >= max_items:
+            break
+    if not endpoints:
+        return ""
+    return ", ".join(endpoints)
+
+
+def _endpoint_list(lines: list[str], max_items: int = 3) -> list[str]:
+    """Return a list of up to max_items unique endpoints from connect() lines."""
+    endpoints: list[str] = []
+    seen = set()
+    for line in lines:
+        parts = line.split("inet_addr(\"")
+        if len(parts) > 1:
+            addr_part = parts[1].split("\")")[0]
+            if addr_part and addr_part not in seen:
+                seen.add(addr_part)
+                endpoints.append(addr_part)
+        if len(endpoints) >= max_items:
+            break
+    return endpoints
+
+
+def _score_from_signals(
+    *,
+    prior_risk: str,
+    prior_score: Any,
+    install_fail: bool,
+    timeout: bool,
+    container_nonzero: bool,
+    net_count: int,
+    proc_count: int,
+    benign_net: int = 0,
+    other_net: int = 0,
+    inconclusive: bool = False,
+) -> tuple[bool, float]:
+    """Compute malicious flag and confidence from sandbox + heuristic signals."""
+    prior_low = prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2)
+    prior_high = prior_risk == "high" or (isinstance(prior_score, (int, float)) and prior_score >= 0.7)
+
+    score = 0.05
+    if prior_high:
+        score += 0.3
+    elif isinstance(prior_score, (int, float)) and prior_score >= 0.4:
+        score += 0.15
+
+    if timeout:
+        score += 0.25
+    if install_fail:
+        score += 0.2
+    if container_nonzero:
+        score += 0.1
+
+    score += min(0.3, 0.04 * max(0, net_count))  # cap impact from network count
+    # discount benign registry connects
+    score -= min(0.1, 0.01 * benign_net)
+    score += min(0.2, 0.05 * max(0, other_net))
+
+    if proc_count > 5:
+        score += 0.1
+    elif proc_count > 1:
+        score += 0.05
+
+    if inconclusive:
+        score = min(score, 0.45)
+
+    score = min(1.0, max(0.0, score))
+
+    is_malicious = score >= 0.55 or (prior_high and (install_fail or net_count > 0 or timeout))
+    if prior_low and score < 0.5:
+        is_malicious = False
+
+    # Explicit benign override for clean low-risk runs with only registry traffic
+    if prior_low and not install_fail and not timeout and not container_nonzero and other_net <= 2:
+        is_malicious = False
+        score = min(score, 0.4)
+
+    confidence = min(1.0, max(0.3, score + (0.1 if score > 0.6 else 0.0)))
+    return is_malicious, confidence
+
+
 def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanResult:
     """Scan Python package using the instrumented Docker image."""
     try:
+        t0 = time.monotonic()
         result = subprocess.run(
             [
                 "docker",
@@ -114,6 +239,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             text=True,
             timeout=70,
         )
+        elapsed = time.monotonic() - t0
 
         data: dict[str, Any] = {}
         if result.stdout:
@@ -123,51 +249,59 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
                 data = {"install_error": "invalid_json"}
 
         indicators = ["Docker sandbox (Python)"]
-        is_malicious = False
-        confidence = 0.35
-
         prior_risk = (context.get("riskLevel") or "").lower()
         prior_score = context.get("score")
 
         meaningful_net = _filter_meaningful_network(data.get("network", []))
+        net_count = len(meaningful_net)
+        benign_net, other_net = _classify_network(meaningful_net)
+        endpoint_summary = _summarize_endpoints(meaningful_net)
+        install_version = data.get("installed_version")
+        download_bytes = data.get("download_bytes")
+        proc_count = len(data.get("processes", []))
+        install_fail = bool(
+            data.get("install_error") or data.get("import_error") or (data.get("install_rc") not in (0, None)) or (data.get("import_rc") not in (0, None))
+        )
+        timeout = bool(data.get("timeout"))
+        container_nonzero = result.returncode != 0
+        inconclusive = install_fail and not meaningful_net and prior_risk == "low"
+        endpoints = _endpoint_list(meaningful_net)
 
-        if result.returncode != 0:
+        if container_nonzero:
             indicators.append("Sandbox container returned non-zero status")
-            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
-                # benign until other signals appear
-                confidence = max(confidence, 0.3)
-            else:
-                is_malicious = True
-                confidence = max(confidence, 0.7)
-        if data.get("timeout"):
+        if timeout:
             indicators.append("Sandbox timeout during install/import")
-            is_malicious = True
-            confidence = 0.75
-        if data.get("install_error") or data.get("import_error"):
+        if data.get("install_error") or data.get("import_error") or install_fail:
             indicators.append("Install/import failed inside sandbox")
-            if meaningful_net:
-                confidence = max(confidence, 0.6)
-                is_malicious = True
-            else:
-                if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
-                    confidence = max(confidence, 0.3)
-                else:
-                    # For high/unknown risk with install/import failure, treat as malicious even without net
-                    is_malicious = True
-                    confidence = max(confidence, 0.65 if prior_risk == "high" or (isinstance(prior_score, (int, float)) and prior_score >= 0.7) else 0.5)
         if meaningful_net:
             indicators.append("Network attempts observed")
-            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
-                # benign for known-low packages
-                confidence = max(confidence, 0.3)
-            else:
-                is_malicious = True
-                confidence = max(confidence, 0.7)
-        if (not is_malicious) and (
-            (data.get("install_rc") not in (0, None)) or (data.get("import_rc") not in (0, None))
-        ):
+        if install_fail and not (data.get("install_error") or data.get("import_error")):
             indicators.append("Install/import reported non-zero status")
-            confidence = max(confidence, 0.45)
+        if benign_net and not other_net:
+            indicators.append(f"Registry/CDN connects: {benign_net}")
+        if other_net:
+            indicators.append(f"Non-registry connects: {other_net}")
+        if endpoint_summary:
+            indicators.append(f"Endpoints: {endpoint_summary}")
+        if install_version:
+            indicators.append(f"Installed version: {install_version}")
+        if download_bytes:
+            indicators.append(f"Downloaded: {download_bytes} bytes")
+        if elapsed:
+            indicators.append(f"Elapsed: {elapsed:.1f}s")
+
+        is_malicious, confidence = _score_from_signals(
+            prior_risk=prior_risk,
+            prior_score=prior_score,
+            install_fail=install_fail,
+            timeout=timeout,
+            container_nonzero=container_nonzero,
+            net_count=net_count,
+            proc_count=proc_count,
+            benign_net=benign_net,
+            other_net=other_net,
+            inconclusive=inconclusive,
+        )
 
         return VMScanResult(
             package_name=package_name,
@@ -175,7 +309,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             is_malicious=is_malicious,
             confidence=confidence,
             indicators=indicators,
-            network_connections=_parse_network(meaningful_net),
+            network_connections=endpoints,
             file_operations=[],
             process_spawns=_parse_network(data.get("processes", [])),
         )
@@ -204,6 +338,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
 def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult:
     """Scan NPM package using the instrumented Docker image."""
     try:
+        t0 = time.monotonic()
         result = subprocess.run(
             [
                 "docker",
@@ -217,6 +352,7 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             text=True,
             timeout=70,
         )
+        elapsed = time.monotonic() - t0
 
         data: dict[str, Any] = {}
         if result.stdout:
@@ -225,49 +361,62 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             except json.JSONDecodeError:
                 data = {"install_error": "invalid_json"}
 
-        indicators = ["Docker sandbox (JavaScript)"]
-        is_malicious = False
-        confidence = 0.35
-
         prior_risk = (context.get("riskLevel") or "").lower()
         prior_score = context.get("score")
 
         meaningful_net = _filter_meaningful_network(data.get("network", []))
+        net_count = len(meaningful_net)
+        benign_net, other_net = _classify_network(meaningful_net)
+        endpoint_summary = _summarize_endpoints(meaningful_net)
+        endpoints = _endpoint_list(meaningful_net)
+        install_version = data.get("installed_version")
+        download_bytes = data.get("download_bytes")
+        proc_count = len(data.get("processes", []))
+        install_fail = bool(
+            data.get("install_error") or data.get("require_error") or (data.get("install_rc") not in (0, None)) or (data.get("require_rc") not in (0, None))
+        )
+        timeout = bool(data.get("timeout"))
+        container_nonzero = result.returncode != 0
+        inconclusive = install_fail and not meaningful_net and prior_risk == "low"
 
-        if result.returncode != 0:
+        orig_lang = (context.get("originalLanguage") or "").lower()
+        label_lang = "TypeScript" if orig_lang in ("ts", "typescript") else "JavaScript"
+        indicators = [f"Docker sandbox ({label_lang})"]
+        if container_nonzero:
             indicators.append("Sandbox container returned non-zero status")
-            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
-                confidence = max(confidence, 0.3)
-            else:
-                is_malicious = True
-                confidence = max(confidence, 0.7)
-        if data.get("timeout"):
+        if timeout:
             indicators.append("Sandbox timeout during install/require")
-            is_malicious = True
-            confidence = 0.75
-        if data.get("install_error") or data.get("require_error"):
+        if data.get("install_error") or data.get("require_error") or install_fail:
             indicators.append("Install/require failed inside sandbox")
-            if meaningful_net:
-                is_malicious = True
-                confidence = max(confidence, 0.6)
-            else:
-                if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
-                    confidence = max(confidence, 0.3)
-                else:
-                    is_malicious = True
-                    confidence = max(confidence, 0.65 if prior_risk == "high" or (isinstance(prior_score, (int, float)) and prior_score >= 0.7) else 0.5)
         if meaningful_net:
             indicators.append("Network attempts observed")
-            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
-                confidence = max(confidence, 0.3)
-            else:
-                is_malicious = True
-                confidence = max(confidence, 0.7)
-        if (not is_malicious) and (
-            (data.get("install_rc") not in (0, None)) or (data.get("require_rc") not in (0, None))
-        ):
+        if install_fail and not (data.get("install_error") or data.get("require_error")):
             indicators.append("Install/require reported non-zero status")
-            confidence = max(confidence, 0.45)
+        if benign_net and not other_net:
+            indicators.append(f"Registry/CDN connects: {benign_net}")
+        if other_net:
+            indicators.append(f"Non-registry connects: {other_net}")
+        if endpoint_summary:
+            indicators.append(f"Endpoints: {endpoint_summary}")
+        if install_version:
+            indicators.append(f"Installed version: {install_version}")
+        if download_bytes:
+            indicators.append(f"Downloaded: {download_bytes} bytes")
+        if elapsed:
+            indicators.append(f"Elapsed: {elapsed:.1f}s")
+
+        is_malicious, confidence = _score_from_signals(
+            prior_risk=prior_risk,
+            prior_score=prior_score,
+            install_fail=install_fail,
+            timeout=timeout,
+            container_nonzero=container_nonzero,
+            net_count=net_count,
+            proc_count=proc_count,
+            benign_net=benign_net,
+            other_net=other_net,
+            inconclusive=inconclusive,
+        )
 
         return VMScanResult(
             package_name=package_name,
@@ -275,7 +424,7 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             is_malicious=is_malicious,
             confidence=confidence,
             indicators=indicators,
-            network_connections=_parse_network(meaningful_net),
+            network_connections=endpoints,
             file_operations=[],
             process_spawns=_parse_network(data.get("processes", [])),
         )
@@ -308,47 +457,6 @@ def deep_scan_package(
     timeout: int = 120,
     context: Optional[dict[str, Any]] = None,
 ) -> VMScanResult:
-    # Demo triggers
-    if package_name in (
-        "demo-malware-package",
-        "demo_malware_package",
-        "fake-trojan-toolkit",
-        "fake_trojan_toolkit",
-        "nonexistent-hacker-lib",
-        "nonexistent_hacker_lib",
-        "data_forge",
-        "data-forge",
-        "py_nettools",
-        "py-nettools",
-        "ml_launchpad",
-        "ml-launchpad",
-        "geo_spatial_kit",
-        "geo-spatial-kit",
-        "crypto_guard",
-        "crypto-guard",
-        "overflow_attack",
-        "overflow-attack",
-        "spoofing_tools",
-        "spoofing-tools",
-    ):
-        logger.info("Presentation Trigger: Detected demo package. Returning pre-computed result.")
-        time.sleep(2)
-        return VMScanResult(
-            package_name=package_name,
-            language=language,
-            is_malicious=True,
-            confidence=1.0,
-            indicators=[
-                "Deep Registry Scan: Verified package does not exist in any public registry.",
-                "Vulnerability Analysis: High risk of Dependency Confusion attack.",
-                "Namespace Check: Package name is unclaimed and vulnerable to hijacking.",
-                "Security Policy: Import of unregistered package violates safety rules.",
-            ],
-            network_connections=[],
-            file_operations=[],
-            process_spawns=[],
-        )
-
     # Prefer Docker path
     if _docker_available():
         try:
@@ -422,7 +530,7 @@ def handle_deep_scan_request(payload: dict[str, Any]) -> dict[str, Any]:
 
     if language.lower() in ("python", "py"):
         language = "Python"
-    elif language.lower() in ("javascript", "js", "node", "npm"):
+    elif language.lower() in ("javascript", "js", "node", "npm", "typescript", "ts"):
         language = "JavaScript"
     else:
         return {"success": False, "error": f"Unsupported language: {language}"}
