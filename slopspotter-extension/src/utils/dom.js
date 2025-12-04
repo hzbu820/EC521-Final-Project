@@ -664,6 +664,8 @@ const normalizeLanguageForDeepScan = (language) => {
   const lower = language.toLowerCase();
   if (lower === 'python' || lower === 'py') return 'Python';
   if (['javascript', 'js', 'node', 'npm', 'typescript', 'ts'].includes(lower)) return 'JavaScript';
+  if (lower === 'go' || lower === 'golang') return 'Go';
+  if (lower === 'rust' || lower === 'rs' || lower === 'cargo') return 'Rust';
   return 'Python'; // Default fallback
 };
 
