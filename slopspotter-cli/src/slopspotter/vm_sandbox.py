@@ -133,8 +133,12 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
 
         if result.returncode != 0:
             indicators.append("Sandbox container returned non-zero status")
-            is_malicious = True
-            confidence = max(confidence, 0.7)
+            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
+                # benign until other signals appear
+                confidence = max(confidence, 0.3)
+            else:
+                is_malicious = True
+                confidence = max(confidence, 0.7)
         if data.get("timeout"):
             indicators.append("Sandbox timeout during install/import")
             is_malicious = True
@@ -228,8 +232,11 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
 
         if result.returncode != 0:
             indicators.append("Sandbox container returned non-zero status")
-            is_malicious = True
-            confidence = max(confidence, 0.7)
+            if prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2):
+                confidence = max(confidence, 0.3)
+            else:
+                is_malicious = True
+                confidence = max(confidence, 0.7)
         if data.get("timeout"):
             indicators.append("Sandbox timeout during install/require")
             is_malicious = True
