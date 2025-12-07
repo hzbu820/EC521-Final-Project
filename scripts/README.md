@@ -2,7 +2,7 @@
 
 This repo has two parts that matter for Deep Scan:
 - Browser extension (`slopspotter-extension`) that shows the button/tooltips.
-- Native host (`slopspotter-cli`) + sandbox images (`slopspotter-virtualization/docker/...`) that actually run the scan.
+- Native host (`slopspotter-cli`) plus sandbox images (`slopspotter-virtualization/docker/...`) that actually run the scan.
 
 Follow these steps on a new machine to get Deep Scan working.
 
@@ -18,6 +18,7 @@ cd EC521-Final-Project
 docker build -t slopspotter-scan-py   slopspotter-virtualization/docker/python
 docker build -t slopspotter-scan-node slopspotter-virtualization/docker/node
 ```
+These images are required for Deep Scan (browser or CLI).
 
 ## 2) Install the native host (slopspotter-cli)
 From repo root:
@@ -34,15 +35,15 @@ From the activated venv:
 # Firefox (your browser):
 slopspotter --install-manifests firefox
 ```
-This writes the manifest pointing to the CLI so the extension can message it.
+This writes the manifest pointing to the CLI so the extension can message it. Use the same host name in the extension popup.
 
 ## 4) Load the extension
-- Open Chrome/Edge → Extensions → Developer mode → Load unpacked.
-- Select `EC521-Final-Project/slopspotter-extension`.
+- Chrome/Edge: Extensions > Developer mode > Load unpacked > `EC521-Final-Project/slopspotter-extension/dist`
+- Firefox: `about:debugging#/runtime/this-firefox` > Load Temporary Add-on > `dist/manifest.json`
 - Keep the extension tab open for reloads when code changes.
 
 ## 5) Run a manual deep scan (sanity check)
-From repo root (with Docker running):
+From repo root (Docker running, sandbox images built, and venv activated):
 ```powershell
 @"
 import sys, json, os
@@ -55,7 +56,7 @@ print(json.dumps(vm_sandbox.handle_deep_scan_request({
 }), indent=2))
 "@ | python -
 ```
-You should see a JSON result with `Docker sandbox (Python)` and benign verdict.
+You should see a JSON result with `Docker sandbox (Python)` and a benign verdict.
 
 ## 6) Debug script (optional)
 We added `scripts/deep_scan_debug.py` to run scans without the browser:
@@ -69,9 +70,9 @@ Tail it: `Get-Content -Path C:\Users\<you>\Desktop\slopspotter_debug.log -Wait`
 
 ## 7) Use in the browser
 - Reload the extension after any code changes.
-- Hover a chip → click “Deep Scan”.
+- Hover a chip and click "Deep Scan".
 - Tooltips will show sandbox indicators (Python/JavaScript/TypeScript).
-- Go/Rust currently show “Deep scan not available; heuristic only.”
+- Go/Rust currently show "Deep scan not available; heuristic only."
 
 ## Notes
 - Deep Scan needs Docker running. If Docker/VM is unavailable, the extension will fall back to a simulated result.

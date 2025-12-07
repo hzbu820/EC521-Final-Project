@@ -1,45 +1,52 @@
-# EC 521 Final Project: Slopspotter, a Slopsquatting-Prevention Tool
+# EC 521 Final Project: Slopspotter (AI Supply-Chain Risk Guardrail)
 
 - authors: Victor Mercola, Kevin Zhang, Hieu Nguyen, Oscar Zhang
 
-## Directory Structure
+Slopspotter detects slopsquatted/malicious/"hallucinated" packages suggested by AI assistants (ChatGPT/Copilot). It provides inline risk chips in the browser and a native host that can run Docker/VM-based deep scans.
 
-- 📁 `scripts/`: scripts for maintaining this project.
-- 📁 `slopspotter-cli/`: Python CLI application and native messaging host.
-- 📁 `slopspotter-extension/`: Firefox browser extension.
+## Repository layout
 
-## Installation
+- `scripts/`: helper scripts (Deep Scan quickstart/debug).
+- `slopspotter-cli/`: Python native host + scoring/sandbox orchestration.
+- `slopspotter-extension/`: Chrome/Firefox extension UI.
+- `slopspotter-virtualization/`: Docker images for deep scans and optional KVM VM tooling.
 
-1. Install the following requirements for this project:
+## Quickstart (Deep Scan path)
 
-- Python 3.11
-- Firefox / Firefox ESR
-
-2. Set up the Python environment, and install native manifests:
+From repo root:
 
 ```bash
+# Build sandbox images (required for Deep Scan)
+docker build -t slopspotter-scan-py   slopspotter-virtualization/docker/python
+docker build -t slopspotter-scan-node slopspotter-virtualization/docker/node
+
+# Install native host
 cd slopspotter-cli
-# Set up Python environment
 python -m venv .venv
-# Activate Python environment
 source .venv/bin/activate
-# Install `slopspotter` Python package in environment
-pip install --editable .
-# Install manifests for enabling native messaging
-python -m slopspotter --install-manifests
+pip install -e .
+slopspotter --install-manifests firefox  # or chrome/edge host name as needed
 ```
 
-3. Install the extension using [about:debugging](https://firefox-source-docs.mozilla.org/devtools-user/about_colon_debugging/index.html) and navigate to the `manifest.json` folder inside `slopspotter-extension/`
+Load the extension:
+- Chrome/Edge: Developer Mode > Load unpacked > `slopspotter-extension/dist`
+- Firefox: `about:debugging#/runtime/this-firefox` > Load Temporary Add-on > `dist/manifest.json`
 
-## Pre-Commit Hooks
+Sanity-check deep scan (with Docker running):
 
-This project uses [pre-commit](https://pre-commit.com/) to set up pre-commit hooks that enforce shared metadata and constants between both sub-projects. Make sure to install it before committing code.
-
+```bash
+cd ..
+python scripts/deep_scan_debug.py --package requests --language python --risk low --score 0.0
 ```
-# Install pre-commit
-sudo apt install pre-commit
+
+## Testing
+
+- Frontend: `cd slopspotter-extension && npm test`
+- Backend scoring/sandbox: `cd slopspotter-cli && python -m pytest`
+
+## Pre-commit (optional)
+
+```bash
 pip install pre-commit
-
-# Configure pre-commit hooks
 pre-commit install
 ```

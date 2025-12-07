@@ -1,78 +1,46 @@
 # Slopspotter CLI & Native Host
 
-This subproject is managed with [UV](https://docs.astral.sh/uv/). While it's not required for building this project, it makes setting up easier.
+The CLI is the native messaging host for the browser extension. It scores packages with registry/name/install/metadata signals and can run Docker/VM-based deep scans (`deep-scan` messages) to return behavioral indicators.
 
-## Local Installation Instructions (With UV)
+## Quickstart (venv)
 
-1. Make `slopspotter-cli` your current directory (if not already done).
-
-2. Set up / activate your Python environment.
-
-   ```bash
-   uv sync
-   ```
-
-   You can also install additional packages for development:
-
-   ```bash
-   uv sync --dev
-   ```
-
-## Local Installation Instructions (Without UV)
-
-1. Make `slopspotter-cli` your current directory (if not already done).
-
-2. Set up isolated Python virtual environment using `venv`
-
-   ```bash
-   python -m venv .venv --prompt='slopspotter-cli'
-   ```
-
-3. Activate your Python environment.
-
-   ```bash
-   # For MacOS / Linux:
-   source .venv/bin/activate
-   ```
-
-   ```powershell
-   # For Windows:
-   .venv\Scripts\Activate
-   ```
-
-4. Install the `slopspotter` Python package.
-
-   ```bash
-   pip install .
-   ```
-
-   You can also install additional packages for development:
-
-   ```bash
-   pip install --editable . --group=dev
-   ```
-
-5. If your GPU is too old to support the most recent of PyTorch, you can install an older version that relies on older CUDA toolkit versions.[^1]
-
-   ```bash
-   pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu118
-   ```
-
-6. Install manifests for enabling native messaging.
-
-   ```bash
-   slopspotter --install-manifests=firefox
-   ```
-
-## Running Tests
-
-The `test` folder contains test suites for this project written with `unittest`, Python's built-in unit testing library.
-
+From repo root:
 ```bash
-# With pytest:
-python -m pytest .
-# With unittest:
-python -m unittest discover test/
+cd slopspotter-cli
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -e .
+slopspotter --install-manifests firefox  # or chrome/edge host name
 ```
 
-[^1]: https://pytorch.org/get-started/previous-versions/
+## Deep Scan setup
+
+Deep Scan requires the sandbox images from `slopspotter-virtualization` and Docker running:
+```bash
+cd ..
+docker build -t slopspotter-scan-py   slopspotter-virtualization/docker/python
+docker build -t slopspotter-scan-node slopspotter-virtualization/docker/node
+```
+When available, the CLI will call these containers to execute `pip install/import` or `npm install/require` under `strace`, blend the signals with heuristics, and return indicators such as endpoints, processes, and download sizes. On Linux without Docker, it can fall back to an optional libvirt/QEMU VM; on other platforms it returns a simulated result.
+
+Run a manual deep scan (from repo root, Docker on, venv activated):
+```bash
+python scripts/deep_scan_debug.py --package requests --language python --risk low --score 0.0
+```
+
+## UV (alternative)
+
+If you prefer [UV](https://docs.astral.sh/uv/):
+```bash
+cd slopspotter-cli
+uv sync        # or: uv sync --dev
+slopspotter --install-manifests firefox
+```
+
+## Tests
+
+```bash
+python -m pytest
+# or
+python -m unittest discover test/
+```
