@@ -1,5 +1,10 @@
 """Notebook code for generating the token decision trees for top packages."""
 
+# %%
+
+import json
+import os
+
 import networkx as nx
 import torch
 from transformers import (
@@ -9,7 +14,10 @@ from transformers import (
     PreTrainedTokenizer,
 )
 
-from slopspotter.drawing import prettify_token
+from slopspotter.drawing import (
+    draw_decision_tree_dot,
+    prettify_token,
+)
 from slopspotter.llm_decisions import (
     PACKAGE_INPUT_TEMPLATE,
     reset_control_codes,
@@ -17,66 +25,103 @@ from slopspotter.llm_decisions import (
 from slopspotter.registries import fetch_json
 
 LANGUAGE = "python"
-TOP_PYPI_PACKAGES = fetch_json(
+TOP_PYPI_PACKAGES_LINK = (
     "https://hugovk.github.io/top-pypi-packages/top-pypi-packages.min.json"
 )
+PYPI_PACKAGES_JSON_FILENAME = "top-pypi-packages.json"
+PACKAGE_TREE_FILENAME = "top_pypi_packages.gml"
 
-# %%
 
-model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
-)
-tokenizer = AutoTokenizer.from_pretrained(
-    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
-)
+def pypi_packages_json(force: bool = False) -> dict:
+    """Download or load the the PyPI Package JSON file by downloading / loading it.
 
-# %%
+    Args:
+        force: if true, re-download the JSON file
+    """
+    # Load it if already downloaded / not forced
+    if os.path.exists(PYPI_PACKAGES_JSON_FILENAME) and not force:
+        print(f"Loading {PYPI_PACKAGES_JSON_FILENAME}")
+        with open(PYPI_PACKAGES_JSON_FILENAME) as pypi_packages_file:
+            return json.load(pypi_packages_file)
 
-decision_tree = nx.DiGraph()
+    # Download it if not already available
+    top_pypi_packages = fetch_json(TOP_PYPI_PACKAGES_LINK)
+    with open(PYPI_PACKAGES_JSON_FILENAME, "w") as pypi_packages_file:
+        json.dump(top_pypi_packages, pypi_packages_file)
+    if top_pypi_packages is not None:
+        return top_pypi_packages
 
-packages = [row["project"] for row in TOP_PYPI_PACKAGES["rows"]]
 
-input_text = PACKAGE_INPUT_TEMPLATE.format(LANGUAGE, "")
-input_ids = tokenizer.encode(input_text, return_tensors="np")[-1]
-last_input_id = input_ids[-1]
+def pypi_package_tree(
+    top_pypi_packages: dict,
+    tokenizer: PreTrainedTokenizer,
+    top_n: int = 100,
+    force: bool = False,
+) -> nx.DiGraph:
+    """Make the PyPI package token-by-token decision tree.
 
-decision_tree.add_node(
-    0,
-    token_id=int(last_input_id),
-    token=reset_control_codes(tokenizer.decode(last_input_id)),
-    label=reset_control_codes(tokenizer.decode(last_input_id)),
-    depth=0,
-    input_text=input_text,
-)
+    Args:
+        top_pypi_packages: Dictionary of top PyPI packages
+        tokenizer: transformers tokenizer
+        top_n: Include the top N packages
+        force: if true: redo the decision tree generation
 
-# %%
+    """
+    if os.path.exists(PACKAGE_TREE_FILENAME) and not force:
+        print(f"Loading {PACKAGE_TREE_FILENAME}")
+        return nx.read_gml(PACKAGE_TREE_FILENAME, destringizer=int)
 
-package_token_ids = [tokenizer.encode(package) for package in packages]
+    decision_tree = nx.DiGraph()
 
-for tokenized_package in package_token_ids:
-    current_node_id = 0
-    for depth, token_id in enumerate(tokenized_package, start=1):
-        print(depth, token_id)
-        successors = list(decision_tree.successors(current_node_id))
-        successor_token_ids = [
-            decision_tree.nodes[successor]["token_id"] for successor in successors
-        ]
-        if token_id not in successor_token_ids:
-            new_node_id = decision_tree.order()
-            decision_tree.add_node(
-                new_node_id,
-                depth=depth + 1,
-                token_id=token_id,
-                token=prettify_token(tokenizer.decode(token_id)),
-                label=prettify_token(tokenizer.decode(token_id)),
-            )
-            decision_tree.add_edge(
-                current_node_id,
-                new_node_id,
-            )
-            current_node_id = new_node_id
-        else:
-            current_node_id = successors[successor_token_ids.index(token_id)]
+    packages = [row["project"] + "`" for row in top_pypi_packages["rows"][0:top_n]]
+
+    input_text = PACKAGE_INPUT_TEMPLATE.format(LANGUAGE, "")
+    input_ids = tokenizer.encode(input_text, return_tensors="np")[-1]
+    last_input_id = input_ids[-1]
+
+    decision_tree.add_node(
+        0,
+        token_id=int(last_input_id),
+        token=reset_control_codes(tokenizer.decode(last_input_id)),
+        label=reset_control_codes(tokenizer.decode(last_input_id)),
+        depth=0,
+        input_text=input_text,
+        expected=True,
+    )
+
+    package_token_ids = [tokenizer.encode(package) for package in packages]
+
+    for tokenized_package in package_token_ids:
+        current_node_id = 0
+        for depth, token_id in enumerate(tokenized_package, start=1):
+            print(depth, token_id)
+            successors = list(decision_tree.successors(current_node_id))
+            successor_token_ids = [
+                decision_tree.nodes[successor]["token_id"] for successor in successors
+            ]
+            if token_id not in successor_token_ids:
+                new_node_id = decision_tree.order()
+                decision_tree.add_node(
+                    new_node_id,
+                    depth=depth + 1,
+                    token_id=token_id,
+                    token=prettify_token(tokenizer.decode(token_id)),
+                    label=prettify_token(tokenizer.decode(token_id)),
+                    expected=True,
+                )
+                decision_tree.add_edge(
+                    current_node_id,
+                    new_node_id,
+                    expected=True,
+                )
+                current_node_id = new_node_id
+            else:
+                current_node_id = successors[successor_token_ids.index(token_id)]
+
+    nx.write_gml(decision_tree, PACKAGE_TREE_FILENAME)
+    if top_n <= 100:
+        draw_decision_tree_dot(decision_tree, "package_tree.png", label_type="token")
+    return decision_tree
 
 
 # %%
@@ -87,7 +132,13 @@ def token_probabilities(
     tokenizer: PreTrainedTokenizer,
     input_text: str,
 ) -> torch.Tensor:
-    """Calculate the probabilities of the next token."""
+    """Calculate the probabilities of the next token.
+
+    Args:
+        model: transformers model for causal LM
+        tokenizer: transformers tokenizer
+        input_text: text previously generated by LLM / inputted by user
+    """
     input_ids = tokenizer.encode(input_text, return_tensors="pt").to(model.device)
 
     with torch.no_grad():
@@ -105,23 +156,115 @@ def populate_probabilities(
     node_id: int,
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
-    input_text: str,
+    k: int = 3,
 ):
-    """Populate the outgoing edges of a node in a decision tree with probabilities."""
+    """Populate the outgoing edges of a node in a decision tree with probabilities.
+
+    Additionally, add the top k tokens if they're not already in the decision tree.
+
+    Args:
+        decision_tree: LLM token decision tree / package tree
+        node_id: given node ID in the decision tree
+        model: transformers model for causal LM
+        tokenizer: transformers tokenizer
+        k: the k in "top-k"
+
+
+
+    """
+    # Don't do anything if there are no successors
     if len(list(decision_tree.successors(node_id))) == 0:
         return
 
-    probabilities = token_probabilities(model, tokenizer, input_text)
+    # Determine the input text for this node
+    node_input_text = decision_tree.nodes[0]["input_text"]
+    if decision_tree.nodes[node_id]["depth"] != 0:
+        traversal = nx.shortest_path(decision_tree, 0, node_id)
+        node_input_text += tokenizer.decode(
+            [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
+        )
+
+    # Get the token probabilities
+    probabilities = token_probabilities(model, tokenizer, node_input_text)
+
+    # Annotate edges with their probabilities
     for edge in decision_tree.out_edges(node_id):
         next_token_id = decision_tree.nodes[edge[1]]["token_id"]
-        decision_tree.edges[edge]["probability"] = probabilities[next_token_id].item()
+        edge_probability = probabilities[next_token_id].item()
+        if edge_probability < 0:
+            print(f"Invalid probability: {edge_probability}")
+        decision_tree.edges[edge]["probability"] = edge_probability
+        decision_tree.edges[edge]["label"] = edge_probability
+
+    # Stop here if k is 0
+    if k == 0:
+        return
+
+    # Get the top K most probable next tokens
+    topk_values, topk_indices = torch.topk(probabilities, k=k)
+
+    # Get successor node IDs and their token IDs
+    successors = list(decision_tree.successors(node_id))
+    successor_token_ids = [
+        decision_tree.nodes[successor]["token_id"] for successor in successors
+    ]
+    # Get the current depth
+    current_depth = decision_tree.nodes[node_id]["depth"]
+
+    # Populate decision tree with new "unexpected" tokens if missing from top K tokens
+    for top_value, top_index in zip(topk_values, topk_indices, strict=True):
+        if top_index.item() not in successor_token_ids:
+            token = reset_control_codes(tokenizer.decode(top_index))
+            new_node_id = decision_tree.order()
+            decision_tree.add_node(
+                new_node_id,
+                depth=current_depth + 1,
+                token_id=top_index.item(),
+                token=reset_control_codes(token),
+                expected=False,
+            )
+            decision_tree.add_edge(
+                node_id,
+                new_node_id,
+                probability=top_value.item(),
+                expected=False,
+            )
 
 
-for node_id in range(500):
-    print(node_id)
-    populate_probabilities(decision_tree, 0, model, tokenizer, input_text)
-# dot_graph = nx.nx_agraph.to_agraph(decision_tree)
-# dot_graph.draw(path="decision_tree.png", prog="dot")
-nx.write_gml(decision_tree, "decision_tree.gml")
+def populate_all_probabilities(
+    decision_tree: nx.DiGraph,
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
+    k: int = 3,
+):
+    """Populate the probabilities for all nodes in the decision tree.
+
+    Args:
+        decision_tree: LLM token decision tree / package tree
+        model: transformers model for causal LM
+        tokenizer: transformers tokenizer
+        k: the k in "top-k"
+    """
+    order = decision_tree.order()
+    for node_id in range(order):
+        populate_probabilities(decision_tree, node_id, model, tokenizer, k)
+    nx.write_gml(decision_tree, "decision_tree.gml")
+    if decision_tree.order() < 500:
+        draw_decision_tree_dot(decision_tree, "decision_tree.png", label_type="token")
+
+
+# %%
+
+model = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+)
+
+tokenizer = AutoTokenizer.from_pretrained(
+    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+)
+
+top_pypi_packages = pypi_packages_json()
+package_tree = pypi_package_tree(top_pypi_packages, tokenizer, top_n=10, force=True)
+populate_all_probabilities(package_tree, model, tokenizer)
 
 # %%
