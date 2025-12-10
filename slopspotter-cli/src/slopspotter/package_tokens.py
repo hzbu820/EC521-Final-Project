@@ -4,6 +4,7 @@
 
 import json
 import os
+from itertools import product
 
 import networkx as nx
 import torch
@@ -30,6 +31,7 @@ TOP_PYPI_PACKAGES_LINK = (
 )
 PYPI_PACKAGES_JSON_FILENAME = "top-pypi-packages.json"
 PACKAGE_TREE_FILENAME = "top_pypi_packages.gml"
+ENDING_STRINGS = ["`", "`\n", "`\n\n"]
 
 
 def pypi_packages_json(force: bool = False) -> dict:
@@ -73,7 +75,10 @@ def pypi_package_tree(
 
     decision_tree = nx.DiGraph()
 
-    packages = [row["project"] + "`" for row in top_pypi_packages["rows"][0:top_n]]
+    packages = []
+
+    for row, end_str in product(top_pypi_packages["rows"][0:top_n], ENDING_STRINGS):
+        packages.append(row["project"] + end_str)
 
     input_text = PACKAGE_INPUT_TEMPLATE.format(LANGUAGE, "")
     input_ids = tokenizer.encode(input_text, return_tensors="np")[-1]
@@ -94,7 +99,6 @@ def pypi_package_tree(
     for tokenized_package in package_token_ids:
         current_node_id = 0
         for depth, token_id in enumerate(tokenized_package, start=1):
-            print(depth, token_id)
             successors = list(decision_tree.successors(current_node_id))
             successor_token_ids = [
                 decision_tree.nodes[successor]["token_id"] for successor in successors
@@ -191,8 +195,6 @@ def populate_probabilities(
     for edge in decision_tree.out_edges(node_id):
         next_token_id = decision_tree.nodes[edge[1]]["token_id"]
         edge_probability = probabilities[next_token_id].item()
-        if edge_probability < 0:
-            print(f"Invalid probability: {edge_probability}")
         decision_tree.edges[edge]["probability"] = edge_probability
         decision_tree.edges[edge]["label"] = edge_probability
 
