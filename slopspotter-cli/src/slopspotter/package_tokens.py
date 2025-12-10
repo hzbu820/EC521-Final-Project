@@ -1,11 +1,11 @@
 """Notebook code for generating the token decision trees for top packages."""
 
 import json
-import os
 from itertools import product
 
 import networkx as nx
 import torch
+from joblib import Memory
 from tqdm import tqdm
 from transformers import (
     AutoModelForCausalLM,
@@ -15,7 +15,6 @@ from transformers import (
 )
 
 from slopspotter.drawing import (
-    draw_decision_tree_dot,
     prettify_token,
 )
 from slopspotter.llm_decisions import (
@@ -34,46 +33,36 @@ PACKAGE_TREE_FILENAME = "top_pypi_packages.gml"
 DECISION_TREE_FILENAME = "decision_tree.gml"
 ENDING_STRINGS = ["`", "`\n", "`\n\n"]
 
+CACHE_PATH = "./.data"
+memory = Memory(CACHE_PATH, verbose=1)
 
-def pypi_packages_json(force: bool = False) -> dict:
-    """Download or load the the PyPI Package JSON file by downloading / loading it.
+torch.manual_seed(20251210)
 
-    Args:
-        force: if true, re-download the JSON file
-    """
-    # Load it if already downloaded / not forced
-    if os.path.exists(PYPI_PACKAGES_JSON_FILENAME) and not force:
-        print(f"Loading {PYPI_PACKAGES_JSON_FILENAME}")
-        with open(PYPI_PACKAGES_JSON_FILENAME) as pypi_packages_file:
-            return json.load(pypi_packages_file)
 
-    # Download it if not already available
+@memory.cache
+def pypi_packages_json() -> dict:
+    """Download or load the the PyPI Package JSON file by downloading / loading it."""
     top_pypi_packages = fetch_json(TOP_PYPI_PACKAGES_LINK)
     with open(PYPI_PACKAGES_JSON_FILENAME, "w") as pypi_packages_file:
         json.dump(top_pypi_packages, pypi_packages_file)
-    if top_pypi_packages is not None:
-        return top_pypi_packages
+    if top_pypi_packages is None:
+        raise TimeoutError("Failed to download PyPI Package JSON")
+
+    return top_pypi_packages
 
 
+@memory.cache(ignore=["tokenizer"])
 def pypi_package_tree(
-    top_pypi_packages: dict,
     tokenizer: PreTrainedTokenizer,
     top_n: int = 100,
-    force: bool = False,
 ) -> nx.DiGraph:
     """Make the PyPI package token-by-token decision tree.
 
     Args:
-        top_pypi_packages: Dictionary of top PyPI packages
         tokenizer: transformers tokenizer
         top_n: Include the top N packages
-        force: if true: redo the decision tree generation
-
     """
-    if os.path.exists(PACKAGE_TREE_FILENAME) and not force:
-        print(f"Loading {PACKAGE_TREE_FILENAME}")
-        return nx.read_gml(PACKAGE_TREE_FILENAME, destringizer=int)
-
+    top_pypi_packages = pypi_packages_json()
     decision_tree = nx.DiGraph()
 
     packages = []
@@ -123,8 +112,6 @@ def pypi_package_tree(
             else:
                 current_node_id = successors[successor_token_ids.index(token_id)]
 
-    nx.write_gml(decision_tree, PACKAGE_TREE_FILENAME)
-    draw_decision_tree_dot(decision_tree, "package_tree.png", label_type="token")
     return decision_tree
 
 
@@ -228,7 +215,12 @@ def populate_probabilities(
 
 
 def add_generated_nodes(
-    decision_tree: nx.DiGraph, k=2, max_depth=4, stop_strings=("`", ".")
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
+    decision_tree: nx.DiGraph,
+    k=2,
+    max_depth=4,
+    stop_strings=("`", "."),
 ):
     """Extend the decision tree by adding an extra layer of nodes."""
     modified_nodes = 0
@@ -293,6 +285,7 @@ def add_generated_nodes(
     return modified_nodes
 
 
+@memory.cache(ignore=["model", "tokenizer"])
 def populate_all_probabilities(
     decision_tree: nx.DiGraph,
     model: PreTrainedModel,
@@ -310,46 +303,51 @@ def populate_all_probabilities(
     order = decision_tree.order()
     for node_id in tqdm(range(order)):
         populate_probabilities(decision_tree, node_id, model, tokenizer, k)
-    nx.write_gml(decision_tree, "decision_tree.gml")
-    draw_decision_tree_dot(decision_tree, "decision_tree.png", label_type="token")
 
 
+@memory.cache(ignore=["model", "tokenizer"])
+def extend_decision_tree(
+    model: PreTrainedModel,
+    tokenizer: PreTrainedTokenizer,
+    decision_tree: nx.DiGraph,
+    k: int = 3,
+    max_depth=4,
+    stop_strings=("`", "."),
+):
+    """Fully extend the decision tree."""
+    while additional_nodes := add_generated_nodes(
+        model, tokenizer, decision_tree, k, max_depth, stop_strings
+    ):
+        print(f"adding {additional_nodes} more nodes...")
+    return decision_tree
+
+
+@memory.cache(ignore=["model", "tokenizer"])
 def package_decision_tree(
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
     top_n: int = 10,
-    force: bool = False,
 ):
     """Create the package LLM decision tree from the given model and tokenizer."""
-    # Load it if already downloaded / not forced
-    if os.path.exists(DECISION_TREE_FILENAME) and not force:
-        print(f"Loading {DECISION_TREE_FILENAME}")
-        return nx.read_gml(DECISION_TREE_FILENAME, destringizer=int)
-
-    # Generate otherwise
-    top_pypi_packages = pypi_packages_json(force=False)
-    package_tree = pypi_package_tree(
-        top_pypi_packages, tokenizer, top_n=top_n, force=force
-    )
+    package_tree = pypi_package_tree(tokenizer, top_n=top_n)
     populate_all_probabilities(package_tree, model, tokenizer)
-    nx.write_gml(package_tree, DECISION_TREE_FILENAME)
     return package_tree
 
 
 if __name__ == "__main__":
-    model = AutoModelForCausalLM.from_pretrained(
+    my_model = AutoModelForCausalLM.from_pretrained(
         "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
     )
 
-    tokenizer = AutoTokenizer.from_pretrained(
+    my_tokenizer = AutoTokenizer.from_pretrained(
         "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
     )
 
-    decision_tree = package_decision_tree(model, tokenizer, top_n=500, force=True)
-
-    while additional_nodes := add_generated_nodes(decision_tree, 2, 10):
-        print(f"adding {additional_nodes} more nodes...")
-    draw_decision_tree_dot(decision_tree, "decision_tree.png", "token")
+    decision_tree = package_decision_tree(my_model, my_tokenizer, top_n=500)
+    decision_tree = extend_decision_tree(
+        my_model, my_tokenizer, decision_tree, k=2, max_depth=10
+    )
+    nx.write_gml(decision_tree, DECISION_TREE_FILENAME)
 
     hallucinated_packages = set()
 
@@ -359,7 +357,7 @@ if __name__ == "__main__":
         node_input_text = decision_tree.nodes[0]["input_text"]
         if decision_tree.nodes[node_id]["depth"] != 0:
             traversal = nx.shortest_path(decision_tree, 0, node_id)
-            node_input_text += tokenizer.decode(
+            node_input_text += my_tokenizer.decode(
                 [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
             )
         print(node_id, package_from_node_text(node_input_text), sep="\t")

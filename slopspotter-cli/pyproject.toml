@@ -1,6 +1,7 @@
 [project]
 dependencies = [
 	"accelerate",
+	"joblib>=1.5.2",
 	"networkx>=3.5",
 	"scipy>=1.16.3",
 	"torch>=2.7.1",
