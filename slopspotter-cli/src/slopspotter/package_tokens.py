@@ -25,7 +25,7 @@ from slopspotter.llm_decisions import (
 )
 from slopspotter.registries import fetch_json
 
-LANGUAGE = "python"
+LANGUAGE = "PyPI Python"
 TOP_PYPI_PACKAGES_LINK = (
     "https://hugovk.github.io/top-pypi-packages/top-pypi-packages.min.json"
 )
@@ -169,9 +169,6 @@ def populate_probabilities(
         model: transformers model for causal LM
         tokenizer: transformers tokenizer
         k: the k in "top-k"
-
-
-
     """
     # Don't do anything if there are no successors
     if len(list(decision_tree.successors(node_id))) == 0:
@@ -230,6 +227,72 @@ def populate_probabilities(
             )
 
 
+def add_generated_nodes(
+    decision_tree: nx.DiGraph, k=2, max_depth=4, stop_strings=("`", ".")
+):
+    """Extend the decision tree by adding an extra layer of nodes."""
+    modified_nodes = 0
+    order = decision_tree.order()
+    for node_id in range(order):
+        current_depth = decision_tree.nodes[node_id]["depth"]
+
+        # Get successor node IDs and their token IDs
+        successors = list(decision_tree.successors(node_id))
+        if len(successors) >= k:
+            continue
+
+        if current_depth != 0 and any(
+            [s in decision_tree.nodes[node_id]["token"] for s in stop_strings]
+        ):
+            # Don't propagate nodes that match a stop string
+            continue
+
+        if current_depth >= max_depth:
+            continue
+
+        # Determine the input text for this node
+        node_input_text = decision_tree.nodes[0]["input_text"]
+        if decision_tree.nodes[node_id]["depth"] != 0:
+            traversal = nx.shortest_path(decision_tree, 0, node_id)
+            node_input_text += tokenizer.decode(
+                [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
+            )
+
+        # Get the token probabilities
+        probabilities = token_probabilities(model, tokenizer, node_input_text)
+        # Get the top K most probable next tokens
+        topk_values, topk_indices = torch.topk(probabilities, k=k)
+
+        # Get the current depth
+        current_depth = decision_tree.nodes[node_id]["depth"]
+
+        successor_token_ids = [
+            decision_tree.nodes[successor]["token_id"] for successor in successors
+        ]
+
+        # Populate decision tree with new "unexpected" tokens if missing from
+        # top K tokens
+        for top_value, top_index in zip(topk_values, topk_indices, strict=True):
+            if top_index.item() not in successor_token_ids:
+                token = reset_control_codes(tokenizer.decode(top_index))
+                new_node_id = decision_tree.order()
+                decision_tree.add_node(
+                    new_node_id,
+                    depth=current_depth + 1,
+                    token_id=top_index.item(),
+                    token=reset_control_codes(token),
+                    expected=False,
+                )
+                decision_tree.add_edge(
+                    node_id,
+                    new_node_id,
+                    probability=top_value.item(),
+                    expected=False,
+                )
+                modified_nodes += 1
+    return modified_nodes
+
+
 def populate_all_probabilities(
     decision_tree: nx.DiGraph,
     model: PreTrainedModel,
@@ -282,7 +345,11 @@ if __name__ == "__main__":
         "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
     )
 
-    decision_tree = package_decision_tree(model, tokenizer, top_n=500, force=False)
+    decision_tree = package_decision_tree(model, tokenizer, top_n=500, force=True)
+
+    while additional_nodes := add_generated_nodes(decision_tree, 2, 10):
+        print(f"adding {additional_nodes} more nodes...")
+    draw_decision_tree_dot(decision_tree, "decision_tree.png", "token")
 
     hallucinated_packages = set()
 
