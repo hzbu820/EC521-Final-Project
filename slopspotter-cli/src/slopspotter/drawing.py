@@ -23,6 +23,8 @@ def prettify_token(token: str) -> str:
 
 def format_probability(probability: float) -> str:
     """Format the probability for printing / drawing."""
+    if probability < 0:
+        return ""
     if probability > 1e-4:
         return format(probability * 100, ".2f") + "%"
     else:
