@@ -27,6 +27,7 @@ where = ["src"]
 
 [dependency-groups]
 dev = ["ipympl", "ipython", "jupyter", "matplotlib", "pytest", "qtpy"]
+graphs = ["pygraphviz"]
 
 [project.scripts]
 slopspotter = "slopspotter.__main__:main"
