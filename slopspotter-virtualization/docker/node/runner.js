@@ -12,7 +12,7 @@ function main() {
   }
 
   const work = fs.mkdtempSync(path.join(os.tmpdir(), "scan-"));
-  const report = {
+const report = {
     package: pkg,
     install_rc: null,
     require_rc: null,
@@ -26,6 +26,7 @@ function main() {
     require_err: "",
     network: [],
     processes: [],
+    file_ops: [],
     timeout: false,
   };
 
@@ -104,6 +105,14 @@ function main() {
       for (const line of lines) {
         if (line.includes("connect(")) report.network.push(line.trim());
         if (line.includes("execve(")) report.processes.push(line.trim());
+        if (line.includes("open(") || line.includes("openat(") || line.includes("stat(") || line.includes("access(")) {
+          const firstQuote = line.indexOf('"');
+          const secondQuote = firstQuote >= 0 ? line.indexOf('"', firstQuote + 1) : -1;
+          if (firstQuote >= 0 && secondQuote > firstQuote) {
+            const pathVal = line.slice(firstQuote + 1, secondQuote);
+            if (pathVal) report.file_ops.push(pathVal);
+          }
+        }
       }
     });
   } catch (err) {

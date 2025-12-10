@@ -2,6 +2,7 @@
 
 import json
 import logging
+import os
 import subprocess
 import sys
 import time
@@ -13,6 +14,10 @@ logger = logging.getLogger(__name__)
 
 # Check if we're on a platform that supports VM sandboxing
 VM_SANDBOX_AVAILABLE = sys.platform in ("linux", "darwin")
+SANDBOX_NET_MODE = os.getenv("SLOP_SANDBOX_NET", "bridge")  # set to "none" to block egress
+SANDBOX_PIDS_LIMIT = os.getenv("SLOP_SANDBOX_PIDS_LIMIT", "256")
+SANDBOX_MEMORY = os.getenv("SLOP_SANDBOX_MEMORY", "512m")
+SANDBOX_CPUS = os.getenv("SLOP_SANDBOX_CPUS", "1.0")
 
 
 @dataclass
@@ -88,6 +93,10 @@ def _parse_network(lines: list[str], limit: int = 10) -> list[str]:
     return [line.strip()[:220] for line in lines[:limit]]
 
 
+def _parse_processes(lines: list[str], limit: int = 10) -> list[str]:
+    return [line.strip()[:220] for line in lines[:limit]]
+
+
 def _filter_meaningful_network(lines: list[str]) -> list[str]:
     """Filter out network attempts that are clearly blocked (e.g., ENETUNREACH)."""
     signals = []
@@ -98,32 +107,30 @@ def _filter_meaningful_network(lines: list[str]) -> list[str]:
     return signals
 
 
-def _classify_network(lines: list[str]) -> tuple[int, int]:
-    """Classify network connections into benign (known registry/CDN) vs other."""
+def _classify_network(endpoints: list[str]) -> tuple[int, int]:
+    """Classify unique endpoints into benign (known registry/CDN) vs other."""
+    benign_tokens = (
+        "151.101.",  # fastly (pypi/npm)
+        "104.16.",  # cloudflare npm
+        "104.17.",
+        "104.18.",
+        "104.19.",
+        "104.20.",
+        "104.21.",
+        "pypi",
+        "pythonhosted",
+        "npmjs",
+        "registry.npmjs",
+        "fastly",
+        "cloudflare",
+        "amazonaws",
+        "pkg.github.com",
+        "192.168.65.",  # docker bridge/gateway
+    )
     benign = 0
     other = 0
-    for line in lines:
-        # crude match on known registry/CDN patterns
-        if any(
-            token in line
-            for token in (
-                "151.101.",  # fastly (pypi/npm)
-                "104.16.",  # cloudflare npm
-                "104.17.",
-                "104.18.",
-                "104.19.",
-                "104.20.",
-                "104.21.",
-                "pypi",
-                "pythonhosted",
-                "npmjs",
-                "registry.npmjs",
-                "fastly",
-                "cloudflare",
-                "amazonaws",
-                "pkg.github.com",
-            )
-        ):
+    for ep in endpoints:
+        if any(tok in ep for tok in benign_tokens):
             benign += 1
         else:
             other += 1
@@ -164,6 +171,43 @@ def _endpoint_list(lines: list[str], max_items: int = 3) -> list[str]:
     return endpoints
 
 
+def _summarize_file_ops(paths: list[str], max_items: int = 3) -> tuple[int, int, list[str]]:
+    """Return (suspicious_count, total_count, sample_paths)."""
+    suspicious_tokens = (
+        ".ssh",
+        "id_rsa",
+        "known_hosts",
+        ".git",
+        "token",
+        "azure",
+        "aws",
+        "gcp",
+        "google",
+        "cloud",
+        "chrome",
+        "edge",
+        "firefox",
+        "cookies",
+        "password",
+        "history",
+        "config",
+        "appdata",
+        "Library/Application Support",
+        "secrets",
+        "ssh",
+    )
+    suspicious = 0
+    total = len(paths)
+    samples: list[str] = []
+    for path in paths:
+        lowered = path.lower()
+        if any(tok in lowered for tok in suspicious_tokens):
+            suspicious += 1
+        if len(samples) < max_items:
+            samples.append(path)
+    return suspicious, total, samples
+
+
 def _score_from_signals(
     *,
     prior_risk: str,
@@ -173,9 +217,12 @@ def _score_from_signals(
     container_nonzero: bool,
     net_count: int,
     proc_count: int,
+    file_count: int = 0,
+    suspicious_files: int = 0,
     benign_net: int = 0,
     other_net: int = 0,
     inconclusive: bool = False,
+    definite_bad: bool = False,
 ) -> tuple[bool, float]:
     """Compute malicious flag and confidence from sandbox + heuristic signals."""
     prior_low = prior_risk == "low" or (isinstance(prior_score, (int, float)) and prior_score < 0.2)
@@ -183,42 +230,50 @@ def _score_from_signals(
 
     score = 0.05
     if prior_high:
-        score += 0.3
+        score += 0.25
     elif isinstance(prior_score, (int, float)) and prior_score >= 0.4:
-        score += 0.15
+        score += 0.1
 
     if timeout:
         score += 0.25
     if install_fail:
         score += 0.2
     if container_nonzero:
-        score += 0.1
-
-    score += min(0.3, 0.04 * max(0, net_count))  # cap impact from network count
-    # discount benign registry connects
-    score -= min(0.1, 0.01 * benign_net)
-    score += min(0.2, 0.05 * max(0, other_net))
-
-    if proc_count > 5:
-        score += 0.1
-    elif proc_count > 1:
         score += 0.05
 
+    # Network weighting: softer default, stronger for non-registry
+    score += min(0.25, 0.04 * max(0, net_count))
+    score -= min(0.2, 0.02 * benign_net)  # stronger discount for registry/CDN
+    score += min(0.35, 0.08 * max(0, other_net))  # non-registry endpoints
+
+    if proc_count > 5:
+        score += 0.12
+    elif proc_count > 1:
+        score += 0.06
+
+    if suspicious_files > 0:
+        score += min(0.2, 0.05 * suspicious_files)
+    elif file_count > 5:
+        score += 0.05
+
+    if definite_bad:
+        score = max(score, 0.8)
+
     if inconclusive:
-        score = min(score, 0.45)
+        score = min(score, 0.4)
 
     score = min(1.0, max(0.0, score))
 
-    is_malicious = score >= 0.55 or (prior_high and (install_fail or net_count > 0 or timeout))
-    if prior_low and score < 0.5:
+    # Low-risk guardrail: require non-registry endpoints or proc/file signals to cross malicious threshold
+    low_ctx = prior_low or (isinstance(prior_score, (int, float)) and prior_score < 0.2)
+    has_strong_signal = (other_net > 0) or (proc_count > 0) or (suspicious_files > 0)
+    if low_ctx and not (install_fail or timeout or has_strong_signal):
         is_malicious = False
+        score = min(score, 0.35)
+    else:
+        is_malicious = score >= 0.55 or (prior_high and (install_fail or net_count > 0 or timeout))
 
-    # Explicit benign override for clean low-risk runs with only registry traffic
-    if prior_low and not install_fail and not timeout and not container_nonzero and other_net <= 2:
-        is_malicious = False
-        score = min(score, 0.4)
-
-    confidence = min(1.0, max(0.3, score + (0.1 if score > 0.6 else 0.0)))
+    confidence = min(1.0, max(0.2, score + (0.1 if score > 0.6 else 0.0)))
     return is_malicious, confidence
 
 
@@ -226,15 +281,26 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
     """Scan Python package using the instrumented Docker image."""
     try:
         t0 = time.monotonic()
+        docker_args = [
+            "docker",
+            "run",
+            "--rm",
+            "--network",
+            SANDBOX_NET_MODE,
+            "--pids-limit",
+            SANDBOX_PIDS_LIMIT,
+            "--memory",
+            SANDBOX_MEMORY,
+            "--cpus",
+            SANDBOX_CPUS,
+            "--cap-drop=ALL",
+            "--security-opt",
+            "no-new-privileges",
+            "slopspotter-scan-py",
+            package_name,
+        ]
         result = subprocess.run(
-            [
-                "docker",
-                "run",
-                "--rm",
-                # Allow network so install/import can fetch real artifacts
-                "slopspotter-scan-py",
-                package_name,
-            ],
+            docker_args,
             capture_output=True,
             text=True,
             timeout=70,
@@ -253,19 +319,23 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
         prior_score = context.get("score")
 
         meaningful_net = _filter_meaningful_network(data.get("network", []))
-        net_count = len(meaningful_net)
-        benign_net, other_net = _classify_network(meaningful_net)
-        endpoint_summary = _summarize_endpoints(meaningful_net)
+        endpoints_all = _endpoint_list(meaningful_net, max_items=50)
+        net_count = len(endpoints_all)
+        benign_net, other_net = _classify_network(endpoints_all)
+        endpoint_summary = ", ".join(endpoints_all[:3]) if endpoints_all else ""
         install_version = data.get("installed_version")
         download_bytes = data.get("download_bytes")
         proc_count = len(data.get("processes", []))
+        file_ops = data.get("file_ops", [])
+        suspicious_files, file_count, file_samples = _summarize_file_ops(file_ops)
         install_fail = bool(
             data.get("install_error") or data.get("import_error") or (data.get("install_rc") not in (0, None)) or (data.get("import_rc") not in (0, None))
         )
         timeout = bool(data.get("timeout"))
         container_nonzero = result.returncode != 0
         inconclusive = install_fail and not meaningful_net and prior_risk == "low"
-        endpoints = _endpoint_list(meaningful_net)
+        endpoints = endpoints_all[:3]
+        definite_bad = other_net > 0 and (proc_count > 0 or suspicious_files > 0)
 
         if container_nonzero:
             indicators.append("Sandbox container returned non-zero status")
@@ -289,6 +359,11 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             indicators.append(f"Downloaded: {download_bytes} bytes")
         if elapsed:
             indicators.append(f"Elapsed: {elapsed:.1f}s")
+        if file_count:
+            if suspicious_files:
+                indicators.append(f"File ops: {file_count} (suspect {suspicious_files})")
+            else:
+                indicators.append(f"File ops: {file_count}")
 
         is_malicious, confidence = _score_from_signals(
             prior_risk=prior_risk,
@@ -298,9 +373,12 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             container_nonzero=container_nonzero,
             net_count=net_count,
             proc_count=proc_count,
+            file_count=file_count,
+            suspicious_files=suspicious_files,
             benign_net=benign_net,
             other_net=other_net,
             inconclusive=inconclusive,
+            definite_bad=definite_bad,
         )
 
         return VMScanResult(
@@ -310,8 +388,8 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             confidence=confidence,
             indicators=indicators,
             network_connections=endpoints,
-            file_operations=[],
-            process_spawns=_parse_network(data.get("processes", [])),
+            file_operations=file_samples,
+            process_spawns=_parse_processes(data.get("processes", [])),
         )
 
     except subprocess.TimeoutExpired:
@@ -339,15 +417,26 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
     """Scan NPM package using the instrumented Docker image."""
     try:
         t0 = time.monotonic()
+        docker_args = [
+            "docker",
+            "run",
+            "--rm",
+            "--network",
+            SANDBOX_NET_MODE,
+            "--pids-limit",
+            SANDBOX_PIDS_LIMIT,
+            "--memory",
+            SANDBOX_MEMORY,
+            "--cpus",
+            SANDBOX_CPUS,
+            "--cap-drop=ALL",
+            "--security-opt",
+            "no-new-privileges",
+            "slopspotter-scan-node",
+            package_name,
+        ]
         result = subprocess.run(
-            [
-                "docker",
-                "run",
-                "--rm",
-                # Allow network so install/require can fetch real artifacts
-                "slopspotter-scan-node",
-                package_name,
-            ],
+            docker_args,
             capture_output=True,
             text=True,
             timeout=70,
@@ -365,19 +454,23 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
         prior_score = context.get("score")
 
         meaningful_net = _filter_meaningful_network(data.get("network", []))
-        net_count = len(meaningful_net)
-        benign_net, other_net = _classify_network(meaningful_net)
-        endpoint_summary = _summarize_endpoints(meaningful_net)
-        endpoints = _endpoint_list(meaningful_net)
+        endpoints_all = _endpoint_list(meaningful_net, max_items=50)
+        net_count = len(endpoints_all)
+        benign_net, other_net = _classify_network(endpoints_all)
+        endpoint_summary = ", ".join(endpoints_all[:3]) if endpoints_all else ""
+        endpoints = endpoints_all[:3]
         install_version = data.get("installed_version")
         download_bytes = data.get("download_bytes")
         proc_count = len(data.get("processes", []))
+        file_ops = data.get("file_ops", [])
+        suspicious_files, file_count, file_samples = _summarize_file_ops(file_ops)
         install_fail = bool(
             data.get("install_error") or data.get("require_error") or (data.get("install_rc") not in (0, None)) or (data.get("require_rc") not in (0, None))
         )
         timeout = bool(data.get("timeout"))
         container_nonzero = result.returncode != 0
         inconclusive = install_fail and not meaningful_net and prior_risk == "low"
+        definite_bad = other_net > 0 and (proc_count > 0 or suspicious_files > 0)
 
         orig_lang = (context.get("originalLanguage") or "").lower()
         label_lang = "TypeScript" if orig_lang in ("ts", "typescript") else "JavaScript"
@@ -404,6 +497,11 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             indicators.append(f"Downloaded: {download_bytes} bytes")
         if elapsed:
             indicators.append(f"Elapsed: {elapsed:.1f}s")
+        if file_count:
+            if suspicious_files:
+                indicators.append(f"File ops: {file_count} (suspect {suspicious_files})")
+            else:
+                indicators.append(f"File ops: {file_count}")
 
         is_malicious, confidence = _score_from_signals(
             prior_risk=prior_risk,
@@ -413,9 +511,12 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             container_nonzero=container_nonzero,
             net_count=net_count,
             proc_count=proc_count,
+            file_count=file_count,
+            suspicious_files=suspicious_files,
             benign_net=benign_net,
             other_net=other_net,
             inconclusive=inconclusive,
+            definite_bad=definite_bad,
         )
 
         return VMScanResult(
@@ -425,8 +526,8 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             confidence=confidence,
             indicators=indicators,
             network_connections=endpoints,
-            file_operations=[],
-            process_spawns=_parse_network(data.get("processes", [])),
+            file_operations=file_samples,
+            process_spawns=_parse_processes(data.get("processes", [])),
         )
 
     except subprocess.TimeoutExpired:

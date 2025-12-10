@@ -39,6 +39,13 @@ cd ..
 python scripts/deep_scan_debug.py --package requests --language python --risk low --score 0.0
 ```
 
+Batch/OSV scans (malicious corpus)
+- Quick batch: `python scripts/malicious_batch_scan.py --packages automsg adafruit-imageload --language python --out results.json`
+- Full OSSF OSV sweep with resume: 
+  - PyPI: `python scripts/osv_full_scan.py --ecosystem pypi --out osv_pypi.ndjson`
+  - npm: `python scripts/osv_full_scan.py --ecosystem npm --out osv_npm.ndjson`
+  - Monitor: `(Get-Content osv_pypi.ndjson).Count` and `Get-Content osv_pypi.log -Tail 5` (same for npm).
+
 ## Testing
 
 - Frontend: `cd slopspotter-extension && npm test`
@@ -50,3 +57,7 @@ python scripts/deep_scan_debug.py --package requests --language python --risk lo
 pip install pre-commit
 pre-commit install
 ```
+
+Sandbox safety knobs (optional)
+- Containers run with dropped caps and no host mounts. Network defaults to `bridge`; to block egress set `SLOP_SANDBOX_NET=none` before running scans.
+- Resource/env overrides: `SLOP_SANDBOX_PIDS_LIMIT` (default 256), `SLOP_SANDBOX_MEMORY` (default 512m), `SLOP_SANDBOX_CPUS` (default 1.0).
