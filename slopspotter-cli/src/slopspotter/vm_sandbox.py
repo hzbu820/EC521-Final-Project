@@ -267,7 +267,11 @@ def _score_from_signals(
     # Low-risk guardrail: require non-registry endpoints or proc/file signals to cross malicious threshold
     low_ctx = prior_low or (isinstance(prior_score, (int, float)) and prior_score < 0.2)
     has_strong_signal = (other_net > 0) or (proc_count > 0) or (suspicious_files > 0)
-    if low_ctx and not (install_fail or timeout or has_strong_signal):
+    timeout_only = timeout and not install_fail and net_count == 0 and proc_count == 0 and suspicious_files == 0 and other_net == 0
+    if low_ctx and timeout_only:
+        is_malicious = False
+        score = min(score, 0.3)
+    elif low_ctx and not (install_fail or timeout or has_strong_signal):
         is_malicious = False
         score = min(score, 0.35)
     else:
@@ -303,7 +307,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             docker_args,
             capture_output=True,
             text=True,
-            timeout=70,
+            timeout=120,
         )
         elapsed = time.monotonic() - t0
 
@@ -393,11 +397,14 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
         )
 
     except subprocess.TimeoutExpired:
+        prior_risk = (context.get("riskLevel") or "").lower()
+        prior_score = context.get("score")
+        high_ctx = prior_risk in ("high", "medium") or (isinstance(prior_score, (int, float)) and prior_score >= 0.4)
         return VMScanResult(
             package_name=package_name,
             language="Python",
-            is_malicious=True,
-            confidence=0.75,
+            is_malicious=bool(high_ctx),
+            confidence=0.6 if high_ctx else 0.25,
             indicators=["Sandbox timeout during install/import", "Docker sandbox (Python)"],
             network_connections=[],
             file_operations=[],
@@ -439,7 +446,7 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             docker_args,
             capture_output=True,
             text=True,
-            timeout=70,
+            timeout=120,
         )
         elapsed = time.monotonic() - t0
 
@@ -531,11 +538,14 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
         )
 
     except subprocess.TimeoutExpired:
+        prior_risk = (context.get("riskLevel") or "").lower()
+        prior_score = context.get("score")
+        high_ctx = prior_risk in ("high", "medium") or (isinstance(prior_score, (int, float)) and prior_score >= 0.4)
         return VMScanResult(
             package_name=package_name,
             language="JavaScript",
-            is_malicious=True,
-            confidence=0.75,
+            is_malicious=bool(high_ctx),
+            confidence=0.6 if high_ctx else 0.25,
             indicators=["Sandbox timeout during install/require", "Docker sandbox (JavaScript)"],
             network_connections=[],
             file_operations=[],

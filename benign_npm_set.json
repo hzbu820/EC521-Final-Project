@@ -1,0 +1,31 @@
+[
+  {
+    "package": "jest",
+    "payload": {
+      "packageName": "jest",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "jest",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.25,
+        "indicators": [
+          "Sandbox timeout during install/require",
+          "Docker sandbox (JavaScript)"
+        ],
+        "networkConnections": [],
+        "fileOperations": [],
+        "processSpawns": [],
+        "error": null
+      }
+    }
+  }
+]
