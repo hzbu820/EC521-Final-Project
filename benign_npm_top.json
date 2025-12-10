@@ -1,0 +1,4110 @@
+[
+  {
+    "package": "@babel/code-frame",
+    "payload": {
+      "packageName": "@babel/code-frame",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/code-frame",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.26.34, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.26.34",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/code-frame\"], 0x7ffd097d4088 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/code-frame\"], 0x7ffc1c271658 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/code-frame\"], 0x7ffc1c271658 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/code-frame\\\")\"], 0x7ffe2093c1c8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/generator",
+    "payload": {
+      "packageName": "@babel/generator",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/generator",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.26.34, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 4.7s"
+        ],
+        "networkConnections": [
+          "104.16.26.34",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/generator\"], 0x7ffc63629218 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/generator\"], 0x7ffde45c7868 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/generator\"], 0x7ffde45c7868 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/generator\\\")\"], 0x7ffed198f9a8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-function-name",
+    "payload": {
+      "packageName": "@babel/helper-function-name",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-function-name",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 4.1s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-function-name\"], 0x7ffe253395e8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-function-name\"], 0x7ffdecc26de8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-function-name\"], 0x7ffdecc26de8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-function-\"...], 0x7fff382c04d8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-get-function-arity",
+    "payload": {
+      "packageName": "@babel/helper-get-function-arity",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-get-function-arity",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 3.7s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-get-function-arity\"], 0x7ffdad6e0768 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-get-function-arity\"], 0x7ffc71805ce8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-get-function-arity\"], 0x7ffc71805ce8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-get-funct\"...], 0x7ffde72773a8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-member-expression-to-functions",
+    "payload": {
+      "packageName": "@babel/helper-member-expression-to-functions",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-member-expression-to-functions",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 5.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-member-expression-\"...], 0x7ffe3c7f4d38 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-member-expression-\"...], 0x7ffd2543f108 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-member-expression-\"...], 0x7ffd2543f108 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-member-ex\"...], 0x7fff89b5e188 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-module-imports",
+    "payload": {
+      "packageName": "@babel/helper-module-imports",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-module-imports",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 4.7s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-module-imports\"], 0x7ffe7f1367a8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-module-imports\"], 0x7ffdde4dd978 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-module-imports\"], 0x7ffdde4dd978 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-module-im\"...], 0x7fff1e5cdbd8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-module-transforms",
+    "payload": {
+      "packageName": "@babel/helper-module-transforms",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-module-transforms",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 9.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-module-transforms\"], 0x7ffc6afa91d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-module-transforms\"], 0x7ffe2a6ad7c8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-module-transforms\"], 0x7ffe2a6ad7c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-module-tr\"...], 0x7ffebeaafc18 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-optimise-call-expression",
+    "payload": {
+      "packageName": "@babel/helper-optimise-call-expression",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-optimise-call-expression",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 3.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-optimise-call-expr\"...], 0x7fffab783ec8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-optimise-call-expr\"...], 0x7ffffcde2d58 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-optimise-call-expr\"...], 0x7ffffcde2d58 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-optimise-\"...], 0x7fff002d7ef8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-plugin-utils",
+    "payload": {
+      "packageName": "@babel/helper-plugin-utils",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-plugin-utils",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-plugin-utils\"], 0x7ffe0b97cc48 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-plugin-utils\"], 0x7ffd0a0daff8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-plugin-utils\"], 0x7ffd0a0daff8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-plugin-ut\"...], 0x7ffcdd116e28 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-replace-supers",
+    "payload": {
+      "packageName": "@babel/helper-replace-supers",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-replace-supers",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 10.1s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-replace-supers\"], 0x7ffef75b7318 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-replace-supers\"], 0x7ffcb1890cd8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-replace-supers\"], 0x7ffcb1890cd8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-replace-s\"...], 0x7fffff4cae28 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-split-export-declaration",
+    "payload": {
+      "packageName": "@babel/helper-split-export-declaration",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-split-export-declaration",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 3.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-split-export-decla\"...], 0x7fff1ad3c438 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-split-export-decla\"...], 0x7ffc03ece8c8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-split-export-decla\"...], 0x7ffc03ece8c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-split-exp\"...], 0x7ffe98a30ab8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helper-validator-identifier",
+    "payload": {
+      "packageName": "@babel/helper-validator-identifier",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helper-validator-identifier",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helper-validator-identifi\"...], 0x7ffc6a21ff18 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-validator-identifi\"...], 0x7ffe87dac3b8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helper-validator-identifi\"...], 0x7ffe87dac3b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helper-validator\"...], 0x7ffc6cca1d88 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/helpers",
+    "payload": {
+      "packageName": "@babel/helpers",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/helpers",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 4.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/helpers\"], 0x7ffc517d5f08 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helpers\"], 0x7ffc038e37f8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/helpers\"], 0x7ffc038e37f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/helpers\\\")\"], 0x7ffca7670ba8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/highlight",
+    "payload": {
+      "packageName": "@babel/highlight",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/highlight",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 3.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/highlight\"], 0x7ffdcc5d55a8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/highlight\"], 0x7fff8a83c738 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/highlight\"], 0x7fff8a83c738 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/highlight\\\")\"], 0x7fffadbe7898 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/parser",
+    "payload": {
+      "packageName": "@babel/parser",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/parser",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 3.2s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/parser\"], 0x7fff5e67b218 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/parser\"], 0x7ffd341ba0e8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/parser\"], 0x7ffd341ba0e8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/parser\\\")\"], 0x7ffcf6dc5028 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-async-generators",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-async-generators",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-async-generators",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 8.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-async-gener\"...], 0x7fff044d44c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-async-gener\"...], 0x7fff2ab3e8d8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-async-gener\"...], 0x7fff2ab3e8d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-as\"...], 0x7ffc8117acb8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-class-properties",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-class-properties",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-class-properties",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 9.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-class-prope\"...], 0x7fffde728b98 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-class-prope\"...], 0x7ffe1394ee78 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-class-prope\"...], 0x7ffe1394ee78 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-cl\"...], 0x7ffdc4fa91f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-json-strings",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-json-strings",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-json-strings",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 9.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-json-string\"...], 0x7ffc3d627bf8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-json-string\"...], 0x7ffd3a1ef778 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-json-string\"...], 0x7ffd3a1ef778 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-js\"...], 0x7fffca882658 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-jsx",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-jsx",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-jsx",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 8.4s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-jsx\"], 0x7fff34012768 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-jsx\"], 0x7ffee502cde8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-jsx\"], 0x7ffee502cde8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-js\"...], 0x7ffc25d28e98 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-nullish-coalescing-operator",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-nullish-coalescing-operator",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-nullish-coalescing-operator",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 9.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-nullish-coa\"...], 0x7ffeb13fa6b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-nullish-coa\"...], 0x7fff41041b28 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-nullish-coa\"...], 0x7fff41041b28 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-nu\"...], 0x7ffebf6eb038 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-object-rest-spread",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-object-rest-spread",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-object-rest-spread",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.28.34",
+          "Elapsed: 9.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.28.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-object-rest\"...], 0x7fff22b0c868 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-object-rest\"...], 0x7ffe5662b648 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-object-rest\"...], 0x7ffe5662b648 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-ob\"...], 0x7fff26da0188 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-optional-catch-binding",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-optional-catch-binding",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-optional-catch-binding",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 8.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-optional-ca\"...], 0x7ffc913236e8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-optional-ca\"...], 0x7ffef56ae798 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-optional-ca\"...], 0x7ffef56ae798 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-op\"...], 0x7ffee7a89748 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-syntax-optional-chaining",
+    "payload": {
+      "packageName": "@babel/plugin-syntax-optional-chaining",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-syntax-optional-chaining",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 8.7s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-syntax-optional-ch\"...], 0x7ffd2dc273c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-optional-ch\"...], 0x7fffd0e25fe8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-syntax-optional-ch\"...], 0x7fffd0e25fe8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-syntax-op\"...], 0x7ffcf09fd338 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-dotall-regex",
+    "payload": {
+      "packageName": "@babel/plugin-transform-dotall-regex",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-dotall-regex",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 9.6s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-dotall-r\"...], 0x7fffb72e11f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-dotall-r\"...], 0x7ffc8e07bd88 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-dotall-r\"...], 0x7ffc8e07bd88 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7ffd76844288 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-new-target",
+    "payload": {
+      "packageName": "@babel/plugin-transform-new-target",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-new-target",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 9.1s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-new-targ\"...], 0x7ffe2e9bf428 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-new-targ\"...], 0x7ffcf7a3fab8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-new-targ\"...], 0x7ffcf7a3fab8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7ffe1c3a5598 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-object-super",
+    "payload": {
+      "packageName": "@babel/plugin-transform-object-super",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-object-super",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 9.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-object-s\"...], 0x7ffe16cd3f78 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-object-s\"...], 0x7ffe1ac06068 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-object-s\"...], 0x7ffe1ac06068 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7ffefdc0b698 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-react-display-name",
+    "payload": {
+      "packageName": "@babel/plugin-transform-react-display-name",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-react-display-name",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 9.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-react-di\"...], 0x7ffc3a196898 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-react-di\"...], 0x7fff7eab8548 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-react-di\"...], 0x7fff7eab8548 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7ffe1e8992f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-react-jsx-self",
+    "payload": {
+      "packageName": "@babel/plugin-transform-react-jsx-self",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-react-jsx-self",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 8.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-react-js\"...], 0x7ffe1c9f7318 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-react-js\"...], 0x7ffe30942d98 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-react-js\"...], 0x7ffe30942d98 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7fffa7331038 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-reserved-words",
+    "payload": {
+      "packageName": "@babel/plugin-transform-reserved-words",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-reserved-words",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 8.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-reserved\"...], 0x7ffef8162418 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-reserved\"...], 0x7ffda49cee48 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-reserved\"...], 0x7ffda49cee48 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7fff14ff5c68 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/plugin-transform-shorthand-properties",
+    "payload": {
+      "packageName": "@babel/plugin-transform-shorthand-properties",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/plugin-transform-shorthand-properties",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 8.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/plugin-transform-shorthan\"...], 0x7fffd8236ad8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-shorthan\"...], 0x7ffc5703ca08 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/plugin-transform-shorthan\"...], 0x7ffc5703ca08 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/plugin-transform\"...], 0x7fffa5a6ccf8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/preset-env",
+    "payload": {
+      "packageName": "@babel/preset-env",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/preset-env",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 15.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/preset-env\"], 0x7ffd8bae2608 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/preset-env\"], 0x7fffb23e8c68 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/preset-env\"], 0x7fffb23e8c68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/preset-env\\\")\"], 0x7ffcd3d59838 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/template",
+    "payload": {
+      "packageName": "@babel/template",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/template",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 3.8s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/template\"], 0x7ffe7629c668 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/template\"], 0x7ffecdf61448 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/template\"], 0x7ffecdf61448 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/template\\\")\"], 0x7fff093ae668 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/traverse",
+    "payload": {
+      "packageName": "@babel/traverse",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/traverse",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 5.4s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/traverse\"], 0x7ffd2a58fe38 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/traverse\"], 0x7ffdba9f2e38 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/traverse\"], 0x7ffdba9f2e38 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/traverse\\\")\"], 0x7ffe26f32828 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@babel/types",
+    "payload": {
+      "packageName": "@babel/types",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@babel/types",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 3.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@babel/types\"], 0x7fff0acf6f68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/types\"], 0x7ffdc736b238 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@babel/types\"], 0x7ffdc736b238 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@babel/types\\\")\"], 0x7ffc2f36cf68 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@emotion/cache",
+    "payload": {
+      "packageName": "@emotion/cache",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@emotion/cache",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 3.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@emotion/cache\"], 0x7ffed8d8f958 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@emotion/cache\"], 0x7fffd2677818 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@emotion/cache\"], 0x7fffd2677818 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@emotion/cache\\\")\"], 0x7fffbba45878 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@emotion/sheet",
+    "payload": {
+      "packageName": "@emotion/sheet",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@emotion/sheet",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@emotion/sheet\"], 0x7fff2cc119a8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@emotion/sheet\"], 0x7fff8a97cff8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@emotion/sheet\"], 0x7fff8a97cff8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@emotion/sheet\\\")\"], 0x7ffce9877eb8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@storybook/core",
+    "payload": {
+      "packageName": "@storybook/core",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@storybook/core",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.21999999999999997,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 12.3s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@storybook/core\"], 0x7ffdf7ff14d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@storybook/core\"], 0x7ffff5690498 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@storybook/core\"], 0x7ffff5690498 /* 5 vars */) = 0",
+          "execve(\"/scan/node_modules/esbuild/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/scan/node_modules/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/scan/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/sh\", [\"sh\", \"-c\", \"node install.js\"], 0x727cdb9ff950 /* 36 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@typescript-eslint/eslint-plugin",
+    "payload": {
+      "packageName": "@typescript-eslint/eslint-plugin",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@typescript-eslint/eslint-plugin",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 22.2s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@typescript-eslint/eslint-plugin\"], 0x7fff656b67d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/eslint-plugin\"], 0x7ffc3c7a4a08 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/eslint-plugin\"], 0x7ffc3c7a4a08 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@typescript-eslint/esli\"...], 0x7ffe1037e618 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@typescript-eslint/parser",
+    "payload": {
+      "packageName": "@typescript-eslint/parser",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@typescript-eslint/parser",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 16.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@typescript-eslint/parser\"], 0x7ffdf29d0b68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/parser\"], 0x7ffd05af7bd8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/parser\"], 0x7ffd05af7bd8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@typescript-eslint/pars\"...], 0x7ffdf3dc2598 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@typescript-eslint/scope-manager",
+    "payload": {
+      "packageName": "@typescript-eslint/scope-manager",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@typescript-eslint/scope-manager",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 5.6s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@typescript-eslint/scope-manager\"], 0x7fffe5be83d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/scope-manager\"], 0x7fffeb82c898 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/scope-manager\"], 0x7fffeb82c898 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@typescript-eslint/scop\"...], 0x7ffe8fd2e5f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@typescript-eslint/types",
+    "payload": {
+      "packageName": "@typescript-eslint/types",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@typescript-eslint/types",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 3.4s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@typescript-eslint/types\"], 0x7ffd8b3a5ef8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/types\"], 0x7fffc7b1ad68 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/types\"], 0x7fffc7b1ad68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@typescript-eslint/type\"...], 0x7ffdeb2b1be8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@typescript-eslint/typescript-estree",
+    "payload": {
+      "packageName": "@typescript-eslint/typescript-estree",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@typescript-eslint/typescript-estree",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 9.6s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@typescript-eslint/typescript-es\"...], 0x7fff4b1d56f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/typescript-es\"...], 0x7ffca37749e8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/typescript-es\"...], 0x7ffca37749e8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@typescript-eslint/type\"...], 0x7ffd3a00e5f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "@typescript-eslint/visitor-keys",
+    "payload": {
+      "packageName": "@typescript-eslint/visitor-keys",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "@typescript-eslint/visitor-keys",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 3.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"@typescript-eslint/visitor-keys\"], 0x7ffee49cf138 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/visitor-keys\"], 0x7ffdb4ccf458 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"@typescript-eslint/visitor-keys\"], 0x7ffdb4ccf458 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"@typescript-eslint/visi\"...], 0x7ffc059f1708 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "acorn",
+    "payload": {
+      "packageName": "acorn",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "acorn",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.4s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"acorn\"], 0x7ffe2dfc6b38 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"acorn\"], 0x7ffed37b7c88 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"acorn\"], 0x7ffed37b7c88 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"acorn\\\")\"], 0x7fff97d5b608 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "acorn-walk",
+    "payload": {
+      "packageName": "acorn-walk",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "acorn-walk",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"acorn-walk\"], 0x7ffd060bdcf8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"acorn-walk\"], 0x7ffd473796f8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"acorn-walk\"], 0x7ffd473796f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"acorn-walk\\\")\"], 0x7ffe45319dd8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "ajv",
+    "payload": {
+      "packageName": "ajv",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "ajv",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 3.8s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"ajv\"], 0x7ffdc5b049d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"ajv\"], 0x7ffd2d4828c8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"ajv\"], 0x7ffd2d4828c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"ajv\\\")\"], 0x7ffd0b374788 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "async",
+    "payload": {
+      "packageName": "async",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "async",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.6s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"async\"], 0x7ffc8744c0f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"async\"], 0x7ffc64859e28 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"async\"], 0x7ffc64859e28 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"async\\\")\"], 0x7fffce5e7288 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "autoprefixer",
+    "payload": {
+      "packageName": "autoprefixer",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "autoprefixer",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 6.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"autoprefixer\"], 0x7fff948e25d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"autoprefixer\"], 0x7ffd2ccf0e78 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"autoprefixer\"], 0x7ffd2ccf0e78 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"autoprefixer\\\")\"], 0x7ffdfa189258 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "bootstrap",
+    "payload": {
+      "packageName": "bootstrap",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "bootstrap",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 4.1s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"bootstrap\"], 0x7ffe99ae7898 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"bootstrap\"], 0x7fff54731438 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"bootstrap\"], 0x7fff54731438 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"bootstrap\\\")\"], 0x7fff57996358 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "browserslist",
+    "payload": {
+      "packageName": "browserslist",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "browserslist",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 5.2s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"browserslist\"], 0x7ffe65e1f8c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"browserslist\"], 0x7ffffc7ec2b8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"browserslist\"], 0x7ffffc7ec2b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"browserslist\\\")\"], 0x7ffe207ac878 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "chalk",
+    "payload": {
+      "packageName": "chalk",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "chalk",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"chalk\"], 0x7fff77d91eb8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"chalk\"], 0x7ffe5911f5e8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"chalk\"], 0x7ffe5911f5e8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"chalk\\\")\"], 0x7fff6fef3348 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "clean-css",
+    "payload": {
+      "packageName": "clean-css",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "clean-css",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.9s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"clean-css\"], 0x7ffc51a6eb98 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"clean-css\"], 0x7ffef597f148 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"clean-css\"], 0x7ffef597f148 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"clean-css\\\")\"], 0x7ffd20fd03c8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "color-convert",
+    "payload": {
+      "packageName": "color-convert",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "color-convert",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"color-convert\"], 0x7fff57724f78 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"color-convert\"], 0x7ffc4fe715f8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"color-convert\"], 0x7ffc4fe715f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"color-convert\\\")\"], 0x7ffc9bbdbc88 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "commander",
+    "payload": {
+      "packageName": "commander",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "commander",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 2.4s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"commander\"], 0x7ffffcd57d98 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"commander\"], 0x7ffe5c0eba98 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"commander\"], 0x7ffe5c0eba98 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"commander\\\")\"], 0x7ffdb0ad2098 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "core-js",
+    "payload": {
+      "packageName": "core-js",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "core-js",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.21999999999999997,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.3.35, 192.168.65.7, 104.16.1.35",
+          "Elapsed: 10.0s"
+        ],
+        "networkConnections": [
+          "104.16.3.35",
+          "192.168.65.7",
+          "104.16.1.35"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"core-js\"], 0x7ffc8d8aab68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"core-js\"], 0x7ffe97d25cf8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"core-js\"], 0x7ffe97d25cf8 /* 5 vars */) = 0",
+          "execve(\"/scan/node_modules/core-js/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/scan/node_modules/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/scan/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/node_modules/.bin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/sh\", [\"sh\", \"-c\", \"node -e \\\"try{require('./postinst\"...], 0x733e5bfb5ed0 /* 34 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "core-js-compat",
+    "payload": {
+      "packageName": "core-js-compat",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "core-js-compat",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 5.3s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"core-js-compat\"], 0x7ffe1d3b1708 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"core-js-compat\"], 0x7ffd10e26dd8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"core-js-compat\"], 0x7ffd10e26dd8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"core-js-compat\\\")\"], 0x7fff04eac4f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "cors",
+    "payload": {
+      "packageName": "cors",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "cors",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.4s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"cors\"], 0x7ffd12dfe2b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"cors\"], 0x7ffccc973808 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"cors\"], 0x7ffccc973808 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"cors\\\")\"], 0x7ffda12bab58 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "cosmiconfig",
+    "payload": {
+      "packageName": "cosmiconfig",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "cosmiconfig",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 4.3s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"cosmiconfig\"], 0x7ffdee39d2c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"cosmiconfig\"], 0x7ffde02a9158 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"cosmiconfig\"], 0x7ffde02a9158 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"cosmiconfig\\\")\"], 0x7ffedc4823d8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "cross-spawn",
+    "payload": {
+      "packageName": "cross-spawn",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "cross-spawn",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"cross-spawn\"], 0x7ffee3c11238 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"cross-spawn\"], 0x7ffc423eced8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"cross-spawn\"], 0x7ffc423eced8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"cross-spawn\\\")\"], 0x7ffd77690c38 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "dotenv",
+    "payload": {
+      "packageName": "dotenv",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "dotenv",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.1s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"dotenv\"], 0x7ffdbba32818 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"dotenv\"], 0x7ffc2cd77a68 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"dotenv\"], 0x7ffc2cd77a68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"dotenv\\\")\"], 0x7ffe1af4c698 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "emoji-regex",
+    "payload": {
+      "packageName": "emoji-regex",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "emoji-regex",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.2s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"emoji-regex\"], 0x7ffe4db0f5d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"emoji-regex\"], 0x7ffcecd5a788 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"emoji-regex\"], 0x7ffcecd5a788 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"emoji-regex\\\")\"], 0x7ffd5b987e38 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "eslint",
+    "payload": {
+      "packageName": "eslint",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "eslint",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 8.8s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"eslint\"], 0x7ffef5c83788 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"eslint\"], 0x7ffd986965b8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"eslint\"], 0x7ffd986965b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"eslint\\\")\"], 0x7ffed3834928 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "eventemitter3",
+    "payload": {
+      "packageName": "eventemitter3",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "eventemitter3",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.1s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"eventemitter3\"], 0x7ffcf3cd8f48 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"eventemitter3\"], 0x7ffdbbfcb5d8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"eventemitter3\"], 0x7ffdbbfcb5d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"eventemitter3\\\")\"], 0x7ffd2d41e9e8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "express",
+    "payload": {
+      "packageName": "express",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "express",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 5.9s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"express\"], 0x7ffeb1236268 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"express\"], 0x7fffcbe4d058 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"express\"], 0x7fffcbe4d058 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"express\\\")\"], 0x7ffc19dff2d8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "fs-extra",
+    "payload": {
+      "packageName": "fs-extra",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "fs-extra",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"fs-extra\"], 0x7ffcac528e68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"fs-extra\"], 0x7ffdf5bf9018 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"fs-extra\"], 0x7ffdf5bf9018 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"fs-extra\\\")\"], 0x7ffdcb2e81a8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "got",
+    "payload": {
+      "packageName": "got",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "got",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 3.9s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"got\"], 0x7ffc4ff03748 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"got\"], 0x7fffc3442048 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"got\"], 0x7fffc3442048 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"got\\\")\"], 0x7fff91a13218 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "html-webpack-plugin",
+    "payload": {
+      "packageName": "html-webpack-plugin",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "html-webpack-plugin",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 9.5s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"html-webpack-plugin\"], 0x7fff160050b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"html-webpack-plugin\"], 0x7ffdf66c34d8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"html-webpack-plugin\"], 0x7ffdf66c34d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"html-webpack-plugin\\\")\"], 0x7ffd0fbe7348 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "htmlparser2",
+    "payload": {
+      "packageName": "htmlparser2",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "htmlparser2",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 3.5s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"htmlparser2\"], 0x7ffc7a5b4228 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"htmlparser2\"], 0x7fffee880978 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"htmlparser2\"], 0x7fffee880978 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"htmlparser2\\\")\"], 0x7fff12f99f58 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "husky",
+    "payload": {
+      "packageName": "husky",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "husky",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.4s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"husky\"], 0x7ffecebcfa18 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"husky\"], 0x7fff927e67c8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"husky\"], 0x7fff927e67c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"husky\\\")\"], 0x7ffe70ddc1f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "immer",
+    "payload": {
+      "packageName": "immer",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "immer",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.8s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"immer\"], 0x7fffc7b9f828 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"immer\"], 0x7fffb13a5958 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"immer\"], 0x7fffb13a5958 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"immer\\\")\"], 0x7ffcd291f5e8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "jquery",
+    "payload": {
+      "packageName": "jquery",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "jquery",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.7s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"jquery\"], 0x7ffee8ccc7b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"jquery\"], 0x7ffce73602a8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"jquery\"], 0x7ffce73602a8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"jquery\\\")\"], 0x7fffe6b042a8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "jsonfile",
+    "payload": {
+      "packageName": "jsonfile",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "jsonfile",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"jsonfile\"], 0x7ffe710b3918 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"jsonfile\"], 0x7ffd781dd728 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"jsonfile\"], 0x7ffd781dd728 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"jsonfile\\\")\"], 0x7ffe48b0f188 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lodash.get",
+    "payload": {
+      "packageName": "lodash.get",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lodash.get",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"lodash.get\"], 0x7fff8b301cd8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.get\"], 0x7fff8bc8f238 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.get\"], 0x7fff8bc8f238 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"lodash.get\\\")\"], 0x7ffedef0fe98 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lodash.isstring",
+    "payload": {
+      "packageName": "lodash.isstring",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lodash.isstring",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.28.34, 192.168.65.7, 104.16.25.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.28.34",
+          "192.168.65.7",
+          "104.16.25.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"lodash.isstring\"], 0x7ffe0435f808 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.isstring\"], 0x7ffe80031d68 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.isstring\"], 0x7ffe80031d68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"lodash.isstring\\\")\"], 0x7fffeedd3df8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lodash.merge",
+    "payload": {
+      "packageName": "lodash.merge",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lodash.merge",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"lodash.merge\"], 0x7ffe4cff1768 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.merge\"], 0x7ffc52d1a4c8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.merge\"], 0x7ffc52d1a4c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"lodash.merge\\\")\"], 0x7ffef804dd18 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lodash.sortby",
+    "payload": {
+      "packageName": "lodash.sortby",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lodash.sortby",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"lodash.sortby\"], 0x7fff33a85b88 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.sortby\"], 0x7ffcd306c5b8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.sortby\"], 0x7ffcd306c5b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"lodash.sortby\\\")\"], 0x7ffeca117158 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lodash.uniq",
+    "payload": {
+      "packageName": "lodash.uniq",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lodash.uniq",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"lodash.uniq\"], 0x7ffcb81431b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.uniq\"], 0x7ffe88391268 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lodash.uniq\"], 0x7ffe88391268 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"lodash.uniq\\\")\"], 0x7ffd5886dbf8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lru-cache",
+    "payload": {
+      "packageName": "lru-cache",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lru-cache",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.4s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"lru-cache\"], 0x7ffe68a47798 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lru-cache\"], 0x7ffed04a45e8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"lru-cache\"], 0x7ffed04a45e8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"lru-cache\\\")\"], 0x7ffe70811f48 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "mime",
+    "payload": {
+      "packageName": "mime",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "mime",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"mime\"], 0x7fff24467ab8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"mime\"], 0x7ffd7e9d6f88 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"mime\"], 0x7ffd7e9d6f88 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"mime\\\")\"], 0x7ffd60d04f58 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "minimatch",
+    "payload": {
+      "packageName": "minimatch",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "minimatch",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.7s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"minimatch\"], 0x7ffc479745c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"minimatch\"], 0x7fffd1794908 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"minimatch\"], 0x7fffd1794908 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"minimatch\\\")\"], 0x7fff58dd7b68 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "nanoid",
+    "payload": {
+      "packageName": "nanoid",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "nanoid",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.5s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"nanoid\"], 0x7ffccfc48ef8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"nanoid\"], 0x7ffe71f010d8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"nanoid\"], 0x7ffe71f010d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"nanoid\\\")\"], 0x7ffe6dda11f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "pako",
+    "payload": {
+      "packageName": "pako",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "pako",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.6s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"pako\"], 0x7ffc33861ec8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"pako\"], 0x7ffc860dd368 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"pako\"], 0x7ffc860dd368 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"pako\\\")\"], 0x7ffcc74b8048 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "path-to-regexp",
+    "payload": {
+      "packageName": "path-to-regexp",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "path-to-regexp",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.3s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"path-to-regexp\"], 0x7ffe0e081c98 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"path-to-regexp\"], 0x7ffd0db4e318 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"path-to-regexp\"], 0x7ffd0db4e318 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"path-to-regexp\\\")\"], 0x7ffdae299b08 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "postcss",
+    "payload": {
+      "packageName": "postcss",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "postcss",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.9s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"postcss\"], 0x7ffc0904fd68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"postcss\"], 0x7ffd79b4af78 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"postcss\"], 0x7ffd79b4af78 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"postcss\\\")\"], 0x7ffc1197c6f8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "postcss-loader",
+    "payload": {
+      "packageName": "postcss-loader",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "postcss-loader",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 6.0s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"postcss-loader\"], 0x7ffc7e415608 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"postcss-loader\"], 0x7ffdab297468 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"postcss-loader\"], 0x7ffdab297468 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"postcss-loader\\\")\"], 0x7ffc03166b28 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "prettier",
+    "payload": {
+      "packageName": "prettier",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "prettier",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 3.0s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"prettier\"], 0x7ffeb27c1348 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"prettier\"], 0x7ffdd65143b8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"prettier\"], 0x7ffdd65143b8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"prettier\\\")\"], 0x7ffc2762a948 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "react",
+    "payload": {
+      "packageName": "react",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "react",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.8s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"react\"], 0x7ffd1bcbbdf8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"react\"], 0x7ffe7c39cf58 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"react\"], 0x7ffe7c39cf58 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"react\\\")\"], 0x7ffca5991eb8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "react-redux",
+    "payload": {
+      "packageName": "react-redux",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "react-redux",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 3.9s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"react-redux\"], 0x7ffdec046ab8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"react-redux\"], 0x7ffe78a75c28 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"react-redux\"], 0x7ffe78a75c28 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"react-redux\\\")\"], 0x7ffc48fbf098 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "readable-stream",
+    "payload": {
+      "packageName": "readable-stream",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "readable-stream",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 3.3s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"readable-stream\"], 0x7ffe4c8ade28 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"readable-stream\"], 0x7fff107a4418 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"readable-stream\"], 0x7fff107a4418 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"readable-stream\\\")\"], 0x7ffd65b3bc28 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "redux",
+    "payload": {
+      "packageName": "redux",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "redux",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.4s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"redux\"], 0x7fff14f90e18 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"redux\"], 0x7ffe7263f7d8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"redux\"], 0x7ffe7263f7d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"redux\\\")\"], 0x7ffe66f899b8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "rxjs",
+    "payload": {
+      "packageName": "rxjs",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "rxjs",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 7.5s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"rxjs\"], 0x7ffd7a368f68 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"rxjs\"], 0x7fffc75f13f8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"rxjs\"], 0x7fffc75f13f8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"rxjs\\\")\"], 0x7ffce4cd9dc8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "tailwindcss",
+    "payload": {
+      "packageName": "tailwindcss",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "tailwindcss",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 3.1s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"tailwindcss\"], 0x7ffed49680a8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"tailwindcss\"], 0x7fffd1e04bb8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"tailwindcss\"], 0x7fffd1e04bb8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"tailwindcss\\\")\"], 0x7ffd1100c5c8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "ts-jest",
+    "payload": {
+      "packageName": "ts-jest",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "ts-jest",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.25,
+        "indicators": [
+          "Sandbox timeout during install/require",
+          "Docker sandbox (JavaScript)"
+        ],
+        "networkConnections": [],
+        "fileOperations": [],
+        "processSpawns": [],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "ts-node",
+    "payload": {
+      "packageName": "ts-node",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "ts-node",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 8.6s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"ts-node\"], 0x7ffe87cb2948 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"ts-node\"], 0x7ffcc5f6b618 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"ts-node\"], 0x7ffcc5f6b618 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"ts-node\\\")\"], 0x7fff0c25eb18 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "underscore",
+    "payload": {
+      "packageName": "underscore",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "underscore",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 3.6s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"underscore\"], 0x7fffbc503868 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"underscore\"], 0x7ffcc13d1828 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"underscore\"], 0x7ffcc13d1828 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"underscore\\\")\"], 0x7ffdc6ac6738 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "uuid",
+    "payload": {
+      "packageName": "uuid",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "uuid",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.36,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Install/require failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.8s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"uuid\"], 0x7ffe62ebbd78 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"uuid\"], 0x7fff88da3188 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"uuid\"], 0x7fff88da3188 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"uuid\\\")\"], 0x7ffc3fa3a468 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "webpack",
+    "payload": {
+      "packageName": "webpack",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "webpack",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 13.8s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"webpack\"], 0x7ffd76d679d8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"webpack\"], 0x7ffc6cf657a8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"webpack\"], 0x7ffc6cf657a8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"webpack\\\")\"], 0x7fff4f4291e8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "webpack-dev-middleware",
+    "payload": {
+      "packageName": "webpack-dev-middleware",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "webpack-dev-middleware",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 8.5s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"webpack-dev-middleware\"], 0x7ffdbf224708 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"webpack-dev-middleware\"], 0x7ffd589392c8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"webpack-dev-middleware\"], 0x7ffd589392c8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"webpack-dev-middleware\\\"\"...], 0x7ffe18993ff8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "webpack-dev-server",
+    "payload": {
+      "packageName": "webpack-dev-server",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "webpack-dev-server",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.0.35, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 20.8s"
+        ],
+        "networkConnections": [
+          "104.16.0.35",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"webpack-dev-server\"], 0x7ffc85d3c158 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"webpack-dev-server\"], 0x7fff71770ce8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"webpack-dev-server\"], 0x7fff71770ce8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"webpack-dev-server\\\")\"], 0x7ffce8ae0b38 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "ws",
+    "payload": {
+      "packageName": "ws",
+      "language": "javascript",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "javascript"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "ws",
+        "language": "JavaScript",
+        "isMalicious": false,
+        "confidence": 0.2,
+        "indicators": [
+          "Docker sandbox (JavaScript)",
+          "Network attempts observed",
+          "Registry/CDN connects: 13",
+          "Endpoints: 104.16.31.34, 192.168.65.7, 104.16.30.34",
+          "Elapsed: 2.6s"
+        ],
+        "networkConnections": [
+          "104.16.31.34",
+          "192.168.65.7",
+          "104.16.30.34"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/npm\", [\"npm\", \"install\", \"ws\"], 0x7ffd11029178 /* 5 vars */) = 0",
+          "execve(\"/usr/local/sbin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"ws\"], 0x7ffefb1cbef8 /* 5 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"/usr/local/bin/npm\", \"install\", \"ws\"], 0x7ffefb1cbef8 /* 5 vars */) = 0",
+          "execve(\"/usr/local/bin/node\", [\"node\", \"-e\", \"require(\\\"ws\\\")\"], 0x7ffdef3753a8 /* 5 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  }
+]
