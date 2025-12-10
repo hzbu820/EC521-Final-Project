@@ -1,10 +1,15 @@
 """Functions for drawing LLM decision trees."""
 
 import logging
-import sys
 from typing import Literal
 
 import networkx as nx
+
+PYGRAPHVIZ_AVAILABLE = True
+try:
+    import pygraphviz  # noqa: F401
+except ImportError:
+    PYGRAPHVIZ_AVAILABLE = False
 
 
 def prettify_token(token: str) -> str:
@@ -43,10 +48,8 @@ def draw_decision_tree_dot(
         png_path: path to `.png` file
         label_type: which node to use as a label
     """
-    if sys.platform == "win32":
-        logging.warn(
-            "PyGraphviz is hard to install on Windows; graph will not be drawn."
-        )
+    if not PYGRAPHVIZ_AVAILABLE:
+        logging.warning("PyGraphviz is not set up; graph will not be drawn.")
         return
 
     plotting_decision_tree = nx.DiGraph(decision_tree)
