@@ -29,6 +29,7 @@ def main():
         "import_err": "",
         "network": [],
         "processes": [],
+        "file_ops": [],
         "timeout": False,
     }
 
@@ -125,6 +126,13 @@ def main():
                         report["network"].append(line.strip())
                     if "execve(" in line:
                         report["processes"].append(line.strip())
+                    if any(tok in line for tok in ("open(", "openat(", "stat(", "access(")):
+                        # Capture file paths inside quotes, if present
+                        parts = line.split("\"")
+                        if len(parts) >= 2:
+                            path_val = parts[1]
+                            if path_val:
+                                report["file_ops"].append(path_val)
     except subprocess.TimeoutExpired:
         report["timeout"] = True
     finally:

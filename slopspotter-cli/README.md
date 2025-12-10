@@ -28,6 +28,13 @@ Run a manual deep scan (from repo root, Docker on, venv activated):
 python scripts/deep_scan_debug.py --package requests --language python --risk low --score 0.0
 ```
 
+Batch/OSV scans
+- Batch helper: `python scripts/malicious_batch_scan.py --packages automsg adafruit-imageload --language python --out results.json`
+- Full OSSF sweep with resume:
+  - `python scripts/osv_full_scan.py --ecosystem pypi --out osv_pypi.ndjson`
+  - `python scripts/osv_full_scan.py --ecosystem npm --out osv_npm.ndjson`
+- Monitor progress: `(Get-Content osv_pypi.ndjson).Count` and `Get-Content osv_pypi.log -Tail 5` (similar for npm).
+
 ## UV (alternative)
 
 If you prefer [UV](https://docs.astral.sh/uv/):
@@ -44,3 +51,7 @@ python -m pytest
 # or
 python -m unittest discover test/
 ```
+
+Sandbox safety/tuning
+- Docker runs drop capabilities and apply resource caps; no host mounts are used.
+- Env overrides: `SLOP_SANDBOX_NET` (default `bridge`, set `none` to block egress), `SLOP_SANDBOX_PIDS_LIMIT` (default `256`), `SLOP_SANDBOX_MEMORY` (default `512m`), `SLOP_SANDBOX_CPUS` (default `1.0`).

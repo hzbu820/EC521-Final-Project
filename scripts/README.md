@@ -78,3 +78,46 @@ Tail it: `Get-Content -Path C:\Users\<you>\Desktop\slopspotter_debug.log -Wait`
 - Deep Scan needs Docker running. If Docker/VM is unavailable, the extension will fall back to a simulated result.
 - The sandbox uses network (not `--network=none`) to fetch real artifacts.
 - Install versions/sizes are shown when install succeeds; nonexistent packages won’t have those fields.
+
+## Batch scanning (malicious sample set)
+We added a helper to run multiple packages (e.g., the OSSF malicious samples) through the Docker sandbox in one go:
+```powershell
+# From repo root, with Docker running and slopspotter-cli venv active
+python scripts/malicious_batch_scan.py
+```
+Defaults: Python language, risk=high, score=0.9, and the sample list:
+`automsg`, `adafruit-imageload`, `anrok`, `anothertestproject`, `beaautifulsoup`, `bytepilot`.
+
+Customize:
+```powershell
+python scripts/malicious_batch_scan.py --packages automsg adafruit-imageload --language python --out results.json
+python scripts/malicious_batch_scan.py --file .\\my_packages.txt --language javascript
+```
+The script prints a one-line summary per package and writes full JSON responses to `batch_scan_results.json` by default.
+
+## Full OSV sweep (PyPI/npm)
+Use `scripts/osv_full_scan.py` to pull all package names from the OSSF malicious-packages repo and scan them. It supports resume via NDJSON output.
+```powershell
+# PyPI only (writes/append to osv_pypi.ndjson)
+python scripts/osv_full_scan.py --ecosystem pypi --out osv_pypi.ndjson
+
+# npm only
+python scripts/osv_full_scan.py --ecosystem npm --out osv_npm.ndjson
+
+# Both ecosystems, limit to first 50 for a quick test
+python scripts/osv_full_scan.py --ecosystem all --limit 50 --out osv_all.ndjson
+```
+Re-run with the same `--out` to skip already recorded package/language pairs (resume support).
+Logs: append stdout/stderr to a file while running in background, e.g. 
+`Start-Process -NoNewWindow powershell -ArgumentList '-Command python scripts/osv_full_scan.py --ecosystem pypi --out osv_pypi.ndjson >> osv_pypi.log 2>&1'`
+Monitor: `(Get-Content osv_pypi.ndjson).Count` and `Get-Content osv_pypi.log -Tail 5`.
+
+## Sandbox safety & tuning
+- Containers run with `--cap-drop=ALL`, `no-new-privileges`, pid/memory/cpu limits, and no host mounts.
+- Network mode defaults to `bridge`; set `SLOP_SANDBOX_NET=none` to block all outbound traffic during scans.
+- Resource/env knobs (override in your shell before running scans):
+  - `SLOP_SANDBOX_NET` (default `bridge`, can be `none`)
+  - `SLOP_SANDBOX_PIDS_LIMIT` (default `256`)
+  - `SLOP_SANDBOX_MEMORY` (default `512m`)
+  - `SLOP_SANDBOX_CPUS` (default `1.0`)
+- Results for batch/OSV scans are NDJSON/JSON files in the repo root; reruns with the same `--out` resume instead of restarting.
