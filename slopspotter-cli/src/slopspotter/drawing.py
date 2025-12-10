@@ -1,10 +1,15 @@
 """Functions for drawing LLM decision trees."""
 
 import logging
-import sys
 from typing import Literal
 
 import networkx as nx
+
+PYGRAPHVIZ_AVAILABLE = True
+try:
+    import pygraphviz  # noqa: F401
+except ImportError:
+    PYGRAPHVIZ_AVAILABLE = False
 
 
 def prettify_token(token: str) -> str:
@@ -23,6 +28,8 @@ def prettify_token(token: str) -> str:
 
 def format_probability(probability: float) -> str:
     """Format the probability for printing / drawing."""
+    if probability < 0:
+        return ""
     if probability > 1e-4:
         return format(probability * 100, ".2f") + "%"
     else:
@@ -41,20 +48,18 @@ def draw_decision_tree_dot(
         png_path: path to `.png` file
         label_type: which node to use as a label
     """
-    if sys.platform == "win32":
-        logging.warn(
-            "PyGraphviz is hard to install on Windows; graph will not be drawn."
-        )
+    if not PYGRAPHVIZ_AVAILABLE:
+        logging.warning("PyGraphviz is not set up; graph will not be drawn.")
         return
 
     plotting_decision_tree = nx.DiGraph(decision_tree)
 
     for node_id in plotting_decision_tree.nodes:
-        token = prettify_token(plotting_decision_tree.nodes[node_id]["token"]).replace(
-            "\\", "\\\\"
-        )
-        token_id = plotting_decision_tree.nodes[node_id]["token_id"]
-        expected = plotting_decision_tree.nodes[node_id]["expected"]
+        token = prettify_token(
+            plotting_decision_tree.nodes[node_id].get("token", "")
+        ).replace("\\", "\\\\")
+        token_id = plotting_decision_tree.nodes[node_id].get("token_id", -1)
+        expected = plotting_decision_tree.nodes[node_id].get("expected", False)
 
         if label_type == "token_id":
             plotting_decision_tree.nodes[node_id]["label"] = token_id
@@ -75,8 +80,8 @@ def draw_decision_tree_dot(
         ]
 
     for edge in plotting_decision_tree.edges:
-        probability = plotting_decision_tree.edges[edge]["probability"]
-        expected = plotting_decision_tree.edges[edge]["expected"]
+        probability = plotting_decision_tree.edges[edge].get("probability", -1)
+        expected = plotting_decision_tree.edges[edge].get("expected", False)
         plotting_decision_tree.edges[edge]["label"] = format_probability(probability)
         plotting_decision_tree.edges[edge]["color"] = "red" if expected else "black"
         plotting_decision_tree.edges[edge]["fontcolor"] = "red" if expected else "black"
