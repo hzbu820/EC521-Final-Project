@@ -1,0 +1,493 @@
+[
+  {
+    "package": "boto3",
+    "payload": {
+      "packageName": "boto3",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "boto3",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: boto3",
+          "Downloaded: 67714876 bytes",
+          "Elapsed: 12.3s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"boto3\"], 0x7ffe1bc33928 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x5b2723559a00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "django",
+    "payload": {
+      "packageName": "django",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "django",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: django",
+          "Downloaded: 74597390 bytes",
+          "Elapsed: 15.7s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"django\"], 0x7fff1cc6b0e8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import django\"], 0x7ffd97dba3e8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5b872e673e90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "fastapi",
+    "payload": {
+      "packageName": "fastapi",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "fastapi",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: fastapi",
+          "Downloaded: 56674384 bytes",
+          "Elapsed: 9.6s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"fastapi\"], 0x7ffe28f14268 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import fastapi\"], 0x7ffe03ef85b8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x63825889de90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "flask",
+    "payload": {
+      "packageName": "flask",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "flask",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: flask",
+          "Downloaded: 47995552 bytes",
+          "Elapsed: 6.2s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"flask\"], 0x7ffcd5a6b6b8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x59d0d675da00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "numpy",
+    "payload": {
+      "packageName": "numpy",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "numpy",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: numpy",
+          "Downloaded: 115419012 bytes",
+          "Elapsed: 10.6s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"numpy\"], 0x7ffef10518d8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import numpy\"], 0x7ffe88c77bd8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x637446e09a00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "pandas",
+    "payload": {
+      "packageName": "pandas",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "pandas",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: pandas",
+          "Downloaded: 193044765 bytes",
+          "Elapsed: 25.0s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"pandas\"], 0x7ffcd68c57b8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import pandas\"], 0x7ffd127f6f38 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x6176f070fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "pillow",
+    "payload": {
+      "packageName": "pillow",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "pillow",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.47,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Install/import failed inside sandbox",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: pillow",
+          "Downloaded: 64059850 bytes",
+          "Elapsed: 5.5s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"pillow\"], 0x7ffee9452128 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import pillow\"], 0x7ffff4e4ef38 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x597340d3ae90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "pytest",
+    "payload": {
+      "packageName": "pytest",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "pytest",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: pytest",
+          "Downloaded: 55359493 bytes",
+          "Elapsed: 7.5s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"pytest\"], 0x7fff0f472888 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import pytest\"], 0x7ffd7af48898 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x591055c2be90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "requests",
+    "payload": {
+      "packageName": "requests",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "requests",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: requests",
+          "Downloaded: 46120368 bytes",
+          "Elapsed: 5.8s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"requests\"], 0x7fffdf5434d8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x58cb25a96e90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "scipy",
+    "payload": {
+      "packageName": "scipy",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "scipy",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.128.223, 151.101.0.223",
+          "Installed version: scipy",
+          "Downloaded: 261559267 bytes",
+          "Elapsed: 20.8s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.128.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"scipy\"], 0x7ffe6207ce68 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x5f925f750a00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  }
+]
