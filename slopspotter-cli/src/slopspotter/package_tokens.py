@@ -1,7 +1,5 @@
 """Notebook code for generating the token decision trees for top packages."""
 
-# %%
-
 import json
 import os
 from itertools import product
@@ -130,9 +128,6 @@ def pypi_package_tree(
     return decision_tree
 
 
-# %%
-
-
 def token_probabilities(
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
@@ -256,9 +251,6 @@ def populate_all_probabilities(
     draw_decision_tree_dot(decision_tree, "decision_tree.png", label_type="token")
 
 
-# %%
-
-
 def package_decision_tree(
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
@@ -281,36 +273,30 @@ def package_decision_tree(
     return package_tree
 
 
-model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
-)
+if __name__ == "__main__":
+    model = AutoModelForCausalLM.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
 
-tokenizer = AutoTokenizer.from_pretrained(
-    "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
-)
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Qwen/Qwen2.5-Coder-0.5B-Instruct", device_map="auto"
+    )
 
-decision_tree = package_decision_tree(model, tokenizer, top_n=500, force=False)
+    decision_tree = package_decision_tree(model, tokenizer, top_n=500, force=False)
 
+    hallucinated_packages = set()
 
-# %%
+    for node_id in decision_tree.nodes:
+        if decision_tree.nodes[node_id]["expected"]:
+            continue
+        node_input_text = decision_tree.nodes[0]["input_text"]
+        if decision_tree.nodes[node_id]["depth"] != 0:
+            traversal = nx.shortest_path(decision_tree, 0, node_id)
+            node_input_text += tokenizer.decode(
+                [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
+            )
+        print(node_id, package_from_node_text(node_input_text), sep="\t")
 
-hallucinated_packages = set()
+        hallucinated_packages.add(package_from_node_text(node_input_text))
 
-
-for node_id in decision_tree.nodes:
-    if decision_tree.nodes[node_id]["expected"]:
-        continue
-    node_input_text = decision_tree.nodes[0]["input_text"]
-    if decision_tree.nodes[node_id]["depth"] != 0:
-        traversal = nx.shortest_path(decision_tree, 0, node_id)
-        node_input_text += tokenizer.decode(
-            [decision_tree.nodes[n]["token_id"] for n in traversal[1:]]
-        )
-    print(node_id, package_from_node_text(node_input_text), sep="\t")
-
-    hallucinated_packages.add(package_from_node_text(node_input_text))
-
-
-print(hallucinated_packages)
-
-# %%
+    print(hallucinated_packages)
