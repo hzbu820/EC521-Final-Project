@@ -12,7 +12,7 @@ function main() {
   }
 
   const work = fs.mkdtempSync(path.join(os.tmpdir(), "scan-"));
-const report = {
+  const report = {
     package: pkg,
     install_rc: null,
     require_rc: null,
@@ -27,6 +27,7 @@ const report = {
     network: [],
     processes: [],
     file_ops: [],
+    file_writes: [],
     timeout: false,
   };
 
@@ -111,6 +112,15 @@ const report = {
           if (firstQuote >= 0 && secondQuote > firstQuote) {
             const pathVal = line.slice(firstQuote + 1, secondQuote);
             if (pathVal) report.file_ops.push(pathVal);
+            if (
+              line.includes("O_WRONLY") ||
+              line.includes("O_RDWR") ||
+              line.includes("O_CREAT") ||
+              line.includes("O_TRUNC") ||
+              line.includes("O_APPEND")
+            ) {
+              report.file_writes.push(pathVal);
+            }
           }
         }
       }
