@@ -173,6 +173,7 @@ def _endpoint_list(lines: list[str], max_items: int = 3) -> list[str]:
 
 def _summarize_file_ops(paths: list[str], max_items: int = 3) -> tuple[int, int, list[str]]:
     """Return (suspicious_count, total_count, sample_paths)."""
+    benign_tokens = ("site-packages", "dist-packages", "node_modules")
     suspicious_tokens = (
         ".ssh",
         "id_rsa",
@@ -200,6 +201,8 @@ def _summarize_file_ops(paths: list[str], max_items: int = 3) -> tuple[int, int,
     total = len(paths)
     samples: list[str] = []
     for path in paths:
+        if any(tok in path for tok in benign_tokens):
+            continue
         lowered = path.lower()
         if any(tok in lowered for tok in suspicious_tokens):
             suspicious += 1
@@ -312,11 +315,15 @@ def _score_from_signals(
 
     # Low-risk guardrail: require non-registry endpoints or proc/file signals to cross malicious threshold
     low_ctx = prior_low or (isinstance(prior_score, (int, float)) and prior_score < 0.2)
-    has_strong_signal = (other_net > 0) or (proc_count > 0) or (suspicious_files > 0)
+    has_strong_signal = (other_net > 0) or (suspicious_files > 0) or (suspicious_writes > 0) or (proc_count > 0 and other_net > 0)
     timeout_only = timeout and not install_fail and net_count == 0 and proc_count == 0 and suspicious_files == 0 and other_net == 0
     if low_ctx and timeout_only:
         is_malicious = False
         score = min(score, 0.3)
+    elif low_ctx and install_fail and other_net == 0 and proc_count == 0 and suspicious_files == 0 and suspicious_writes == 0:
+        # Nonexistent or failing package with only registry/CDN traffic: treat as benign/inconclusive in low-risk mode
+        is_malicious = False
+        score = min(score, 0.35)
     elif low_ctx and not (install_fail or timeout or has_strong_signal):
         is_malicious = False
         score = min(score, 0.35)
@@ -388,6 +395,15 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
         inconclusive = install_fail and not meaningful_net and prior_risk == "low"
         endpoints = endpoints_all[:3]
         definite_bad = other_net > 0 and (proc_count > 0 or suspicious_files > 0 or suspicious_writes > 0)
+
+        if prior_risk == "low" and other_net == 0:
+            # For low-risk registry-only traffic, don't penalize file ops/writes
+            suspicious_files = 0
+            file_count = 0
+            file_samples = []
+            suspicious_writes = 0
+            file_writes_count = 0
+            file_write_samples = []
 
         if container_nonzero:
             indicators.append("Sandbox container returned non-zero status")
