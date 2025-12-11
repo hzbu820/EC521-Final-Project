@@ -421,6 +421,8 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             indicators.append(f"Non-registry connects: {other_net}")
         if endpoint_summary:
             indicators.append(f"Endpoints: {endpoint_summary}")
+        if proc_count:
+            indicators.append(f"Process spawns: {proc_count}")
         if install_version:
             indicators.append(f"Installed version: {install_version}")
         if download_bytes:
@@ -432,6 +434,13 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
                 indicators.append(f"File ops: {file_count} (suspect {suspicious_files})")
             else:
                 indicators.append(f"File ops: {file_count}")
+        if file_writes_count:
+            if suspicious_writes:
+                indicators.append(f"File writes: {file_writes_count} (suspect {suspicious_writes})")
+            else:
+                indicators.append(f"File writes: {file_writes_count}")
+        if install_fail and other_net == 0 and not proc_count and not (suspicious_files or suspicious_writes):
+            indicators.append("Install failed with only registry traffic (possible missing package)")
         if file_writes_count:
             if suspicious_writes:
                 indicators.append(f"File writes: {file_writes_count} (suspect {suspicious_writes})")
@@ -569,6 +578,8 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
             indicators.append(f"Non-registry connects: {other_net}")
         if endpoint_summary:
             indicators.append(f"Endpoints: {endpoint_summary}")
+        if proc_count:
+            indicators.append(f"Process spawns: {proc_count}")
         if install_version:
             indicators.append(f"Installed version: {install_version}")
         if download_bytes:
@@ -580,6 +591,13 @@ def _docker_scan_npm(package_name: str, context: dict[str, Any]) -> VMScanResult
                 indicators.append(f"File ops: {file_count} (suspect {suspicious_files})")
             else:
                 indicators.append(f"File ops: {file_count}")
+        if file_writes_count:
+            if suspicious_writes:
+                indicators.append(f"File writes: {file_writes_count} (suspect {suspicious_writes})")
+            else:
+                indicators.append(f"File writes: {file_writes_count}")
+        if install_fail and other_net == 0 and not proc_count and not (suspicious_files or suspicious_writes):
+            indicators.append("Install failed with only registry traffic (possible missing package)")
 
         is_malicious, confidence = _score_from_signals(
             prior_risk=prior_risk,
