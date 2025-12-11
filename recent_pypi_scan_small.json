@@ -1,0 +1,213 @@
+[
+  {
+    "package": "MEXsrfdcrPy",
+    "payload": {
+      "packageName": "MEXsrfdcrPy",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "MEXsrfdcrPy",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.3,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Sandbox timeout during install/import",
+          "Elapsed: 38.9s"
+        ],
+        "networkConnections": [],
+        "fileOperations": [],
+        "processSpawns": [],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "error-helper-by-delica",
+    "payload": {
+      "packageName": "error-helper-by-delica",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "error-helper-by-delica",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: error-helper-by-delica",
+          "Downloaded: 43187043 bytes",
+          "Elapsed: 4.8s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"error-helper-by-delica\"], 0x7ffee4d85498 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import error_helper_by_delica\"], 0x7fff0bdc1bd8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5e6c978a74e0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "mcp-worklog",
+    "payload": {
+      "packageName": "mcp-worklog",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "mcp-worklog",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: mcp-worklog",
+          "Downloaded: 80684599 bytes",
+          "Elapsed: 21.8s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"mcp-worklog\"], 0x7ffd93b369b8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x5a5ad9638e00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "mytools-nn",
+    "payload": {
+      "packageName": "mytools-nn",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "mytools-nn",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.3,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Sandbox timeout during install/import",
+          "Elapsed: 38.8s"
+        ],
+        "networkConnections": [],
+        "fileOperations": [],
+        "processSpawns": [],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "torch-tensorrt-rtx",
+    "payload": {
+      "packageName": "torch-tensorrt-rtx",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "torch-tensorrt-rtx",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.47,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Install/import failed inside sandbox",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: torch-tensorrt-rtx",
+          "Downloaded: 43162811 bytes",
+          "Elapsed: 4.4s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"torch-tensorrt-rtx\"], 0x7fff2d5ad678 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import torch_tensorrt_rtx\"], 0x7ffc3dea2ac8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x57fdb36c38e0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  }
+]
