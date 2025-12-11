@@ -208,6 +208,45 @@ def _summarize_file_ops(paths: list[str], max_items: int = 3) -> tuple[int, int,
     return suspicious, total, samples
 
 
+def _summarize_file_writes(paths: list[str], max_items: int = 3) -> tuple[int, int, list[str]]:
+    """Return (suspicious_write_count, total_write_count, sample_paths)."""
+    suspicious_tokens = (
+        ".bashrc",
+        ".bash_profile",
+        ".profile",
+        ".zshrc",
+        ".config/autostart",
+        "systemd",
+        "init.d",
+        "cron",
+        "crontab",
+        "/etc/rc",
+        "ld.so.preload",
+        "/etc/profile",
+        "/usr/local/bin",
+        "/usr/bin",
+        "/bin/",
+        "/etc/ssh",
+        "service",
+        "timer",
+        "autostart",
+    )
+    benign_tokens = ("site-packages", "dist-packages", "node_modules")
+    suspicious = 0
+    total = 0
+    samples: list[str] = []
+    for path in paths:
+        if any(tok in path for tok in benign_tokens):
+            continue
+        total += 1
+        lowered = path.lower()
+        if any(tok in lowered for tok in suspicious_tokens):
+            suspicious += 1
+        if len(samples) < max_items:
+            samples.append(path)
+    return suspicious, total, samples
+
+
 def _score_from_signals(
     *,
     prior_risk: str,
@@ -219,6 +258,8 @@ def _score_from_signals(
     proc_count: int,
     file_count: int = 0,
     suspicious_files: int = 0,
+    file_writes: int = 0,
+    suspicious_writes: int = 0,
     benign_net: int = 0,
     other_net: int = 0,
     inconclusive: bool = False,
@@ -254,6 +295,11 @@ def _score_from_signals(
     if suspicious_files > 0:
         score += min(0.2, 0.05 * suspicious_files)
     elif file_count > 5:
+        score += 0.05
+
+    if suspicious_writes > 0:
+        score += min(0.2, 0.08 * suspicious_writes)
+    elif file_writes > 3:
         score += 0.05
 
     if definite_bad:
@@ -332,6 +378,8 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
         proc_count = len(data.get("processes", []))
         file_ops = data.get("file_ops", [])
         suspicious_files, file_count, file_samples = _summarize_file_ops(file_ops)
+        file_writes = data.get("file_writes", [])
+        suspicious_writes, file_writes_count, file_write_samples = _summarize_file_writes(file_writes)
         install_fail = bool(
             data.get("install_error") or data.get("import_error") or (data.get("install_rc") not in (0, None)) or (data.get("import_rc") not in (0, None))
         )
@@ -339,7 +387,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
         container_nonzero = result.returncode != 0
         inconclusive = install_fail and not meaningful_net and prior_risk == "low"
         endpoints = endpoints_all[:3]
-        definite_bad = other_net > 0 and (proc_count > 0 or suspicious_files > 0)
+        definite_bad = other_net > 0 and (proc_count > 0 or suspicious_files > 0 or suspicious_writes > 0)
 
         if container_nonzero:
             indicators.append("Sandbox container returned non-zero status")
@@ -368,6 +416,11 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
                 indicators.append(f"File ops: {file_count} (suspect {suspicious_files})")
             else:
                 indicators.append(f"File ops: {file_count}")
+        if file_writes_count:
+            if suspicious_writes:
+                indicators.append(f"File writes: {file_writes_count} (suspect {suspicious_writes})")
+            else:
+                indicators.append(f"File writes: {file_writes_count}")
 
         is_malicious, confidence = _score_from_signals(
             prior_risk=prior_risk,
@@ -379,6 +432,8 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             proc_count=proc_count,
             file_count=file_count,
             suspicious_files=suspicious_files,
+            file_writes=file_writes_count,
+            suspicious_writes=suspicious_writes,
             benign_net=benign_net,
             other_net=other_net,
             inconclusive=inconclusive,
@@ -392,7 +447,7 @@ def _docker_scan_python(package_name: str, context: dict[str, Any]) -> VMScanRes
             confidence=confidence,
             indicators=indicators,
             network_connections=endpoints,
-            file_operations=file_samples,
+            file_operations=file_write_samples or file_samples,
             process_spawns=_parse_processes(data.get("processes", [])),
         )
 

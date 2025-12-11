@@ -30,6 +30,7 @@ def main():
         "network": [],
         "processes": [],
         "file_ops": [],
+        "file_writes": [],
         "timeout": False,
     }
 
@@ -133,6 +134,9 @@ def main():
                             path_val = parts[1]
                             if path_val:
                                 report["file_ops"].append(path_val)
+                                # Heuristic: consider write if flags include O_WRONLY/O_RDWR/O_CREAT/O_TRUNC/O_APPEND
+                                if any(flag in line for flag in ("O_WRONLY", "O_RDWR", "O_CREAT", "O_TRUNC", "O_APPEND")):
+                                    report["file_writes"].append(path_val)
     except subprocess.TimeoutExpired:
         report["timeout"] = True
     finally:
