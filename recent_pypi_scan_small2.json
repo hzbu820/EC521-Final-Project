@@ -1,0 +1,505 @@
+[
+  {
+    "package": "QuantumDGM",
+    "payload": {
+      "packageName": "QuantumDGM",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "QuantumDGM",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: QuantumDGM",
+          "Downloaded: 348671857 bytes",
+          "Elapsed: 38.5s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"QuantumDGM\"], 0x7ffda6de7b88 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x5898dea57e00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "ailingues-messaging",
+    "payload": {
+      "packageName": "ailingues-messaging",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "ailingues-messaging",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: ailingues-messaging",
+          "Downloaded: 60449731 bytes",
+          "Elapsed: 8.4s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import ailingues_messaging\"], 0x7ffe3696dfb8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"ailingues-messaging\"], 0x7ffc996fcc88 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x60a4070ee8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "bridge-transfer-38",
+    "payload": {
+      "packageName": "bridge-transfer-38",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "bridge-transfer-38",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.47,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Install/import failed inside sandbox",
+          "Network attempts observed",
+          "Process spawns: 16",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: bridge-transfer-38",
+          "Downloaded: 45061504 bytes",
+          "Elapsed: 5.8s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"bridge-transfer-38\"], 0x7fff87b91b88 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import bridge_transfer_38\"], 0x7ffe22faafa8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x64d7a0a768e0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lzytools-Qt",
+    "payload": {
+      "packageName": "lzytools-Qt",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lzytools-Qt",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 16",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: lzytools-Qt",
+          "Downloaded: 45053241 bytes",
+          "Elapsed: 6.0s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"lzytools-Qt\"], 0x7ffc798ae9e8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import lzytools_Qt\"], 0x7ffcbc1f6448 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x63807178fe00 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lzytools-archive",
+    "payload": {
+      "packageName": "lzytools-archive",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lzytools-archive",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.47,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Install/import failed inside sandbox",
+          "Network attempts observed",
+          "Process spawns: 16",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: lzytools-archive",
+          "Downloaded: 45080171 bytes",
+          "Elapsed: 6.1s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"lzytools-archive\"], 0x7ffcd6dba0d8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import lzytools_archive\"], 0x7ffd0ec961a8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x585be7bf53d0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lzytools-controller",
+    "payload": {
+      "packageName": "lzytools-controller",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lzytools-controller",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 16",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: lzytools-controller",
+          "Downloaded: 45053337 bytes",
+          "Elapsed: 6.5s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"lzytools-controller\"], 0x7ffe1778fb08 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import lzytools_controller\"], 0x7ffcfc3b7e58 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x61e0c3f6d8e0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lzytools-database",
+    "payload": {
+      "packageName": "lzytools-database",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lzytools-database",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 16",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: lzytools-database",
+          "Downloaded: 45053321 bytes",
+          "Elapsed: 6.1s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"lzytools-database\"], 0x7ffd4dc20228 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import lzytools_database\"], 0x7ffe07ad7e98 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x57bf271113d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python3.11\", [\"/usr/local/bin/python3.11\", \"-c\", \"\\nexec(compile('''\\n# This is <pip\"..., \"egg_info\", \"--egg-base\", \"/tmp/pip-pip-egg-info-211dv93t\"], 0x78c034f44a80 /* 9 vars */) = 0"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "lzytools-image",
+    "payload": {
+      "packageName": "lzytools-image",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "lzytools-image",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.47,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Install/import failed inside sandbox",
+          "Network attempts observed",
+          "Process spawns: 16",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: lzytools-image",
+          "Downloaded: 45102056 bytes",
+          "Elapsed: 6.4s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"lzytools-image\"], 0x7ffeb893f288 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import lzytools_image\"], 0x7fff9a2b8988 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x6242cb3dd3d0 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "mosaicpic",
+    "payload": {
+      "packageName": "mosaicpic",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "mosaicpic",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: mosaicpic",
+          "Downloaded: 285919506 bytes",
+          "Elapsed: 32.7s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"mosaicpic\"], 0x7ffdbe279ca8 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import mosaicpic\"], 0x7ffe2497d778 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x61523c241e90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  },
+  {
+    "package": "msgmodel",
+    "payload": {
+      "packageName": "msgmodel",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.0,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "msgmodel",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: msgmodel",
+          "Downloaded: 46254907 bytes",
+          "Elapsed: 6.9s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"msgmodel\"], 0x7ffc34205c48 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/uname\", [\"uname\", \"-rs\"], 0x64694c26fe90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  }
+]

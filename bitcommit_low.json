@@ -1,0 +1,52 @@
+[
+  {
+    "package": "bitcommit",
+    "payload": {
+      "packageName": "bitcommit",
+      "language": "python",
+      "context": {
+        "riskLevel": "low",
+        "score": 0.16,
+        "originalLanguage": "python"
+      }
+    },
+    "response": {
+      "success": true,
+      "result": {
+        "packageName": "bitcommit",
+        "language": "Python",
+        "isMalicious": false,
+        "confidence": 0.27,
+        "indicators": [
+          "Docker sandbox (Python)",
+          "Network attempts observed",
+          "Process spawns: 14",
+          "Registry/CDN connects: 5",
+          "Endpoints: 192.168.65.7, 151.101.64.223, 151.101.0.223",
+          "Installed version: bitcommit",
+          "Downloaded: 49258564 bytes",
+          "Elapsed: 8.7s"
+        ],
+        "networkConnections": [
+          "192.168.65.7",
+          "151.101.64.223",
+          "151.101.0.223"
+        ],
+        "fileOperations": [],
+        "processSpawns": [
+          "execve(\"/usr/local/bin/pip\", [\"pip\", \"install\", \"--no-input\", \"--no-cache-dir\", \"bitcommit\"], 0x7ffcc4b7dc18 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/sbin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/bin/lsb_release\", [\"lsb_release\", \"-a\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)",
+          "execve(\"/usr/local/bin/python\", [\"python\", \"-c\", \"import bitcommit\"], 0x7fff34817348 /* 7 vars */) = 0",
+          "execve(\"/usr/local/bin/uname\", [\"uname\", \"-rs\"], 0x5b98f6afae90 /* 8 vars */) = -1 ENOENT (No such file or directory)"
+        ],
+        "error": null
+      }
+    }
+  }
+]
